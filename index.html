@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ansh Panwar | AI Automation Engineer</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #0b0f19;
+            --bg-card: #131a26;
+            --primary: #00f2fe;
+            --secondary: #4facfe;
+            --text-main: #ffffff;
+            --text-muted: #94a3b8;
+            --border: rgba(255, 255, 255, 0.08);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            overflow-x: hidden;
+        }
+
+        /* Navigation Bar */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 1.5rem 5%;
+            background: rgba(11, 15, 25, 0.8);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .logo {
+            font-size: 1.25rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .cta-nav {
+            background: linear-gradient(135deg, rgba(0, 242, 254, 0.1), rgba(79, 172, 254, 0.1));
+            border: 1px solid rgba(0, 242, 254, 0.3);
+            padding: 0.6rem 1.2rem;
+            border-radius: 8px;
+            color: var(--primary) !important;
+        }
+
+        /* Hero Section */
+        section {
+            padding: 8rem 5% 5rem 5%;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .hero {
+            align-items: flex-start;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .badge {
+            background: rgba(0, 242, 254, 0.08);
+            border: 1px solid rgba(0, 242, 254, 0.2);
+            color: var(--primary);
+            padding: 0.5rem 1rem;
+            border-radius: 99px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            display: inline-block;
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+            letter-spacing: -1px;
+        }
+
+        h1 span {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .lead {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            max-width: 650px;
+            line-height: 1.6;
+            margin-bottom: 2.5rem;
+        }
+
+        .btn {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: #000;
+            font-weight: 700;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            text-decoration: none;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0, 242, 254, 0.3);
+        }
+
+        /* Grid Services Section */
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 3rem;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            padding: 2.5rem;
+            border-radius: 16px;
+            transition: border 0.3s, transform 0.3s;
+        }
+
+        .card:hover {
+            border-color: rgba(0, 242, 254, 0.4);
+            transform: translateY(-5px);
+        }
+
+        .card-icon {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+        }
+
+        .card p {
+            color: var(--text-muted);
+            line-height: 1.6;
+            font-size: 0.95rem;
+        }
+
+        /* Embedded Typeform Area */
+        .contact-container {
+            max-width: 800px;
+            margin: 0 auto;
+            width: 100%;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+        }
+
+        .typeform-wrapper {
+            width: 100%;
+            height: 500px;
+            position: relative;
+        }
+
+        .typeform-wrapper iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+
+        footer {
+            text-align: center;
+            padding: 3rem;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            border-top: 1px solid var(--border);
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 2.5rem; }
+            .nav-links { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <nav>
+        <div class="logo">ANSH PANWAR</div>
+        <ul class="nav-links">
+            <li><a href="#about">About</a></li>
+            <li><a href="#services">Expertise</a></li>
+            <li><a href="#contact" class="cta-nav">Let's Automate</a></li>
+        </ul>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="about">
+        <div class="hero">
+            <div class="badge">BCA AI/ML Engineer & Automation Expert</div>
+            <h1>I build <span>24/7 autonomous systems</span> that capture leads and scale operations.</h1>
+            <p class="lead">Hi, I'm Ansh Panwar. I orchestrate powerful AI workflows—creating cross-lingual intelligent chatbots, handling instantaneous multi-app bookings, and syncing live extracted data directly to your operational dashboards.</p>
+            <a href="#contact" class="btn">Deploy an Automation</a>
+        </div>
+    </section>
+
+    <!-- Services / Systems Section -->
+    <section id="services" style="background: rgba(255,255,255,0.01);">
+        <h2 class="section-title">Automation Frameworks</h2>
+        <div class="services-grid">
+            <!-- Card 1 -->
+            <div class="card">
+                <div class="card-icon">🌍</div>
+                <h3>24/7 Multilingual AI Agents</h3>
+                <p>Never lose a lead due to timezone barriers or language constraints. I develop custom conversational bots equipped to converse fluently across global languages natively.</p>
+            </div>
+            <!-- Card 2 -->
+            <div class="card">
+                <div class="card-icon">📊</div>
+                <h3>Live Sheets & Booking Sync</h3>
+                <p>Seamless pipelines that handle incoming client bookings automatically. Information is structured, clean, and immediately routed directly to your Google Sheets without touching code.</p>
+            </div>
+            <!-- Card 3 -->
+            <div class="card">
+                <div class="card-icon">⚡</div>
+                <h3>Smart Cold Outreach Engine</h3>
+                <p>Advanced scrapers extract critical profile targets, utilize localized AI context generation to structure targeted cold emails, and launch automated follow-up sequences intelligently.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact & Typeform Section -->
+    <section id="contact">
+        <h2 class="section-title">Initialize a Project</h2>
+        <div class="contact-container">
+            <div class="typeform-wrapper">
+                <!-- Typeform Inline Embed Integration -->
+                <iframe id="typeform-full" src="https://form.typeform.com/to/psTyktyw?typeform-embed=embed-widget" allow="geolocation; microphone; camera; fallback-override"></iframe>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2026 Ansh Panwar. Engineered with clean layouts.</p>
+    </footer>
+
+</body>
+</html>
