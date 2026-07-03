@@ -7,15 +7,20 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- tsParticles CDN for premium network background aesthetics -->
+    <script src="https://cdn.jsdelivr.net/npm/@tsparticles/preset-links@3/tsparticles.preset.links.bundle.min.js"></script>
+
     <style>
         :root {
-            --bg-dark: #0b0f19;
-            --bg-card: #131a26;
+            --bg-dark: #060913;
+            --bg-card: #0d1527;
             --primary: #00f2fe;
             --secondary: #4facfe;
+            --accent: #7f00ff;
             --text-main: #ffffff;
             --text-muted: #94a3b8;
-            --border: rgba(255, 255, 255, 0.08);
+            --border: rgba(0, 242, 254, 0.08);
         }
 
         * {
@@ -30,6 +35,38 @@
             background-color: var(--bg-dark);
             color: var(--text-main);
             overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Particles Graphic Container */
+        #tsparticles {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        /* Blurring Ambient Graphics for depth */
+        .ambient-glow {
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(0, 242, 254, 0.15) 0%, rgba(127, 0, 255, 0.05) 50%, transparent 100%);
+            top: 15%;
+            right: -10%;
+            border-radius: 50%;
+            filter: blur(80px);
+            z-index: 2;
+            pointer-events: none;
+            animation: floatGlow 12s infinite alternate ease-in-out;
+        }
+
+        @keyframes floatGlow {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(-50px, 40px) scale(1.2); }
         }
 
         /* Navigation Bar */
@@ -39,8 +76,9 @@
             left: 0;
             width: 100%;
             padding: 1.5rem 5%;
-            background: rgba(11, 15, 25, 0.8);
-            backdrop-filter: blur(12px);
+            background: rgba(6, 9, 19, 0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
             border-bottom: 1px solid var(--border);
             display: flex;
             justify-content: space-between;
@@ -51,16 +89,18 @@
         .logo {
             font-size: 1.25rem;
             font-weight: 800;
-            letter-spacing: -0.5px;
+            letter-spacing: 1px;
             background: linear-gradient(135deg, var(--primary), var(--secondary));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            position: relative;
         }
 
         .nav-links {
             display: flex;
             gap: 2rem;
             list-style: none;
+            align-items: center;
         }
 
         .nav-links a {
@@ -68,7 +108,23 @@
             text-decoration: none;
             font-weight: 500;
             font-size: 0.95rem;
-            transition: color 0.3s;
+            transition: color 0.3s, transform 0.3s;
+            position: relative;
+        }
+
+        .nav-links a:not(.cta-nav)::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background: var(--primary);
+            transition: width 0.3s;
+        }
+
+        .nav-links a:not(.cta-nav):hover::after {
+            width: 100%;
         }
 
         .nav-links a:hover {
@@ -77,138 +133,194 @@
 
         .cta-nav {
             background: linear-gradient(135deg, rgba(0, 242, 254, 0.1), rgba(79, 172, 254, 0.1));
-            border: 1px solid rgba(0, 242, 254, 0.3);
-            padding: 0.6rem 1.2rem;
+            border: 1px solid rgba(0, 242, 254, 0.4);
+            padding: 0.6rem 1.4rem;
             border-radius: 8px;
             color: var(--primary) !important;
+            box-shadow: 0 0 15px rgba(0, 242, 254, 0.1);
+            transition: all 0.3s ease !important;
         }
 
-        /* Hero Section */
+        .cta-nav:hover {
+            background: linear-gradient(135deg, var(--primary), var(--secondary)) !important;
+            color: #000 !important;
+            box-shadow: 0 0 20px rgba(0, 242, 254, 0.4);
+            transform: scale(1.03);
+        }
+
+        /* Sections structure with z-index positioning over canvas */
         section {
+            position: relative;
             padding: 8rem 5% 5rem 5%;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
+            z-index: 10;
         }
 
         .hero {
             align-items: flex-start;
             max-width: 1000px;
             margin: 0 auto;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: introReveal 1s 0.2s forwards cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        @keyframes introReveal {
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .badge {
-            background: rgba(0, 242, 254, 0.08);
-            border: 1px solid rgba(0, 242, 254, 0.2);
+            background: rgba(0, 242, 254, 0.05);
+            border: 1px solid rgba(0, 242, 254, 0.25);
             color: var(--primary);
-            padding: 0.5rem 1rem;
+            padding: 0.5rem 1.2rem;
             border-radius: 99px;
             font-size: 0.85rem;
             font-weight: 600;
-            margin-bottom: 1.5rem;
+            margin-bottom: 2rem;
             display: inline-block;
+            letter-spacing: 0.5px;
+            box-shadow: 0 0 15px rgba(0, 242, 254, 0.05);
         }
 
         h1 {
-            font-size: 3.5rem;
+            font-size: 4rem;
             font-weight: 800;
-            line-height: 1.2;
-            margin-bottom: 1.5rem;
-            letter-spacing: -1px;
+            line-height: 1.15;
+            margin-bottom: 2rem;
+            letter-spacing: -1.5px;
         }
 
         h1 span {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            background: linear-gradient(135deg, var(--primary), var(--secondary), var(--accent));
+            background-size: 200% auto;
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            animation: shiftingGradients 4s linear infinite;
+        }
+
+        @keyframes shiftingGradients {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
 
         .lead {
-            font-size: 1.2rem;
+            font-size: 1.25rem;
             color: var(--text-muted);
-            max-width: 650px;
-            line-height: 1.6;
-            margin-bottom: 2.5rem;
+            max-width: 700px;
+            line-height: 1.7;
+            margin-bottom: 3rem;
         }
 
         .btn {
             display: inline-block;
             background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: #000;
+            color: #050811;
             font-weight: 700;
-            padding: 1rem 2rem;
+            padding: 1.1rem 2.4rem;
             border-radius: 8px;
             text-decoration: none;
-            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0 10px 30px rgba(0, 242, 254, 0.2);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
         .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(0, 242, 254, 0.3);
+            transform: translateY(-4px) scale(1.02);
+            box-shadow: 0 15px 35px rgba(0, 242, 254, 0.4);
         }
 
         /* Grid Services Section */
         .section-title {
             text-align: center;
-            font-size: 2.5rem;
+            font-size: 2.8rem;
             font-weight: 800;
-            margin-bottom: 3rem;
+            margin-bottom: 4rem;
+            letter-spacing: -0.5px;
         }
 
         .services-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 2rem;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2.5rem;
             max-width: 1200px;
             margin: 0 auto;
             width: 100%;
         }
 
+        /* Enhanced Interactive Graphics Matrix Cards */
         .card {
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            padding: 2.5rem;
-            border-radius: 16px;
-            transition: border 0.3s, transform 0.3s;
+            background: linear-gradient(145deg, #0e172a 0%, #0a0f1d 100%);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            padding: 3rem 2.5rem;
+            border-radius: 20px;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(800px circle at var(--mouse-x, 0) var(--mouse-y, 0), rgba(0, 242, 254, 0.06), transparent 40%);
+            z-index: 1;
+            pointer-events: none;
         }
 
         .card:hover {
-            border-color: rgba(0, 242, 254, 0.4);
-            transform: translateY(-5px);
+            border-color: rgba(0, 242, 254, 0.35);
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 30px rgba(0, 242, 254, 0.05);
         }
 
         .card-icon {
-            font-size: 2rem;
-            margin-bottom: 1.5rem;
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            display: inline-block;
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover .card-icon {
+            transform: scale(1.15) rotate(5deg);
         }
 
         .card h3 {
-            font-size: 1.4rem;
-            margin-bottom: 1rem;
+            font-size: 1.5rem;
+            margin-bottom: 1.2rem;
+            z-index: 2;
+            position: relative;
         }
 
         .card p {
             color: var(--text-muted);
-            line-height: 1.6;
-            font-size: 0.95rem;
+            line-height: 1.7;
+            font-size: 1rem;
+            z-index: 2;
+            position: relative;
         }
 
-        /* Embedded Typeform Area */
+        /* Form Area Graphics */
         .contact-container {
-            max-width: 800px;
+            max-width: 850px;
             margin: 0 auto;
             width: 100%;
-            background: var(--bg-card);
-            border: 1px solid var(--border);
-            border-radius: 20px;
+            background: #09101f;
+            border: 1px solid rgba(0, 242, 254, 0.15);
+            border-radius: 24px;
             overflow: hidden;
-            box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.6), 0 0 50px rgba(0, 242, 254, 0.05);
         }
 
         .typeform-wrapper {
             width: 100%;
-            height: 500px;
+            height: 550px;
             position: relative;
         }
 
@@ -223,19 +335,27 @@
 
         footer {
             text-align: center;
-            padding: 3rem;
+            padding: 3.5rem;
             color: var(--text-muted);
-            font-size: 0.9rem;
+            font-size: 0.95rem;
             border-top: 1px solid var(--border);
+            position: relative;
+            z-index: 10;
+            background: var(--bg-dark);
         }
 
         @media (max-width: 768px) {
-            h1 { font-size: 2.5rem; }
+            h1 { font-size: 2.8rem; }
             .nav-links { display: none; }
+            section { padding: 6rem 5% 4rem 5%; }
         }
     </style>
 </head>
 <body>
+
+    <!-- Target Engine Canvas Layer -->
+    <div id="tsparticles"></div>
+    <div class="ambient-glow"></div>
 
     <!-- Navigation Bar -->
     <nav>
@@ -258,7 +378,7 @@
     </section>
 
     <!-- Services / Systems Section -->
-    <section id="services" style="background: rgba(255,255,255,0.01);">
+    <section id="services" style="background: rgba(255,255,255,0.002);">
         <h2 class="section-title">Automation Frameworks</h2>
         <div class="services-grid">
             <!-- Card 1 -->
@@ -287,7 +407,6 @@
         <h2 class="section-title">Initialize a Project</h2>
         <div class="contact-container">
             <div class="typeform-wrapper">
-                <!-- Typeform Inline Embed Integration -->
                 <iframe id="typeform-full" src="https://form.typeform.com/to/psTyktyw?typeform-embed=embed-widget" allow="geolocation; microphone; camera; fallback-override"></iframe>
             </div>
         </div>
@@ -295,9 +414,46 @@
 
     <!-- Footer -->
     <footer>
-        <p>&copy; 2026 Ansh Panwar. Engineered with clean layouts.</p>
+        <p>&copy; 2026 Ansh Panwar. Engineered with high-performance frameworks.</p>
     </footer>
 
+    <script>
+        // Initialize dynamic responsive tracking logic for mouse graphics on cards
+        document.querySelectorAll('.card').forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                card.style.setProperty('--mouse-x', `${x}px`);
+                card.style.setProperty('--mouse-y', `${y}px`);
+            });
+        });
+
+        // Initialize tsParticles background
+        tsParticles.load({
+            id: "tsparticles",
+            options: {
+                preset: "links",
+                background: { opacity: 0 },
+                particles: {
+                    number: { value: 50, density: { enable: true, val_area: 900 } },
+                    color: { value: "#00f2fe" },
+                    links: {
+                        color: "#4facfe",
+                        distance: 140,
+                        enable: true,
+                        opacity: 0.15,
+                        width: 1
+                    },
+                    move: {
+                        enable: true,
+                        speed: 1.2,
+                    },
+                    size: { value: { min: 1, max: 3 } },
+                    opacity: { value: 0.3 }
+                }
+            }
+        });
+    </script>
 </body>
 </html>
-
