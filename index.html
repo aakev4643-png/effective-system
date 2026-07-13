@@ -75,7 +75,7 @@
   }
   .hero-photo{
     position:absolute; inset:0; width:100%; height:120%; top:-10%;
-    background-image:url("https://commons.wikimedia.org/wiki/Special:FilePath/Ganga_Aarti_at_Shatrughan_Ghat_at_Rishikesh_near_Ram_Jhula_02.jpg");
+    background-image:url("images/main_image.jpg");
     background-size:cover; background-position:center 65%;
     will-change:transform;
   }
@@ -190,70 +190,68 @@
   .section-head .eyebrow-dark{
     font-family:'JetBrains Mono', monospace; font-size:0.72rem;
     letter-spacing:0.12em; text-transform:uppercase; color:var(--teal-mid);
-    margin-bottom:14px; display:block;
+    margin-bottom:14px; display:flex; align-items:center; gap:8px;
+  }
+  .section-head .eyebrow-dark::before{
+    content:''; width:6px; height:6px; border-radius:50%; background:var(--saffron); display:inline-block;
   }
   .section-head h2{font-size:clamp(1.8rem, 3.4vw, 2.6rem); color:var(--ink);}
   .section-head p{margin-top:14px; color:var(--ink-soft); font-size:1.02rem; line-height:1.6;}
 
-  /* ---------- FARE METER ---------- */
-  .fare-card{
+  /* ---------- RATE STRIP (compact) ---------- */
+  .rate-strip{
+    display:flex; flex-wrap:wrap; gap:14px;
+    background:var(--teal-deep); border-radius:16px; padding:20px 24px;
+  }
+  .rate-strip-item{
+    flex:1 1 140px; display:flex; flex-direction:column; gap:4px;
+    color:var(--sand); border-left:2px solid var(--saffron); padding-left:14px;
+  }
+  .rate-strip-item span{font-size:0.7rem; text-transform:uppercase; letter-spacing:0.08em; color:rgba(246,239,227,0.6);}
+  .rate-strip-item strong{font-size:1.2rem; font-weight:600;}
+  .rate-strip-note{margin-top:12px; font-size:0.85rem; color:var(--ink-soft); text-align:center;}
+
+  /* ---------- ROUTE PLANNER ---------- */
+  .planner-card{
+    display:grid; grid-template-columns:1fr auto 1fr; gap:20px; align-items:start;
+    background:#fff; border:1px solid var(--line); border-radius:20px;
+    padding:28px; margin-bottom:20px;
+  }
+  .planner-label{
+    font-size:0.7rem; text-transform:uppercase; letter-spacing:0.1em;
+    color:var(--teal-mid); margin-bottom:14px;
+  }
+  .planner-arrow{display:flex; align-items:center; justify-content:center; padding-top:34px;}
+  .loc-grid{display:grid; grid-template-columns:1fr 1fr; gap:10px;}
+  .loc-chip{
+    display:flex; align-items:center; gap:10px;
+    border:1.5px solid var(--line); border-radius:12px; padding:10px 12px;
+    cursor:pointer; background:var(--sand-dim); transition:all .15s ease;
+    text-align:left;
+  }
+  .loc-chip .pin{
+    flex-shrink:0; width:32px; height:32px; border-radius:9px;
+    background:var(--teal-deep); display:flex; align-items:center; justify-content:center;
+  }
+  .loc-chip .pin svg{width:16px; height:16px;}
+  .loc-chip .name{font-size:0.85rem; font-weight:600; line-height:1.2;}
+  .loc-chip:hover{border-color:var(--teal-glow);}
+  .loc-chip.selected{
+    border-color:var(--saffron); background:rgba(232,135,30,0.08);
+  }
+  .loc-chip.selected .pin{background:var(--saffron);}
+  .planner-result{
+    display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px;
     background:var(--teal-deep); color:var(--sand);
-    border-radius:20px; padding:8px;
-    max-width:520px;
+    border-radius:16px; padding:20px 26px;
+    border-left:4px solid var(--saffron);
   }
-  .fare-card-inner{
-    border:1px dashed rgba(246,239,227,0.35); border-radius:14px;
-    padding:32px 28px;
+  #result-route{font-family:'Fraunces', serif; font-style:italic; font-size:1.15rem;}
+  #planner-whatsapp.is-disabled{opacity:0.4; pointer-events:none;}
+  @media (max-width:820px){
+    .planner-card{grid-template-columns:1fr;}
+    .planner-arrow{transform:rotate(90deg); padding-top:0;}
   }
-  .fare-title{
-    display:flex; justify-content:space-between; align-items:baseline;
-    font-family:'JetBrains Mono', monospace; font-size:0.72rem;
-    text-transform:uppercase; letter-spacing:0.1em;
-    color:var(--teal-glow); margin-bottom:18px;
-  }
-  .fare-row{
-    display:flex; justify-content:space-between; align-items:center;
-    padding:16px 0; border-bottom:1px solid rgba(246,239,227,0.14);
-  }
-  .fare-row:last-of-type{border-bottom:none;}
-  .fare-dist{font-size:1.05rem; font-weight:500;}
-  .fare-price{font-family:'JetBrains Mono', monospace; font-size:1.3rem; font-weight:600; color:var(--saffron);}
-  .slider-readout{
-    display:flex; justify-content:space-between; align-items:baseline;
-    margin-bottom:10px;
-  }
-  #slider-km{font-size:0.95rem; color:rgba(246,239,227,0.8);}
-  #slider-price{font-size:1.9rem; color:var(--saffron); transition:color .15s ease;}
-  .fare-slider{
-    -webkit-appearance:none; appearance:none; width:100%; height:4px;
-    border-radius:100px; background:rgba(246,239,227,0.25); outline:none;
-    cursor:pointer;
-  }
-  .fare-slider::-webkit-slider-thumb{
-    -webkit-appearance:none; appearance:none; width:20px; height:20px; border-radius:50%;
-    background:var(--saffron); border:3px solid var(--sand);
-    cursor:grab; box-shadow:0 2px 8px rgba(0,0,0,0.35);
-  }
-  .fare-slider::-moz-range-thumb{
-    width:20px; height:20px; border-radius:50%; border:3px solid var(--sand);
-    background:var(--saffron); cursor:grab; box-shadow:0 2px 8px rgba(0,0,0,0.35);
-  }
-  .slider-ticks{
-    display:flex; justify-content:space-between;
-    font-family:'JetBrains Mono', monospace; font-size:0.68rem;
-    color:rgba(246,239,227,0.45); margin-top:6px;
-  }
-  .fare-note{
-    margin-top:22px; padding-top:18px; border-top:1px solid rgba(246,239,227,0.14);
-    font-size:0.8rem; color:rgba(246,239,227,0.65); line-height:1.5;
-  }
-  .fare-side{
-    display:flex; flex-direction:column; gap:20px; justify-content:center;
-  }
-  .fare-side .stat{border-left:2px solid var(--saffron); padding-left:16px;}
-  .fare-side .stat .num{font-family:'Fraunces', serif; font-style:italic; font-size:1.6rem; color:var(--teal-deep);}
-  .fare-side .stat .lbl{font-size:0.85rem; color:var(--ink-soft); margin-top:2px;}
-  .fare-grid{display:grid; grid-template-columns:1.1fr 0.9fr; gap:48px; align-items:center;}
 
   /* ---------- GALLERY ---------- */
   .gallery-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:22px;}
@@ -319,7 +317,6 @@
     .route-rail{display:block;}
   }
   @media (max-width:820px){
-    .fare-grid{grid-template-columns:1fr;}
     .trust-grid{grid-template-columns:1fr;}
     .steps{grid-template-columns:1fr;}
   }
@@ -354,7 +351,6 @@
 <header class="hero">
   <div class="hero-photo" id="hero-photo"></div>
   <div class="hero-scrim"></div>
-  <div class="hero-photo-credit">Photo: Ganga Aarti, Shatrughan Ghat — <a href="https://commons.wikimedia.org/wiki/File:Ganga_Aarti_at_Shatrughan_Ghat_at_Rishikesh_near_Ram_Jhula_02.jpg" target="_blank" rel="noopener">Wikimedia Commons</a></div>
 
   <div class="hero-content">
     <div class="hero-badges">
@@ -380,42 +376,46 @@
   <div class="scroll-cue"><span>Scroll</span><span class="line"></span></div>
 </header>
 
-<!-- ================= FARES ================= -->
-<section id="fares">
+<!-- ================= PLANNER ================= -->
+<section id="planner">
   <div class="wrap">
     <div class="section-head">
-      <span class="eyebrow-dark">The fare, upfront</span>
-      <h2>One flat rate. No surge, no surprises.</h2>
-      <p>The price you see on WhatsApp is the price you pay when you get there — nothing added on for traffic, rain, or "high demand."</p>
+      <span class="eyebrow-dark">Plan your ride</span>
+      <h2>Pick your route. We cover the spots Ola and Uber don't.</h2>
+      <p>Select where you're starting and where you're headed — we'll estimate the fare and hand you straight to WhatsApp with the details already filled in.</p>
     </div>
 
-    <div class="fare-grid">
-      <div class="fare-card">
-        <div class="fare-card-inner">
-          <div class="fare-title"><span>Ride Quick</span><span>Drag to estimate</span></div>
-
-          <div class="slider-readout">
-            <span class="mono" id="slider-km">10 km</span>
-            <span class="fare-price mono" id="slider-price">₹60</span>
-          </div>
-          <input type="range" id="fare-slider" class="fare-slider" min="2" max="40" value="10" step="1">
-          <div class="slider-ticks">
-            <span>2 km</span><span>10 km</span><span>20 km</span><span>40 km</span>
-          </div>
-
-          <div class="fare-row" style="margin-top:22px;"><span class="fare-dist">Up to 10 km</span><span class="fare-price mono">₹60</span></div>
-          <div class="fare-row"><span class="fare-dist">Up to 20 km</span><span class="fare-price mono">₹110</span></div>
-          <div class="fare-row"><span class="fare-dist">Up to 40 km</span><span class="fare-price mono">₹200</span></div>
-          <div class="fare-note">Longer routes (Neelkanth, Kunjapuri, Devprayag) quoted on WhatsApp before you confirm. First ride: 20% off, automatically applied.</div>
-        </div>
+    <div class="planner-card">
+      <div class="planner-col">
+        <div class="planner-label mono">Pickup from</div>
+        <div class="loc-grid" id="pickup-grid" data-role="pickup"></div>
       </div>
-
-      <div class="fare-side">
-        <div class="stat"><div class="num">100–200</div><div class="lbl">what riders here already charge, unlisted and inconsistent</div></div>
-        <div class="stat"><div class="num">0</div><div class="lbl">apps to download — everything happens in WhatsApp</div></div>
-        <div class="stat"><div class="num">24/7</div><div class="lbl">someone replies, even at 2am for an early Kunjapuri sunrise ride</div></div>
+      <div class="planner-arrow">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="#E8871E" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </div>
+      <div class="planner-col">
+        <div class="planner-label mono">Drop at</div>
+        <div class="loc-grid" id="drop-grid" data-role="drop"></div>
       </div>
     </div>
+
+    <div class="planner-result" id="planner-result">
+      <span id="result-route">Pick a pickup and drop point</span>
+      <a class="btn-primary is-disabled" href="#" id="planner-whatsapp">Book this route</a>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FARES (compact) ================= -->
+<section id="fares">
+  <div class="wrap">
+    <div class="rate-strip">
+      <div class="rate-strip-item"><span class="mono">10 km</span><strong>₹60</strong></div>
+      <div class="rate-strip-item"><span class="mono">20 km</span><strong>₹110</strong></div>
+      <div class="rate-strip-item"><span class="mono">40 km</span><strong>₹200</strong></div>
+      <div class="rate-strip-item"><span class="mono">Longer routes</span><strong>Quoted on WhatsApp</strong></div>
+    </div>
+    <p class="rate-strip-note">Flat rate, no surge. First ride: 20% off, applied automatically.</p>
   </div>
 </section>
 
@@ -425,25 +425,24 @@
     <div class="section-head">
       <span class="eyebrow-dark">Where you're headed</span>
       <h2>The places riders take you every day.</h2>
-      <p>Tilt these on desktop, tap on mobile — swap them for your own photos later, this is placeholder art for now.</p>
+      <p>Real spots, real photos — tilt on desktop, tap on mobile.</p>
     </div>
 
     <div class="gallery-grid">
       <div class="gallery-card" data-tilt>
-        <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Lakshman_Jhula_glowing_in_the_sunset,_Rishikesh.jpg?width=500" alt="Lakshman Jhula bridge glowing at sunset, Rishikesh" loading="lazy">
+        <img src="images/laxman_jhula.jpg" alt="View near Laxman Jhula, Rishikesh" loading="lazy">
         <div class="gallery-cap"><h3>Laxman Jhula</h3><p>The bridge itself — where four-wheelers can't follow.</p></div>
       </div>
 
       <div class="gallery-card" data-tilt>
-        <img src="https://commons.wikimedia.org/wiki/Special:FilePath/Ganga_Aarti_at_Shatrughan_Ghat_at_Rishikesh_near_Ram_Jhula_02.jpg?width=500" alt="Ganga Aarti at night, Rishikesh" loading="lazy">
+        <img src="images/ganga_arti.jpg" alt="Ganga Aarti fire ceremony, Rishikesh" loading="lazy">
         <div class="gallery-cap"><h3>Ganga Aarti</h3><p>Evening drop-offs at Triveni Ghat, timed right.</p></div>
       </div>
 
       <div class="gallery-card" data-tilt>
-        <img src="https://commons.wikimedia.org/wiki/Special:FilePath/A_havan_ceremony_on_the_banks_of_Ganges,_Muni_ki_Reti,_Rishikesh.jpg?width=500" alt="Riverside ceremony on the banks of the Ganges, Muni ki Reti, Rishikesh" loading="lazy">
+        <img src="images/ghat_image.jpg" alt="Ghat statue and riverfront, Rishikesh" loading="lazy">
         <div class="gallery-cap"><h3>The ghats & ashrams</h3><p>Muni ki Reti, Neelkanth, the lanes in between.</p></div>
       </div>
-      <p style="margin-top:16px; font-family:'JetBrains Mono', monospace; font-size:0.68rem; color:var(--ink-soft); opacity:0.7;">Photos: Wikimedia Commons (public-domain / freely licensed) — swap for your own once your riders start shooting.</p>
     </div>
   </div>
 </section>
@@ -535,14 +534,24 @@
 </footer>
 
 <script>
-  // ---- CONFIG: replace with the real business WhatsApp number ----
-  const WHATSAPP_NUMBER = "91XXXXXXXXXX"; // <-- put full number with country code, no + or spaces
-  const WHATSAPP_MESSAGE = "Hi Ride Quick! I'd like to book a ride.";
-  const waLink = "https://wa.me/" + WHATSAPP_NUMBER + "?text=" + encodeURIComponent(WHATSAPP_MESSAGE);
-  ["nav-whatsapp","hero-whatsapp","ribbon-whatsapp","final-whatsapp"].forEach(id=>{
-    const el = document.getElementById(id);
-    if(el){ el.href = waLink; el.target = "_blank"; el.rel = "noopener"; }
-  });
+  // ---- CONFIG: business WhatsApp number ----
+  const WHATSAPP_NUMBER = "917417462887";
+  const WA_BUTTON_IDS = ["nav-whatsapp","hero-whatsapp","ribbon-whatsapp","final-whatsapp","planner-whatsapp"];
+
+  function buildWhatsAppMessage(){
+    const { pickup, drop } = routeState;
+    if(pickup && drop && pickup !== drop){
+      return `Hi Ride Quick! I'd like to book a ride from ${pickup} to ${drop}.`;
+    }
+    return "Hi Ride Quick! I'd like to book a ride.";
+  }
+  function refreshWhatsAppLinks(){
+    const link = "https://wa.me/" + WHATSAPP_NUMBER + "?text=" + encodeURIComponent(buildWhatsAppMessage());
+    WA_BUTTON_IDS.forEach(id=>{
+      const el = document.getElementById(id);
+      if(el){ el.href = link; el.target = "_blank"; el.rel = "noopener"; }
+    });
+  }
 
   // ---- Parallax hero photo ----
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -579,25 +588,61 @@
   window.addEventListener('resize', onScroll);
   onScroll();
 
-  // ---- Interactive fare slider ----
+  // ---- Route planner: locations + WhatsApp handoff (no price calc) ----
+  const LOCATIONS = ["Laxman Jhula", "Ram Jhula", "Tapovan", "Nepali Farm", "Bus Stand", "Railway Station"];
+  const pinIcon = `<svg viewBox="0 0 24 24" fill="none"><path d="M12 22s7-7.4 7-13a7 7 0 1 0-14 0c0 5.6 7 13 7 13z" stroke="#F6EFE3" stroke-width="1.8"/><circle cx="12" cy="9" r="2.4" fill="#F6EFE3"/></svg>`;
+
+  const routeState = { pickup: null, drop: null };
+
+  function renderLocGrid(containerId, role){
+    const el = document.getElementById(containerId);
+    if(!el) return;
+    el.innerHTML = LOCATIONS.map(loc => `
+      <button type="button" class="loc-chip" data-role="${role}" data-loc="${loc}">
+        <span class="pin">${pinIcon}</span>
+        <span class="name">${loc}</span>
+      </button>
+    `).join('');
+  }
+  renderLocGrid('pickup-grid', 'pickup');
+  renderLocGrid('drop-grid', 'drop');
+
+  function updatePlannerResult(){
+    const routeEl = document.getElementById('result-route');
+    const waBtn = document.getElementById('planner-whatsapp');
+    const { pickup, drop } = routeState;
+
+    if(!pickup || !drop){
+      routeEl.textContent = 'Pick a pickup and drop point';
+      waBtn.classList.add('is-disabled');
+    } else if(pickup === drop){
+      routeEl.textContent = 'Pickup and drop can\'t match';
+      waBtn.classList.add('is-disabled');
+    } else {
+      routeEl.textContent = `${pickup} → ${drop}`;
+      waBtn.classList.remove('is-disabled');
+    }
+    refreshWhatsAppLinks();
+  }
+
+  document.querySelectorAll('.loc-chip').forEach(chip => {
+    chip.addEventListener('click', () => {
+      const role = chip.dataset.role, loc = chip.dataset.loc;
+      routeState[role] = loc;
+      document.querySelectorAll(`.loc-chip[data-role="${role}"]`).forEach(c => c.classList.remove('selected'));
+      chip.classList.add('selected');
+      updatePlannerResult();
+    });
+  });
+
+  refreshWhatsAppLinks(); // set initial generic links before any selection is made
+
+  // ---- Fare estimate model ----
   // Piecewise-linear across the three published tiers: 10km=60, 20km=110, 40km=200
-  const slider = document.getElementById('fare-slider');
-  const kmLabel = document.getElementById('slider-km');
-  const priceLabel = document.getElementById('slider-price');
   function estimateFare(km){
     if(km <= 10) return 20 + km * 4;           // ramps up to 60 at 10km
     if(km <= 20) return 60 + (km - 10) * 5;     // 60 -> 110
     return 110 + (km - 20) * 4.5;               // 110 -> 200 at 40km
-  }
-  function updateSlider(){
-    const km = Number(slider.value);
-    const price = Math.round(estimateFare(km) / 5) * 5;
-    kmLabel.textContent = km + ' km';
-    priceLabel.textContent = '₹' + price;
-  }
-  if(slider){
-    slider.addEventListener('input', updateSlider);
-    updateSlider();
   }
 
   // ---- Gallery tilt-on-hover (desktop only) ----
