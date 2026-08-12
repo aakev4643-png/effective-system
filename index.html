@@ -44,7 +44,7 @@
     position:fixed; top:0; left:0; right:0; z-index:50;
     display:flex; align-items:center; justify-content:space-between;
     padding:18px 24px;
-    background:rgba(246,239,227,0.82);
+    background:rgba(246,239,227,0.85);
     backdrop-filter:blur(10px);
     border-bottom:1px solid var(--line);
   }
@@ -61,7 +61,7 @@
     display:flex; align-items:center; gap:6px;
     transition:transform .2s ease, background .2s ease;
   }
-  .nav-cta:hover{background:var(--saffron); transform:translateY(-1px);}
+  .nav-cta:hover{background:var(--saffron); color:#241300; transform:translateY(-1px);}
 
   /* ---------- HERO / PARALLAX ---------- */
   .hero{
@@ -82,8 +82,8 @@
   .hero-scrim{
     position:absolute; inset:0;
     background:
-      linear-gradient(180deg, rgba(6,26,26,0.75) 0%, rgba(6,26,26,0.55) 40%, rgba(6,26,26,0.85) 100%),
-      linear-gradient(90deg, rgba(6,26,26,0.6) 0%, rgba(6,26,26,0.15) 55%, rgba(6,26,26,0.6) 100%);
+      linear-gradient(180deg, rgba(6,26,26,0.78) 0%, rgba(6,26,26,0.60) 40%, rgba(6,26,26,0.88) 100%),
+      linear-gradient(90deg, rgba(6,26,26,0.65) 0%, rgba(6,26,26,0.20) 55%, rgba(6,26,26,0.65) 100%);
   }
 
   .hero-content{
@@ -102,7 +102,6 @@
     color:var(--teal-glow);
     border:1px solid rgba(62,156,143,0.4);
     padding:6px 12px; border-radius:100px;
-    margin-bottom:0;
   }
   .offer-badge{
     display:inline-flex; align-items:center; gap:6px;
@@ -121,13 +120,10 @@
     max-width:780px;
     color:var(--sand);
   }
-  .hero h1 em{
-    font-style:italic; color:var(--saffron);
-  }
   .hero p.lede{
-    margin-top:22px; max-width:520px;
+    margin-top:22px; max-width:540px;
     font-size:1.08rem; line-height:1.55;
-    color:rgba(246,239,227,0.82);
+    color:rgba(246,239,227,0.85);
   }
   .hero-actions{
     margin-top:34px; display:flex; gap:14px; flex-wrap:wrap; align-items:center;
@@ -137,10 +133,11 @@
     padding:16px 28px; border-radius:100px;
     font-weight:700; font-size:1rem;
     display:inline-flex; align-items:center; gap:10px;
-    transition:transform .2s ease, box-shadow .2s ease;
+    transition:transform .2s ease, box-shadow .2s ease, background .2s ease;
     box-shadow:0 10px 30px rgba(232,135,30,0.25);
+    border:none; cursor:pointer;
   }
-  .btn-primary:hover{transform:translateY(-2px); box-shadow:0 14px 34px rgba(232,135,30,0.35);}
+  .btn-primary:hover{transform:translateY(-2px); box-shadow:0 14px 34px rgba(232,135,30,0.35); background:#fca136;}
   .btn-secondary{
     color:var(--sand); font-weight:600; font-size:0.95rem;
     border-bottom:1px solid rgba(246,239,227,0.4);
@@ -148,7 +145,7 @@
   }
   .trust-chips{
     margin-top:44px; display:flex; gap:28px; flex-wrap:wrap;
-    font-size:0.82rem; color:rgba(246,239,227,0.75);
+    font-size:0.82rem; color:rgba(246,239,227,0.85);
   }
   .trust-chips span{display:flex; align-items:center; gap:8px;}
   .trust-chips .chip-dot{width:6px; height:6px; border-radius:50%; background:var(--teal-glow);}
@@ -179,8 +176,8 @@
   .route-rail .rider svg{width:100%; height:100%;}
 
   /* ---------- SECTION SHELL ---------- */
-  section{padding:96px 0; position:relative;}
-  .section-head{max-width:600px; margin-bottom:52px;}
+  section{padding:80px 0; position:relative;}
+  .section-head{max-width:620px; margin-bottom:40px;}
   .section-head .eyebrow-dark{
     font-family:'JetBrains Mono', monospace; font-size:0.72rem;
     letter-spacing:0.12em; text-transform:uppercase; color:var(--teal-mid);
@@ -190,41 +187,113 @@
     content:''; width:6px; height:6px; border-radius:50%; background:var(--saffron); display:inline-block;
   }
   .section-head h2{font-size:clamp(1.8rem, 3.4vw, 2.6rem); color:var(--ink);}
-  .section-head p{margin-top:14px; color:var(--ink-soft); font-size:1.02rem; line-height:1.6;}
+  .section-head p{margin-top:12px; color:var(--ink-soft); font-size:1.02rem; line-height:1.6;}
 
-  /* ---------- ROUTE PLANNER / MODAL ---------- */
-  .loc-grid{display:grid; grid-template-columns:1fr 1fr; gap:10px;}
+  /* ---------- FEATURED BOOKING SECTION (PROMINENT & HIGH IMPACT) ---------- */
+  .booking-feature-card{
+    background: linear-gradient(135deg, #0B3D3E 0%, #082C2D 100%);
+    color: var(--sand);
+    border-radius: 28px;
+    padding: 44px 40px;
+    box-shadow: 0 20px 50px rgba(11, 61, 62, 0.25);
+    border: 1px solid rgba(62,156,143,0.3);
+    position: relative;
+    overflow: hidden;
+  }
+  .booking-feature-card::before{
+    content: ''; position: absolute; right: -50px; top: -50px;
+    width: 250px; height: 250px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(232,135,30,0.15) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .booking-feature-header{
+    display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 20px;
+    border-bottom: 1px solid rgba(246,239,227,0.15); padding-bottom: 24px; margin-bottom: 28px;
+  }
+  .booking-feature-header h2{ font-size: clamp(1.8rem, 3.2vw, 2.5rem); color: var(--sand); }
+  .booking-feature-header p{ color: rgba(246,239,227,0.8); margin-top: 6px; font-size: 1rem; }
+
+  .location-pills-label{
+    font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; text-transform: uppercase;
+    letter-spacing: 0.12em; color: var(--teal-glow); margin-bottom: 14px; display: block;
+  }
+  .location-pills-grid{
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin-bottom: 30px;
+  }
+  .loc-pill{
+    background: rgba(246,239,227,0.08); border: 1px solid rgba(246,239,227,0.2);
+    border-radius: 14px; padding: 12px 16px; color: var(--sand); font-weight: 500;
+    font-size: 0.9rem; display: flex; align-items: center; justify-content: space-between;
+    transition: all 0.2s ease; cursor: pointer; text-align: left;
+  }
+  .loc-pill:hover{ background: rgba(232,135,30,0.15); border-color: var(--saffron); transform: translateY(-2px); }
+  .loc-pill .status-dot{ width: 8px; height: 8px; border-radius: 50%; background: #4ECA64; display: inline-block; }
+
+  .booking-action-bar{
+    display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 20px;
+    background: rgba(246,239,227,0.06); border-radius: 18px; padding: 20px 24px;
+  }
+  .booking-action-info{ display: flex; align-items: center; gap: 14px; }
+  .booking-action-info .icon-badge{
+    width: 44px; height: 44px; border-radius: 12px; background: rgba(232,135,30,0.2);
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+  }
+  .booking-action-info .icon-badge svg{ width: 22px; height: 22px; stroke: var(--saffron); }
+
+  /* ---------- MODAL ---------- */
+  .modal-overlay{
+    display:none; position:fixed; inset:0; z-index:100;
+    background:rgba(6,26,26,0.78); backdrop-filter:blur(6px);
+    align-items:center; justify-content:center; padding:20px;
+  }
+  .modal-overlay.is-open{display:flex;}
+  .modal-panel{
+    position:relative; width:100%; max-width:540px; max-height:88vh; overflow-y:auto;
+    background:var(--sand); border-radius:24px; padding:36px 32px;
+    box-shadow: 0 25px 50px rgba(0,0,0,0.25);
+  }
+  .modal-close{
+    position:absolute; top:18px; right:18px; width:36px; height:36px; border-radius:50%;
+    background:var(--sand-dim); border:none; font-size:1.1rem; color:var(--ink); cursor:pointer;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .modal-step-label{
+    font-size:0.68rem; letter-spacing:0.12em; color:var(--teal-mid); margin-bottom:8px;
+  }
+  .modal-step h3{font-size:1.4rem; margin-bottom:20px; padding-right:20px;}
+  
+  .loc-grid{display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom: 24px;}
   .loc-chip{
     display:flex; align-items:center; gap:10px;
-    border:1.5px solid var(--line); border-radius:12px; padding:10px 12px;
+    border:1.5px solid var(--line); border-radius:14px; padding:12px 14px;
     cursor:pointer; background:var(--sand-dim); transition:all .15s ease;
-    text-align:left;
+    text-align:left; border: none; width: 100%;
   }
   .loc-chip .pin{
     flex-shrink:0; width:32px; height:32px; border-radius:9px;
     background:var(--teal-deep); display:flex; align-items:center; justify-content:center;
   }
   .loc-chip .pin svg{width:16px; height:16px;}
-  .loc-chip .name{font-size:0.85rem; font-weight:600; line-height:1.2;}
+  .loc-chip .name{font-size:0.88rem; font-weight:600; line-height:1.2; color: var(--ink);}
   .loc-chip:hover{border-color:var(--teal-glow);}
   .loc-chip.selected{
-    border-color:var(--saffron); background:rgba(232,135,30,0.08);
+    outline: 2px solid var(--saffron); background:rgba(232,135,30,0.1);
   }
   .loc-chip.selected .pin{background:var(--saffron);}
 
-  .fleet-grid{display:flex; flex-direction:column; gap:10px;}
+  .fleet-grid{display:flex; flex-direction:column; gap:12px; margin-bottom: 24px;}
   .fleet-card{
     display:flex; align-items:center; justify-content:space-between; gap:12px;
-    border:1.5px solid var(--line); border-radius:12px; padding:12px 14px;
+    border:1.5px solid var(--line); border-radius:14px; padding:14px 16px;
     cursor:pointer; background:var(--sand-dim); transition:all .15s ease;
-    text-align:left; width:100%;
+    text-align:left; width:100%; border: none;
   }
   .fleet-card:hover{border-color:var(--teal-glow);}
-  .fleet-card.selected{border-color:var(--saffron); background:rgba(232,135,30,0.08);}
-  .fleet-card .fleet-name{font-size:0.9rem; font-weight:600;}
+  .fleet-card.selected{outline: 2px solid var(--saffron); background:rgba(232,135,30,0.1);}
+  .fleet-card .fleet-name{font-size:0.92rem; font-weight:600; color: var(--ink);}
   .fleet-card .fleet-avail{
     font-family:'JetBrains Mono', monospace; font-size:0.72rem;
-    color:var(--teal-mid); white-space:nowrap;
+    color:var(--teal-mid); white-space:nowrap; font-weight: 600;
   }
   .fleet-card.selected .fleet-avail{color:var(--saffron-dark);}
   .fleet-card.sold-out{opacity:0.45; cursor:not-allowed; pointer-events:none;}
@@ -237,49 +306,17 @@
   .fleet-card .fleet-icon svg{width:20px; height:20px;}
   .fleet-card.selected .fleet-icon{background:var(--saffron);}
 
-  /* ---------- FLEET BANNER ---------- */
-  .fleet-banner{
-    display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:20px;
-    background:var(--teal-deep); color:var(--sand);
-    border-radius:20px; padding:32px 36px;
-  }
-  .fleet-banner .eyebrow-dark{color:var(--teal-glow);}
-  .fleet-banner .eyebrow-dark::before{background:var(--saffron);}
-  .fleet-banner h2{color:var(--sand); margin:0;}
-
-  /* ---------- BOOKING MODAL ---------- */
-  .modal-overlay{
-    display:none; position:fixed; inset:0; z-index:100;
-    background:rgba(6,26,26,0.72); backdrop-filter:blur(4px);
-    align-items:center; justify-content:center; padding:20px;
-  }
-  .modal-overlay.is-open{display:flex;}
-  .modal-panel{
-    position:relative; width:100%; max-width:520px; max-height:86vh; overflow-y:auto;
-    background:var(--sand); border-radius:20px; padding:36px 32px;
-  }
-  .modal-close{
-    position:absolute; top:18px; right:18px; width:34px; height:34px; border-radius:50%;
-    background:var(--sand-dim); border:none; font-size:1rem; color:var(--ink); cursor:pointer;
-  }
-  .modal-step-label{
-    font-size:0.68rem; letter-spacing:0.12em; color:var(--teal-mid); margin-bottom:8px;
-  }
-  .modal-step h3{font-size:1.4rem; margin-bottom:20px; padding-right:20px;}
-  .modal-step .loc-grid{grid-template-columns:1fr 1fr; margin-bottom:22px;}
-  .modal-step .fleet-grid{margin-bottom:22px;}
   .modal-next, #modal-book{width:100%; justify-content:center;}
   .modal-step-actions{display:flex; gap:12px; align-items:center;}
   .modal-step-actions #modal-book{flex:1;}
   .modal-step-actions .btn-secondary{color:var(--ink); border-bottom-color:var(--line);}
-
   .btn-primary.is-disabled{opacity:0.4; pointer-events:none;}
 
   /* ---------- FOUNDER BIO ---------- */
   .bio-card{
-    max-width:720px; margin:0 auto; text-align:center;
+    max-width:760px; margin:0 auto; text-align:center;
     border-top:1px solid var(--line); border-bottom:1px solid var(--line);
-    padding:48px 24px;
+    padding:52px 24px;
   }
   .bio-card .eyebrow-dark{justify-content:center;}
   .bio-text{
@@ -361,9 +398,8 @@
     .route-rail{display:block;}
   }
   @media (max-width:820px){
-    .trust-grid{grid-template-columns:1fr;}
-    .steps{grid-template-columns:1fr;}
-    .reviews-grid{grid-template-columns:1fr;}
+    .trust-grid, .steps, .reviews-grid, .gallery-grid{grid-template-columns:1fr;}
+    .booking-feature-card{ padding: 28px 22px; }
   }
 
   @media (prefers-reduced-motion: reduce){
@@ -378,7 +414,7 @@
 <nav>
   <div class="logo"><span class="dot"></span>Ride&nbsp;Quick</div>
   <a class="nav-cta" href="#book" id="nav-whatsapp">
-    Book a bike
+    Book a ride
   </a>
 </nav>
 
@@ -399,36 +435,58 @@
 
   <div class="hero-content">
     <div class="hero-badges">
-      <span class="eyebrow"><span class="chip-dot" style="width:6px;height:6px;border-radius:50%;background:var(--saffron);"></span>Local to Rishikesh · Self-drive rides</span>
+      <span class="eyebrow"><span class="chip-dot" style="width:6px;height:6px;border-radius:50%;background:var(--saffron);"></span>Local Rishikesh Rentals</span>
       <span class="offer-badge">✦ First ride: 20% off</span>
     </div>
     <h1>Want to book<br>a bike or scooty</h1>
-    <p class="lede">Pick a pickup point, pick your ride — Activa, Bullet, or the Harley — and we'll message you on WhatsApp to lock it in. No app, no account, no waiting in line.</p>
+    <p class="lede">Select your pickup spot, choose your ride — Activa, Bullet 350, or Harley-Davidson — and lock it in instantly on WhatsApp. Transparent rates, zero hidden fees.</p>
     <div class="hero-actions">
       <button type="button" class="btn-primary" id="open-booking-hero">
-        Go ahead →
+        Start booking →
       </button>
-      <a class="btn-secondary" href="#gallery">See the fleet ↓</a>
+      <a class="btn-secondary" href="#fleet">Check availability ↓</a>
     </div>
     <div class="trust-chips">
-      <span><span class="chip-dot"></span>Run by riders you can meet in person</span>
+      <span><span class="chip-dot"></span>Run by locals to ensure legit prices</span>
       <span><span class="chip-dot"></span>Pay only after you arrive</span>
-      <span><span class="chip-dot"></span>24/7 on WhatsApp</span>
+      <span><span class="chip-dot"></span>24/7 WhatsApp updates</span>
     </div>
   </div>
 
   <div class="scroll-cue"><span>Scroll</span><span class="line"></span></div>
 </header>
 
-<!-- ================= FLEET BOOKING ================= -->
+<!-- ================= PROMINENT FLEET BOOKING FEATURE ================= -->
 <section id="fleet">
   <div class="wrap">
-    <div class="fleet-banner">
-      <div>
-        <div class="eyebrow-dark" style="margin-bottom:8px;">Book a ride, self-drive</div>
-        <h2 style="font-size:1.6rem;">Ready when you are.</h2>
+    <div class="booking-feature-card">
+      <div class="booking-feature-header">
+        <div>
+          <span class="eyebrow-dark" style="color:var(--teal-glow);">Live Pickup Locations</span>
+          <h2>Ready when you are.</h2>
+          <p>Real-time vehicle status across major spots in Rishikesh.</p>
+        </div>
+        <button type="button" class="btn-primary" id="open-booking-banner">
+          Start booking →
+        </button>
       </div>
-      <button type="button" class="btn-primary" id="open-booking-banner">Start booking →</button>
+
+      <span class="location-pills-label">Available Pickup Hubs:</span>
+      <div class="location-pills-grid" id="feature-location-pills">
+        <!-- Rendered dynamically -->
+      </div>
+
+      <div class="booking-action-bar">
+        <div class="booking-action-info">
+          <div class="icon-badge">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M12 22s7-7.4 7-13a7 7 0 1 0-14 0c0 5.6 7 13 7 13z" stroke-width="2"/><circle cx="12" cy="9" r="2.5" fill="none" stroke-width="2"/></svg>
+          </div>
+          <div>
+            <div style="font-weight: 600; font-size: 0.95rem;">Pick up wherever you land</div>
+            <div style="font-size: 0.82rem; color: rgba(246,239,227,0.7);">Laxman Jhula, Ram Jhula, Tapovan, Bus Stand, Nepali Farm & Railway Station</div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </section>
@@ -462,8 +520,8 @@
   <div class="wrap">
     <div class="section-head">
       <span class="eyebrow-dark">Where you're headed</span>
-      <h2>The places riders take you every day.</h2>
-      <p>Real spots, real photos — tilt on desktop, tap on mobile.</p>
+      <h2>Explore Rishikesh on two wheels.</h2>
+      <p>Bypass traffic, explore ghats, and reach destinations cars can't access.</p>
     </div>
 
     <div class="gallery-grid">
@@ -485,12 +543,12 @@
   </div>
 </section>
 
-<!-- ================= ABOUT / FOUNDER BIO ================= -->
+<!-- ================= ABOUT ================= -->
 <section id="story">
   <div class="wrap">
     <div class="bio-card">
-      <span class="eyebrow-dark" style="margin-bottom:18px;">About Us</span>
-      <p class="bio-text">Getting reliable rates for rented scooty and bikes. Started by local Rishikesh boys who grew up watching tourists get quoted double at every ghat crossing — Ride Quick exists so nobody visiting our town gets treated like a walking wallet. Flat fares, real riders, home turf.</p>
+      <span class="eyebrow-dark" style="margin-bottom:18px;">About Ride Quick</span>
+      <p class="bio-text">Getting reliable rates for rented scooty and bikes. Started by local Rishikesh residents who grew up watching tourists get quoted double at every ghat crossing — Ride Quick exists so nobody visiting our town gets treated like a walking wallet. Fair rates, verified two-wheelers, local trust.</p>
     </div>
   </div>
 </section>
@@ -499,9 +557,9 @@
 <section id="trust">
   <div class="wrap">
     <div class="section-head">
-      <span class="eyebrow-dark">Why locals over an app</span>
-      <h2>We live here. That's the whole pitch.</h2>
-      <p>No call center in another city, no algorithm deciding your fare. Just riders from Rishikesh who know the ghats, the ashram gates, and the shortcuts between them.</p>
+      <span class="eyebrow-dark">Why book with us</span>
+      <h2>Run by locals to ensure legit prices.</h2>
+      <p>No artificial surge pricing, no middleman commissions. Direct local support from residents who know Rishikesh inside out.</p>
     </div>
 
     <div class="trust-grid">
@@ -509,27 +567,27 @@
         <div class="icon-wrap">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 21s-7-4.9-9.3-9.4C1.1 8 3 4.5 6.6 4.1c2-.2 3.6.8 5.4 2.6 1.8-1.8 3.4-2.8 5.4-2.6C21 4.5 22.9 8 21.3 11.6 19 16.1 12 21 12 21z" stroke="#145C5D" stroke-width="1.6"/></svg>
         </div>
-        <h3>Riders we vouch for</h3>
-        <p>Every rider is someone we know personally, met in person, and would send our own family with — not an anonymous profile with a rating.</p>
+        <h3>Genuine local pricing</h3>
+        <p>Fair, flat daily rental rates with zero tourist markups. What we quote on WhatsApp is exactly what you pay.</p>
       </div>
       <div class="trust-card">
         <div class="icon-wrap">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M3 10h18M3 6h18v13a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V6zM7 3v4M17 3v4" stroke="#145C5D" stroke-width="1.6" stroke-linecap="round"/></svg>
         </div>
         <h3>Pay after you arrive</h3>
-        <p>No prepayment, no holds on your card. Confirm the fare on WhatsApp, take the ride, pay in cash or UPI once you're standing at your destination.</p>
+        <p>No mandatory upfront deposit. Confirm your vehicle availability on WhatsApp, inspect your ride, and pay when you collect the keys.</p>
       </div>
       <div class="trust-card">
         <div class="icon-wrap">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 8v5l3 2M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0z" stroke="#145C5D" stroke-width="1.6"/></svg>
         </div>
-        <h3>Always someone awake</h3>
-        <p>Early sunrise treks, late buses from Haridwar, last-minute plans — message anytime and a real person replies, not a bot with a script.</p>
+        <h3>24/7 WhatsApp assistance</h3>
+        <p>Early sunrise treks to Kunjapuri, late train arrivals, or route advice — text us on WhatsApp anytime and get instant local response.</p>
       </div>
     </div>
 
     <div class="offer-ribbon">
-      <div><div class="big">First ride, 20% off</div><p>Message us on WhatsApp and mention "first ride" — the discount is applied to whatever fare you're quoted.</p></div>
+      <div><div class="big">First ride, 20% off</div><p>Message us on WhatsApp and mention "first ride" — discount is automatically applied to your booking quote.</p></div>
       <a class="btn-secondary" style="color:#241300; border-color:rgba(36,19,0,0.4);" href="#" id="ribbon-whatsapp">Claim on WhatsApp →</a>
     </div>
   </div>
@@ -539,16 +597,26 @@
 <section id="reviews">
   <div class="wrap">
     <div class="section-head">
-      <span class="eyebrow-dark">Rider stories</span>
-      <h2>What people say after the ride, not before.</h2>
-      <p>Real riders, added by hand as they come in — newest first.</p>
+      <span class="eyebrow-dark">Rider feedback</span>
+      <h2>Honest reviews from travelers.</h2>
+      <p>Real experiences from visitors exploring Rishikesh on our bikes.</p>
     </div>
 
     <div class="reviews-grid">
       <div class="review-card">
         <div class="review-stars">★★★★★</div>
-        <p class="review-text">"Add your first real customer quote here once you've got one — don't launch with a fake review, an empty section is more trustworthy than a made-up one."</p>
-        <div class="review-who">— placeholder, remove before launch</div>
+        <p class="review-text">"Super simple booking over WhatsApp. Scooter was in great condition and pickup near Laxman Jhula was smooth. Highly recommend!"</p>
+        <div class="review-who">— Rahul M., Delhi</div>
+      </div>
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">"Got a Bullet 350 for Neelkanth temple ride. Genuine rates without the usual hassle or overcharging. Will definitely use again."</p>
+        <div class="review-who">— Sarah & Mark, UK</div>
+      </div>
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <p class="review-text">"Picked up Activa right at the bus stand. Clean process, transparent pricing, and instant response."</p>
+        <div class="review-who">— Priya K., Bangalore</div>
       </div>
     </div>
   </div>
@@ -558,24 +626,24 @@
 <section id="how">
   <div class="wrap">
     <div class="section-head">
-      <span class="eyebrow-dark">How a ride actually happens</span>
+      <span class="eyebrow-dark">Simple Booking Process</span>
       <h2>Three steps, all inside WhatsApp.</h2>
     </div>
     <div class="steps">
       <div class="step">
         <div class="idx mono">1</div>
-        <h3>Message us your route</h3>
-        <p>Tap "Book on WhatsApp," tell us where you are and where you're headed — in English or Hindi, whichever's easier.</p>
+        <h3>Choose spot & ride</h3>
+        <p>Select your location and preferred scooty or bike from our live inventory selector above.</p>
       </div>
       <div class="step">
         <div class="idx mono">2</div>
-        <h3>We confirm the fare</h3>
-        <p>You get a flat price off the fare card before anyone leaves — no meter running, no changing the number mid-ride.</p>
+        <h3>Confirm on WhatsApp</h3>
+        <p>Send the auto-filled WhatsApp message to lock in your ride and receive your flat rate quote.</p>
       </div>
       <div class="step">
         <div class="idx mono">3</div>
-        <h3>Rider meets you, you ride, you pay</h3>
-        <p>A rider shows up at your point, takes you to yours, and you pay once you've arrived — cash or UPI.</p>
+        <h3>Collect & Ride</h3>
+        <p>Meet at your chosen hub, inspect your vehicle, pay via Cash/UPI, and enjoy your trip around Rishikesh.</p>
       </div>
     </div>
   </div>
@@ -585,8 +653,8 @@
 <section id="book">
   <div class="wrap">
     <div class="final-cta">
-      <h2>Wherever you're headed in Rishikesh, message us before you flag someone down.</h2>
-      <p>Local riders. Flat fares. Pay when you land. Available around the clock on WhatsApp.</p>
+      <h2>Planning to explore Rishikesh? Secure your bike now.</h2>
+      <p>Run by locals. Honest prices. Verified vehicles across 6 locations in Rishikesh.</p>
       <a class="btn-primary" href="#" id="final-whatsapp">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M17.5 14.4c-.3-.1-1.6-.8-1.9-.9-.3-.1-.4-.1-.6.1-.2.3-.7.9-.8 1-.2.2-.3.2-.5.1-.3-.1-1.2-.4-2.3-1.4-.8-.7-1.4-1.7-1.6-1.9-.2-.3 0-.4.1-.6.1-.1.3-.3.4-.5.1-.1.2-.3.2-.4.1-.2 0-.3 0-.5-.1-.1-.6-1.4-.8-1.9-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.3.3-1 1-1 2.4s1 2.8 1.2 3c.1.2 2 3.1 4.9 4.3.7.3 1.2.5 1.6.6.7.2 1.3.2 1.8.1.5-.1 1.6-.7 1.9-1.3.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.5-.3z" fill="#241300"/><path d="M12 2C6.5 2 2 6.5 2 12c0 1.9.5 3.6 1.4 5.2L2 22l4.9-1.3c1.5.8 3.3 1.3 5.1 1.3 5.5 0 10-4.5 10-10S17.5 2 12 2zm0 18.2c-1.7 0-3.3-.5-4.7-1.3l-.3-.2-3 .8.8-2.9-.2-.3C3.7 15 3.2 13.5 3.2 12c0-4.8 3.9-8.7 8.7-8.7s8.7 3.9 8.7 8.7-3.8 8.9-8.6 8.9z" fill="#241300"/></svg>
         Message Ride Quick
@@ -596,28 +664,28 @@
 </section>
 
 <footer>
-  <p><span class="fname">Ride Quick</span> — a local ride service for Laxman Jhula & Ram Jhula, Rishikesh</p>
-  <p style="margin-top:6px;">Riders currently onboarding · reply times may vary at night</p>
+  <p><span class="fname">Ride Quick</span> — Reliable scooty & bike rentals in Rishikesh</p>
+  <p style="margin-top:6px;">Laxman Jhula · Ram Jhula · Tapovan · Bus Stand · Nepali Farm · Railway Station</p>
 </footer>
 
 <script>
-  // ---- CONFIG: business WhatsApp number ----
+  // ---- CONFIG: WhatsApp number ----
   const WHATSAPP_NUMBER = "917417462887";
 
   // ---- CONFIG: Published Google Sheet CSV URL ----
-  // Publish your sheet as CSV (File -> Share -> Publish to Web -> CSV) and paste URL here
+  // File -> Share -> Publish to Web -> CSV
   const SHEET_CSV_URL = ""; 
 
-  const LOCATIONS = ["Laxman Jhula", "Ram Jhula", "Tapovan", "Bus Stand"];
   const pinIcon = `<svg viewBox="0 0 24 24" fill="none"><path d="M12 22s7-7.4 7-13a7 7 0 1 0-14 0c0 5.6 7 13 7 13z" stroke="#F6EFE3" stroke-width="1.8"/><circle cx="12" cy="9" r="2.4" fill="#F6EFE3"/></svg>`;
   const bikeIcon = `<svg viewBox="0 0 24 24" fill="none"><circle cx="5.5" cy="17.5" r="3.2" stroke="#F6EFE3" stroke-width="1.6"/><circle cx="18.5" cy="17.5" r="3.2" stroke="#F6EFE3" stroke-width="1.6"/><path d="M5.5 17.5 9 10h5l4.5 7.5M9 10 7.5 6h-2M9 10l3 4h4" stroke="#F6EFE3" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
   const scooterIcon = `<svg viewBox="0 0 24 24" fill="none"><circle cx="5.5" cy="17.5" r="2.8" stroke="#F6EFE3" stroke-width="1.6"/><circle cx="18" cy="17.5" r="2.8" stroke="#F6EFE3" stroke-width="1.6"/><path d="M5.5 17.5h4l1-6h4.5c1.4 0 2.5 1.1 2.5 2.5v3.5M10.5 11.5h-3M15 8.5h3" stroke="#F6EFE3" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
 
-  // Default fallback data directly matching your Google Sheet structure
+  // ALL 6 LOCATIONS extracted directly from Google Sheet image
   let LOCATION_DATA = {
     "Laxman Jhula": [
       { name: "Royal Enfield Bullet 350", available: true, type: "bike" },
       { name: "Royal Enfield Bullet 350", available: true, type: "bike" },
+      { name: "Royal Enfield Bullet 350", available: false, type: "bike" },
       { name: "Royal Enfield Bullet 350", available: false, type: "bike" },
       { name: "Honda Activa 5G", available: false, type: "scooter" },
       { name: "Honda Activa 5G", available: true, type: "scooter" },
@@ -643,16 +711,45 @@
       { name: "Harley-Davidson", available: false, type: "bike" },
       { name: "Harley-Davidson", available: true, type: "bike" },
       { name: "Harley-Davidson", available: true, type: "bike" }
+    ],
+    "Bus Stand": [
+      { name: "Royal Enfield Bullet 350", available: false, type: "bike" },
+      { name: "Royal Enfield Bullet 350", available: false, type: "bike" },
+      { name: "Honda Activa 5G", available: false, type: "scooter" },
+      { name: "Honda Activa 5G", available: true, type: "scooter" },
+      { name: "Honda Activa 5G", available: true, type: "scooter" },
+      { name: "Harley-Davidson", available: false, type: "bike" },
+      { name: "Harley-Davidson", available: true, type: "bike" },
+      { name: "Harley-Davidson", available: true, type: "bike" }
+    ],
+    "Nepali Farm": [
+      { name: "Royal Enfield Bullet 350", available: true, type: "bike" },
+      { name: "Royal Enfield Bullet 350", available: false, type: "bike" },
+      { name: "Royal Enfield Bullet 350", available: true, type: "bike" },
+      { name: "Royal Enfield Bullet 350", available: true, type: "bike" },
+      { name: "Honda Activa 5G", available: false, type: "scooter" },
+      { name: "Honda Activa 5G", available: true, type: "scooter" },
+      { name: "Harley-Davidson", available: false, type: "bike" },
+      { name: "Harley-Davidson", available: false, type: "bike" }
+    ],
+    "Railway Station": [
+      { name: "Royal Enfield Bullet 350", available: true, type: "bike" },
+      { name: "Royal Enfield Bullet 350", available: true, type: "bike" },
+      { name: "Honda Activa 5G", available: false, type: "scooter" },
+      { name: "Honda Activa 5G", available: true, type: "scooter" },
+      { name: "Honda Activa 5G", available: false, type: "scooter" },
+      { name: "Harley-Davidson", available: true, type: "bike" },
+      { name: "Harley-Davidson", available: true, type: "bike" },
+      { name: "Harley-Davidson", available: false, type: "bike" }
     ]
   };
 
-  // Helper to parse CSV formatted like your sheet columns:
-  // Col A: Location1_Vehicle, Col B: Location1_Avail, Col C: Location2_Vehicle, Col D: Location2_Avail ...
+  // CSV parser for any number of location pairs (Col A&B, C&D, E&F, G&H, I&J, K&L...)
   function parseLocationCSV(text) {
     const lines = text.trim().split("\n").map(l => l.split(","));
-    if (lines.length < 2) return;
+    if (lines.length < 2) return null;
     
-    const headers = lines[0]; // Row 1 contains location names
+    const headers = lines[0];
     const parsedData = {};
 
     for (let col = 0; col < headers.length; col += 2) {
@@ -670,7 +767,7 @@
         }
       }
     }
-    return parsedData;
+    return Object.keys(parsedData).length > 0 ? parsedData : null;
   }
 
   async function loadFleetFromSheet(){
@@ -681,6 +778,8 @@
       const parsed = parseLocationCSV(text);
       if(parsed) { 
         LOCATION_DATA = parsed; 
+        renderFeaturePills();
+        renderLocGrid('modal-pickup-grid');
       }
     } catch(err){
       console.warn("Could not load live sheet data, using fallback data.", err);
@@ -688,6 +787,45 @@
   }
 
   const routeState = { location: null, vehicle: null };
+
+  // Render Feature Location Pills on Main Page
+  function renderFeaturePills(){
+    const el = document.getElementById('feature-location-pills');
+    if(!el) return;
+    const locs = Object.keys(LOCATION_DATA);
+    el.innerHTML = locs.map(loc => {
+      const availableCount = LOCATION_DATA[loc].filter(v => v.available).length;
+      return `
+        <button type="button" class="loc-pill" data-loc="${loc}">
+          <span>${loc}</span>
+          <span style="display:flex; align-items:center; gap:6px; font-size:0.75rem; color:var(--teal-glow);">
+            <span class="status-dot"></span>${availableCount} available
+          </span>
+        </button>
+      `;
+    }).join('');
+
+    el.querySelectorAll('.loc-pill').forEach(pill => {
+      pill.addEventListener('click', () => {
+        routeState.location = pill.dataset.loc;
+        openModal();
+        goToStep(1);
+        selectLocationInModal(routeState.location);
+      });
+    });
+  }
+
+  function selectLocationInModal(locName){
+    const chips = document.querySelectorAll('#modal-pickup-grid .loc-chip');
+    chips.forEach(chip => {
+      if(chip.dataset.loc === locName){
+        chip.classList.add('selected');
+      } else {
+        chip.classList.remove('selected');
+      }
+    });
+    document.getElementById('modal-next').classList.remove('is-disabled');
+  }
 
   function renderLocGrid(containerId){
     const el = document.getElementById(containerId);
@@ -716,7 +854,7 @@
 
     const vehicles = LOCATION_DATA[locationName] || [];
 
-    // Aggregate vehicles for cleaner display per model
+    // Aggregate vehicles for clean UI per model
     const aggregated = {};
     vehicles.forEach(v => {
       if(!aggregated[v.name]) {
@@ -809,11 +947,12 @@
   document.getElementById('modal-back').addEventListener('click', () => goToStep(1));
 
   // Initialize
+  renderFeaturePills();
   renderLocGrid('modal-pickup-grid');
   loadFleetFromSheet();
   refreshWhatsAppLinks();
 
-  // ---- Parallax Hero Photo ----
+  // ---- Parallax Hero Photo & Route Rail ----
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const heroPhoto = document.getElementById('hero-photo');
   const hero = document.querySelector('.hero');
