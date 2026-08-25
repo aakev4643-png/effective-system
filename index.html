@@ -7,6 +7,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,500;1,9..144,600&family=Work+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
 <style>
   :root{
     --teal-deep:#0B3D3E;
@@ -189,7 +190,7 @@
   .section-head h2{font-size:clamp(1.8rem, 3.4vw, 2.6rem); color:var(--ink);}
   .section-head p{margin-top:12px; color:var(--ink-soft); font-size:1.02rem; line-height:1.6;}
 
-  /* ---------- FEATURED BOOKING SECTION (PROMINENT & HIGH IMPACT) ---------- */
+  /* ---------- FEATURED BOOKING SECTION ---------- */
   .booking-feature-card{
     background: linear-gradient(135deg, #0B3D3E 0%, #082C2D 100%);
     color: var(--sand);
@@ -239,6 +240,52 @@
     display: flex; align-items: center; justify-content: center; flex-shrink: 0;
   }
   .booking-action-info .icon-badge svg{ width: 22px; height: 22px; stroke: var(--saffron); }
+
+  /* ---------- NEARBY MAP ---------- */
+  #nearby-map .section-head{margin-bottom:24px;}
+  .map-card{
+    border-radius:24px; overflow:hidden;
+    border:1px solid var(--line);
+    box-shadow:0 16px 40px rgba(11,61,62,0.12);
+    position:relative;
+    background:var(--sand-dim);
+  }
+  #live-map{
+    height:380px; width:100%; background:var(--sand-dim);
+    filter:saturate(0.85);
+  }
+  .map-status{
+    position:absolute; left:16px; top:16px; z-index:5;
+    background:rgba(246,239,227,0.92); backdrop-filter:blur(6px);
+    border-radius:100px; padding:8px 14px;
+    font-family:'JetBrains Mono', monospace; font-size:0.72rem;
+    color:var(--teal-deep); display:flex; align-items:center; gap:8px;
+    box-shadow:0 6px 16px rgba(0,0,0,0.1);
+  }
+  .map-status .pulse-dot{
+    width:8px; height:8px; border-radius:50%; background:var(--saffron);
+    animation:badge-pop 1.6s ease-in-out infinite;
+  }
+  .map-legend{
+    display:flex; gap:20px; flex-wrap:wrap; margin-top:16px;
+    font-size:0.85rem; color:var(--ink-soft);
+  }
+  .map-legend span{display:flex; align-items:center; gap:8px;}
+  .map-legend .dot-you{width:10px; height:10px; border-radius:50%; background:var(--teal-glow); display:inline-block; box-shadow:0 0 0 4px rgba(62,156,143,0.2);}
+  .map-legend .dot-ride{width:10px; height:10px; border-radius:50%; background:var(--saffron); display:inline-block; box-shadow:0 0 0 4px rgba(232,135,30,0.2);}
+  .user-pin-icon, .ride-pin-icon{ display:flex; align-items:center; justify-content:center; }
+  .user-pin-icon .dot{
+    width:18px; height:18px; border-radius:50%;
+    background:var(--teal-glow); border:3px solid var(--sand);
+    box-shadow:0 0 0 6px rgba(62,156,143,0.28);
+  }
+  .ride-pin-icon{
+    width:30px; height:30px; border-radius:9px;
+    background:var(--saffron); box-shadow:0 4px 12px rgba(232,135,30,0.4);
+    pointer-events:none;
+  }
+  .ride-pin-icon svg{width:17px; height:17px;}
+  .leaflet-control-zoom{border:none !important; box-shadow:0 6px 16px rgba(0,0,0,0.15) !important;}
 
   /* ---------- MODAL ---------- */
   .modal-overlay{
@@ -311,6 +358,36 @@
   .modal-step-actions #modal-book{flex:1;}
   .modal-step-actions .btn-secondary{color:var(--ink); border-bottom-color:var(--line);}
   .btn-primary.is-disabled{opacity:0.4; pointer-events:none;}
+  #modal-to-step2, #modal-to-step3, #modal-to-step4{flex:1; justify-content:center;}
+
+  .modal-step-sub{font-size:0.88rem; color:var(--ink-soft); margin:-12px 0 20px; line-height:1.5;}
+
+  .field{margin-bottom:18px;}
+  .field label{display:block; font-size:0.82rem; font-weight:600; color:var(--ink); margin-bottom:8px;}
+  .field input, .field select{
+    width:100%; padding:13px 14px; border-radius:12px;
+    border:1.5px solid var(--line); background:var(--sand-dim);
+    font-family:'Work Sans', sans-serif; font-size:0.95rem; color:var(--ink);
+    appearance:none; -webkit-appearance:none;
+  }
+  .field select{
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%234A5450' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+    background-repeat:no-repeat; background-position:right 14px center;
+  }
+  .field input:focus, .field select:focus{outline:none; border-color:var(--teal-glow);}
+  .field-hint{font-size:0.76rem; color:var(--ink-soft); margin-top:6px; line-height:1.4;}
+
+  .id-warning{
+    display:none; background:rgba(179,51,34,0.08); border:1px solid rgba(179,51,34,0.25);
+    color:#B33322; border-radius:12px; padding:14px 16px;
+    font-size:0.85rem; line-height:1.5; margin-bottom:18px;
+  }
+  .id-warning.is-visible{display:block;}
+
+  .price-box{background:var(--sand-dim); border-radius:16px; padding:16px 18px; margin:14px 0 20px;}
+  .price-row{display:flex; align-items:center; justify-content:space-between; font-size:0.88rem; color:var(--ink-soft); padding:4px 0;}
+  .price-row.total{border-top:1px solid var(--line); margin-top:8px; padding-top:10px; font-size:1.05rem; font-weight:700; color:var(--ink);}
+  .price-note{font-size:0.72rem; color:var(--ink-soft); margin-top:8px; font-family:'JetBrains Mono', monospace;}
 
   /* ---------- FOUNDER BIO ---------- */
   .bio-card{
@@ -456,6 +533,25 @@
   <div class="scroll-cue"><span>Scroll</span><span class="line"></span></div>
 </header>
 
+<!-- ================= NEARBY MAP ================= -->
+<section id="nearby-map">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow-dark">Right now, near you</span>
+      <h2>Rides around your spot.</h2>
+      <p>Turn on location and see roughly where available rides are around you. This is a quick visual, not a live shop directory.</p>
+    </div>
+    <div class="map-card">
+      <div class="map-status" id="map-status"><span class="pulse-dot"></span><span id="map-status-text">Locating you…</span></div>
+      <div id="live-map"></div>
+    </div>
+    <div class="map-legend">
+      <span><span class="dot-you"></span>You, right now</span>
+      <span><span class="dot-ride"></span>Rides in the area</span>
+    </div>
+  </div>
+</section>
+
 <!-- ================= PROMINENT FLEET BOOKING FEATURE ================= -->
 <section id="fleet">
   <div class="wrap">
@@ -496,20 +592,90 @@
   <div class="modal-panel" role="dialog" aria-modal="true" aria-label="Book a bike">
     <button type="button" class="modal-close" id="modal-close" aria-label="Close">✕</button>
 
-    <div class="modal-step" id="step-location">
-      <div class="modal-step-label mono">STEP 1 OF 2</div>
-      <h3>Where are you picking up?</h3>
-      <div class="loc-grid" id="modal-pickup-grid"></div>
-      <button type="button" class="btn-primary modal-next is-disabled" id="modal-next">Next →</button>
+    <!-- STEP 1: CUSTOMER DETAILS (FIRST STEP) -->
+    <div class="modal-step" id="step-customer">
+      <div class="modal-step-label mono">STEP 1 OF 4</div>
+      <h3>Just a few details</h3>
+      <p class="modal-step-sub">Enter your details to get started. Riders must be at least 18 years old.</p>
+
+      <div class="field">
+        <label for="cust-name">Full name</label>
+        <input type="text" id="cust-name" placeholder="As on your ID" autocomplete="name">
+      </div>
+      <div class="field">
+        <label for="cust-age">Age</label>
+        <select id="cust-age">
+          <option value="" selected disabled>Select your age</option>
+          <option value="under18">Under 18 years old</option>
+          <!-- Age options 18-80 generated dynamically -->
+        </select>
+      </div>
+      <div class="id-warning" id="age-warning">
+        Sorry — riders must be at least 18 years old to rent a bike or scooty.
+      </div>
+
+      <div class="field">
+        <label for="cust-id">ID proof you'll bring</label>
+        <select id="cust-id">
+          <option value="" selected disabled>Select an ID type</option>
+          <option value="DL">Driving License</option>
+          <option value="AADHAR">Aadhar Card</option>
+          <option value="VOTER">Voter ID</option>
+          <option value="PAN">PAN Card</option>
+          <option value="NONE">I don't have any of these</option>
+        </select>
+      </div>
+      <div class="id-warning" id="id-warning">
+        Sorry — we can't book a bike or scooty without a valid ID. Please bring your Driving License, Aadhar, Voter ID, or PAN card when you come to pick up.
+      </div>
+
+      <button type="button" class="btn-primary modal-next is-disabled" id="modal-to-step2">Continue →</button>
     </div>
 
+    <!-- STEP 2: LOCATION -->
+    <div class="modal-step" id="step-location" hidden>
+      <div class="modal-step-label mono">STEP 2 OF 4</div>
+      <h3>Where are you picking up?</h3>
+      <div class="loc-grid" id="modal-pickup-grid"></div>
+      <div class="modal-step-actions">
+        <button type="button" class="btn-secondary" id="modal-back-1">← Back</button>
+        <button type="button" class="btn-primary is-disabled" id="modal-to-step3">Continue →</button>
+      </div>
+    </div>
+
+    <!-- STEP 3: VEHICLE -->
     <div class="modal-step" id="step-vehicle" hidden>
-      <div class="modal-step-label mono">STEP 2 OF 2</div>
+      <div class="modal-step-label mono">STEP 3 OF 4</div>
       <h3>Choose your ride</h3>
       <div class="fleet-grid" id="modal-fleet-grid"></div>
       <div class="modal-step-actions">
-        <button type="button" class="btn-secondary" id="modal-back">← Back</button>
-        <a class="btn-primary is-disabled" href="#" id="modal-book">Book on WhatsApp</a>
+        <button type="button" class="btn-secondary" id="modal-back-2">← Back</button>
+        <button type="button" class="btn-primary is-disabled" id="modal-to-step4">Continue →</button>
+      </div>
+    </div>
+
+    <!-- STEP 4: DURATION & PRICE -->
+    <div class="modal-step" id="step-datetime" hidden>
+      <div class="modal-step-label mono">STEP 4 OF 4</div>
+      <h3>Rental Duration</h3>
+      <p class="modal-step-sub">Select how many days you need the ride.</p>
+
+      <div class="field">
+        <label for="rental-days">Number of days</label>
+        <input type="number" id="rental-days" min="1" step="1" value="1">
+        <div class="field-hint">8-hour minimum per day — same as pickup counters here.</div>
+      </div>
+
+      <div class="price-box">
+        <div class="price-row"><span id="rate-label">Rate</span><span id="rate-value">—</span></div>
+        <div class="price-row"><span>Days</span><span id="days-value">1</span></div>
+        <div class="price-row total"><span>Estimated total</span><span id="total-value">—</span></div>
+        <div class="price-note">Demo pricing — update rates before going live.</div>
+      </div>
+
+      <div class="modal-step-actions">
+        <button type="button" class="btn-secondary" id="modal-back-3">← Back</button>
+        <a class="btn-primary" href="#" id="modal-book" target="_blank" rel="noopener">Book on WhatsApp</a>
       </div>
     </div>
   </div>
@@ -668,19 +834,18 @@
   <p style="margin-top:6px;">Laxman Jhula · Ram Jhula · Tapovan · Bus Stand · Nepali Farm · Railway Station</p>
 </footer>
 
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 <script>
   // ---- CONFIG: WhatsApp number ----
   const WHATSAPP_NUMBER = "917417462887";
 
   // ---- CONFIG: Published Google Sheet CSV URL ----
-  // File -> Share -> Publish to Web -> CSV
   const SHEET_CSV_URL = ""; 
 
   const pinIcon = `<svg viewBox="0 0 24 24" fill="none"><path d="M12 22s7-7.4 7-13a7 7 0 1 0-14 0c0 5.6 7 13 7 13z" stroke="#F6EFE3" stroke-width="1.8"/><circle cx="12" cy="9" r="2.4" fill="#F6EFE3"/></svg>`;
   const bikeIcon = `<svg viewBox="0 0 24 24" fill="none"><circle cx="5.5" cy="17.5" r="3.2" stroke="#F6EFE3" stroke-width="1.6"/><circle cx="18.5" cy="17.5" r="3.2" stroke="#F6EFE3" stroke-width="1.6"/><path d="M5.5 17.5 9 10h5l4.5 7.5M9 10 7.5 6h-2M9 10l3 4h4" stroke="#F6EFE3" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
   const scooterIcon = `<svg viewBox="0 0 24 24" fill="none"><circle cx="5.5" cy="17.5" r="2.8" stroke="#F6EFE3" stroke-width="1.6"/><circle cx="18" cy="17.5" r="2.8" stroke="#F6EFE3" stroke-width="1.6"/><path d="M5.5 17.5h4l1-6h4.5c1.4 0 2.5 1.1 2.5 2.5v3.5M10.5 11.5h-3M15 8.5h3" stroke="#F6EFE3" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
 
-  // ALL 6 LOCATIONS extracted directly from Google Sheet image
   let LOCATION_DATA = {
     "Laxman Jhula": [
       { name: "Royal Enfield Bullet 350", available: true, type: "bike" },
@@ -744,7 +909,6 @@
     ]
   };
 
-  // CSV parser for any number of location pairs (Col A&B, C&D, E&F, G&H, I&J, K&L...)
   function parseLocationCSV(text) {
     const lines = text.trim().split("\n").map(l => l.split(","));
     if (lines.length < 2) return null;
@@ -786,7 +950,19 @@
     }
   }
 
-  const routeState = { location: null, vehicle: null };
+  const routeState = { name: null, age: null, idType: null, location: null, vehicle: null, days: 1, total: null };
+
+  // Populate Age Options in Dropdown dynamically (ages 18 to 80)
+  function setupAgeDropdown() {
+    const ageSelect = document.getElementById('cust-age');
+    if(!ageSelect) return;
+    for(let i = 18; i <= 80; i++) {
+      const opt = document.createElement('option');
+      opt.value = i;
+      opt.textContent = `${i} years old`;
+      ageSelect.appendChild(opt);
+    }
+  }
 
   // Render Feature Location Pills on Main Page
   function renderFeaturePills(){
@@ -810,7 +986,6 @@
         routeState.location = pill.dataset.loc;
         openModal();
         goToStep(1);
-        selectLocationInModal(routeState.location);
       });
     });
   }
@@ -824,7 +999,7 @@
         chip.classList.remove('selected');
       }
     });
-    document.getElementById('modal-next').classList.remove('is-disabled');
+    document.getElementById('modal-to-step3').classList.remove('is-disabled');
   }
 
   function renderLocGrid(containerId){
@@ -832,7 +1007,7 @@
     if(!el) return;
     const locs = Object.keys(LOCATION_DATA);
     el.innerHTML = locs.map(loc => `
-      <button type="button" class="loc-chip" data-loc="${loc}">
+      <button type="button" class="loc-chip ${routeState.location === loc ? 'selected' : ''}" data-loc="${loc}">
         <span class="pin">${pinIcon}</span>
         <span class="name">${loc}</span>
       </button>
@@ -843,7 +1018,7 @@
         routeState.location = chip.dataset.loc;
         el.querySelectorAll('.loc-chip').forEach(c => c.classList.remove('selected'));
         chip.classList.add('selected');
-        document.getElementById('modal-next').classList.remove('is-disabled');
+        document.getElementById('modal-to-step3').classList.remove('is-disabled');
       });
     });
   }
@@ -854,7 +1029,6 @@
 
     const vehicles = LOCATION_DATA[locationName] || [];
 
-    // Aggregate vehicles for clean UI per model
     const aggregated = {};
     vehicles.forEach(v => {
       if(!aggregated[v.name]) {
@@ -871,7 +1045,7 @@
     }
 
     el.innerHTML = fleetList.map(v => `
-      <button type="button" class="fleet-card ${v.availableCount <= 0 ? 'sold-out' : ''}" data-vehicle="${v.name}">
+      <button type="button" class="fleet-card ${v.availableCount <= 0 ? 'sold-out' : ''} ${routeState.vehicle === v.name ? 'selected' : ''}" data-vehicle="${v.name}">
         <span class="fleet-left">
           <span class="fleet-icon">${v.type === 'scooter' ? scooterIcon : bikeIcon}</span>
           <span class="fleet-name">${v.name}</span>
@@ -886,17 +1060,31 @@
         routeState.vehicle = card.dataset.vehicle;
         el.querySelectorAll('.fleet-card').forEach(c => c.classList.remove('selected'));
         card.classList.add('selected');
-        const bookBtn = document.getElementById('modal-book');
-        bookBtn.classList.remove('is-disabled');
-        bookBtn.href = buildWhatsAppLink();
-        bookBtn.target = "_blank"; 
-        bookBtn.rel = "noopener";
+        document.getElementById('modal-to-step4').classList.remove('is-disabled');
       });
     });
   }
 
+  const DEMO_RATES = [
+    { match: /bullet|enfield/i, rate: 800 },
+    { match: /activa/i, rate: 400 },
+    { match: /harley/i, rate: 2500 }
+  ];
+  const DEFAULT_RATE = 500;
+  function getRateFor(vehicleName){
+    const found = DEMO_RATES.find(r => r.match.test(vehicleName || ''));
+    return found ? found.rate : DEFAULT_RATE;
+  }
+  const ID_LABELS = { DL: 'Driving License', AADHAR: 'Aadhar Card', VOTER: 'Voter ID', PAN: 'PAN Card' };
+
   function buildWhatsAppMessage(){
-    const { location, vehicle } = routeState;
+    const { location, vehicle, name, age, idType, days, total } = routeState;
+    if(location && vehicle && name){
+      return `Hi Ride Quick! I'd like to book a ${vehicle} at ${location}.\n` +
+        `Name: ${name}\nAge: ${age}\nID proof: ${ID_LABELS[idType] || idType}\n` +
+        `Duration: ${days} day(s)\n` +
+        `Estimated total: ₹${total} (demo pricing)`;
+    }
     if(location && vehicle) return `Hi Ride Quick! I'd like to book a ${vehicle} at ${location}.`;
     return "Hi Ride Quick! I'd like to book a ride.";
   }
@@ -913,8 +1101,10 @@
 
   // ---- Modal Logic ----
   const modal = document.getElementById('booking-modal');
+  const stepCustomer = document.getElementById('step-customer');
   const stepLocation = document.getElementById('step-location');
   const stepVehicle = document.getElementById('step-vehicle');
+  const stepDatetime = document.getElementById('step-datetime');
 
   function openModal(){
     modal.classList.add('is-open');
@@ -927,8 +1117,10 @@
     document.body.style.overflow = '';
   }
   function goToStep(step){
-    stepLocation.hidden = step !== 1;
-    stepVehicle.hidden = step !== 2;
+    stepCustomer.hidden = step !== 1;
+    stepLocation.hidden = step !== 2;
+    stepVehicle.hidden = step !== 3;
+    stepDatetime.hidden = step !== 4;
   }
 
   ["open-booking-hero","open-booking-banner","nav-whatsapp"].forEach(id=>{
@@ -939,18 +1131,161 @@
   modal.addEventListener('click', e => { if(e.target === modal) closeModal(); });
   document.addEventListener('keydown', e => { if(e.key === 'Escape') closeModal(); });
 
-  document.getElementById('modal-next').addEventListener('click', () => {
-    if(!routeState.location) return;
-    renderFleetGrid('modal-fleet-grid', routeState.location);
+  // ---- Step 1: Customer details & Age validation ----
+  const custNameEl = document.getElementById('cust-name');
+  const custAgeEl = document.getElementById('cust-age');
+  const custIdEl = document.getElementById('cust-id');
+  const ageWarningEl = document.getElementById('age-warning');
+  const idWarningEl = document.getElementById('id-warning');
+  const toStep2Btn = document.getElementById('modal-to-step2');
+
+  function validateCustomerStep(){
+    const nameVal = custNameEl.value.trim();
+    const ageVal = custAgeEl.value;
+    const idVal = custIdEl.value;
+
+    const isUnderage = ageVal === 'under18';
+    const isNoId = idVal === 'NONE';
+
+    ageWarningEl.classList.toggle('is-visible', isUnderage);
+    idWarningEl.classList.toggle('is-visible', isNoId);
+
+    const isValidName = nameVal.length > 0;
+    const isValidAge = ageVal && !isUnderage;
+    const isValidId = idVal && !isNoId;
+
+    const ok = isValidName && isValidAge && isValidId;
+    toStep2Btn.classList.toggle('is-disabled', !ok);
+  }
+
+  custNameEl.addEventListener('input', validateCustomerStep);
+  custAgeEl.addEventListener('change', validateCustomerStep);
+  custIdEl.addEventListener('change', validateCustomerStep);
+
+  document.getElementById('modal-to-step2').addEventListener('click', () => {
+    if(toStep2Btn.classList.contains('is-disabled')) return;
+    routeState.name = custNameEl.value.trim();
+    routeState.age = custAgeEl.value;
+    routeState.idType = custIdEl.value;
+    renderLocGrid('modal-pickup-grid');
+    if(routeState.location) selectLocationInModal(routeState.location);
     goToStep(2);
   });
-  document.getElementById('modal-back').addEventListener('click', () => goToStep(1));
+
+  // ---- Step 2: Location ----
+  document.getElementById('modal-back-1').addEventListener('click', () => goToStep(1));
+  document.getElementById('modal-to-step3').addEventListener('click', () => {
+    if(!routeState.location) return;
+    renderFleetGrid('modal-fleet-grid', routeState.location);
+    goToStep(3);
+  });
+
+  // ---- Step 3: Vehicle ----
+  document.getElementById('modal-back-2').addEventListener('click', () => goToStep(2));
+  document.getElementById('modal-to-step4').addEventListener('click', () => {
+    if(!routeState.vehicle) return;
+    goToStep(4);
+    updatePriceAndButton();
+  });
+
+  // ---- Step 4: Duration & Price ----
+  const daysEl = document.getElementById('rental-days');
+  const modalBookBtn = document.getElementById('modal-book');
+
+  function updatePriceAndButton(){
+    const rate = getRateFor(routeState.vehicle);
+    document.getElementById('rate-label').textContent = `${routeState.vehicle || 'Vehicle'} — per day`;
+    document.getElementById('rate-value').textContent = `₹${rate}`;
+
+    const days = Math.max(1, parseInt(daysEl.value, 10) || 1);
+    daysEl.value = days;
+    const total = rate * days;
+    document.getElementById('days-value').textContent = days;
+    document.getElementById('total-value').textContent = `₹${total}`;
+
+    routeState.days = days;
+    routeState.total = total;
+
+    modalBookBtn.href = "https://wa.me/" + WHATSAPP_NUMBER + "?text=" + encodeURIComponent(buildWhatsAppMessage());
+  }
+
+  daysEl.addEventListener('input', updatePriceAndButton);
+  document.getElementById('modal-back-3').addEventListener('click', () => goToStep(3));
 
   // Initialize
+  setupAgeDropdown();
   renderFeaturePills();
   renderLocGrid('modal-pickup-grid');
   loadFleetFromSheet();
   refreshWhatsAppLinks();
+  initNearbyMap();
+
+  // ---- Nearby Map ----
+  function initNearbyMap(){
+    const mapEl = document.getElementById('live-map');
+    const statusText = document.getElementById('map-status-text');
+    if(!mapEl || typeof L === 'undefined') return;
+
+    const RISHIKESH = [30.0869, 78.2676];
+    const map = L.map(mapEl, {
+      zoomControl: true,
+      scrollWheelZoom: false,
+      attributionControl: true
+    }).setView(RISHIKESH, 14);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 19,
+      attribution: '&copy; OpenStreetMap contributors'
+    }).addTo(map);
+
+    function scatterDecorativeRides(center){
+      const rideDivIcon = L.divIcon({
+        className: '',
+        html: `<div class="ride-pin-icon">${bikeIcon}</div>`,
+        iconSize: [30, 30],
+        iconAnchor: [15, 15]
+      });
+      const count = 6;
+      for(let i = 0; i < count; i++){
+        const angle = Math.random() * Math.PI * 2;
+        const dist = 0.003 + Math.random() * 0.01;
+        const lat = center[0] + Math.cos(angle) * dist;
+        const lng = center[1] + Math.sin(angle) * dist * 1.2;
+        L.marker([lat, lng], { icon: rideDivIcon, interactive: false, keyboard: false }).addTo(map);
+      }
+    }
+
+    function placeUserPin(coords){
+      const userDivIcon = L.divIcon({
+        className: '',
+        html: `<div class="user-pin-icon"><div class="dot"></div></div>`,
+        iconSize: [18, 18],
+        iconAnchor: [9, 9]
+      });
+      L.marker(coords, { icon: userDivIcon, interactive: false, keyboard: false }).addTo(map);
+    }
+
+    if(!('geolocation' in navigator)){
+      statusText.textContent = 'Showing Rishikesh — location not available on this device';
+      scatterDecorativeRides(RISHIKESH);
+      return;
+    }
+
+    navigator.geolocation.getCurrentPosition(
+      pos => {
+        const coords = [pos.coords.latitude, pos.coords.longitude];
+        map.setView(coords, 16);
+        placeUserPin(coords);
+        scatterDecorativeRides(coords);
+        statusText.textContent = 'Showing your live location';
+      },
+      err => {
+        statusText.textContent = 'Showing Rishikesh — enable location for your live pin';
+        scatterDecorativeRides(RISHIKESH);
+      },
+      { enableHighAccuracy: true, timeout: 8000 }
+    );
+  }
 
   // ---- Parallax Hero Photo & Route Rail ----
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
