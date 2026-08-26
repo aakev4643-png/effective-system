@@ -20,10 +20,6 @@
     --ink:#1E2420;
     --ink-soft:#4A5450;
     --line:rgba(30,36,32,0.12);
-    --radius-lg:24px;
-    --radius-md:16px;
-    --radius-sm:12px;
-    --transition-fast: opacity 0.25s cubic-bezier(0.16, 1, 0.3, 1), transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
   *{box-sizing:border-box; margin:0; padding:0;}
@@ -33,6 +29,7 @@
     color:var(--ink);
     font-family:'Work Sans', sans-serif;
     overflow-x:hidden;
+    padding-bottom: 70px;
   }
   h1,h2,h3, .display{
     font-family:'Fraunces', serif;
@@ -44,37 +41,34 @@
   img,svg{display:block; max-width:100%;}
   .wrap{max-width:1080px; margin:0 auto; padding:0 24px;}
 
-  /* ---------- NAV ---------- */
+  /* NAV */
   nav{
     position:fixed; top:0; left:0; right:0; z-index:50;
     display:flex; align-items:center; justify-content:space-between;
-    padding:16px 28px;
-    background:rgba(246,239,227,0.82);
-    backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px);
-    border-bottom:1px solid rgba(30,36,32,0.08);
-    transition: background 0.3s ease;
+    padding:18px 24px;
+    background:rgba(246,239,227,0.85);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
   }
   .logo{
     font-family:'Fraunces', serif; font-weight:600; font-style:italic;
-    font-size:1.35rem; color:var(--teal-deep);
+    font-size:1.3rem; color:var(--teal-deep);
     display:flex; align-items:center; gap:8px;
   }
-  .logo .dot{width:9px; height:9px; border-radius:50%; background:var(--saffron); display:inline-block; box-shadow:0 0 8px rgba(232,135,30,0.6);}
+  .logo .dot{width:8px; height:8px; border-radius:50%; background:var(--saffron); display:inline-block;}
   .nav-cta{
     background:var(--teal-deep); color:var(--sand);
-    padding:10px 20px; border-radius:100px;
-    font-size:0.88rem; font-weight:600;
+    padding:10px 18px; border-radius:100px;
+    font-size:0.85rem; font-weight:600;
     display:flex; align-items:center; gap:6px;
-    transition:transform .2s ease, background .2s ease, box-shadow .2s ease;
-    box-shadow:0 4px 14px rgba(11,61,62,0.15);
+    transition:transform .2s ease, background .2s ease;
   }
-  .nav-cta:hover{background:var(--saffron); color:#241300; transform:translateY(-2px); box-shadow:0 6px 18px rgba(232,135,30,0.3);}
-  .nav-cta:active{transform:translateY(0);}
+  .nav-cta:hover{background:var(--saffron); color:#241300; transform:translateY(-1px);}
 
-  /* ---------- HERO / PARALLAX ---------- */
+  /* HERO */
   .hero{
     position:relative;
-    min-height:100vh;
+    min-height:92vh;
     display:flex; align-items:center;
     overflow:hidden;
     background:#082C2D;
@@ -90,8 +84,8 @@
   .hero-scrim{
     position:absolute; inset:0;
     background:
-      linear-gradient(180deg, rgba(6,26,26,0.82) 0%, rgba(6,26,26,0.62) 40%, rgba(6,26,26,0.92) 100%),
-      linear-gradient(90deg, rgba(6,26,26,0.70) 0%, rgba(6,26,26,0.25) 55%, rgba(6,26,26,0.70) 100%);
+      linear-gradient(180deg, rgba(6,26,26,0.82) 0%, rgba(6,26,26,0.65) 40%, rgba(6,26,26,0.92) 100%),
+      linear-gradient(90deg, rgba(6,26,26,0.7) 0%, rgba(6,26,26,0.3) 55%, rgba(6,26,26,0.7) 100%);
   }
 
   .hero-content{
@@ -108,10 +102,8 @@
     font-family:'JetBrains Mono', monospace; font-size:0.72rem;
     letter-spacing:0.12em; text-transform:uppercase;
     color:var(--teal-glow);
-    background:rgba(62,156,143,0.12);
-    border:1px solid rgba(62,156,143,0.35);
-    backdrop-filter:blur(6px);
-    padding:7px 14px; border-radius:100px;
+    border:1px solid rgba(62,156,143,0.4);
+    padding:6px 12px; border-radius:100px;
   }
   .offer-badge{
     display:inline-flex; align-items:center; gap:6px;
@@ -122,57 +114,143 @@
   }
   @keyframes badge-pop{
     0%,100%{transform:scale(1); box-shadow:0 0 0 0 rgba(232,135,30,0.4);}
-    50%{transform:scale(1.04); box-shadow:0 0 0 10px rgba(232,135,30,0);}
+    50%{transform:scale(1.05); box-shadow:0 0 0 8px rgba(232,135,30,0);}
   }
   .hero h1{
-    font-size:clamp(2.5rem, 6vw, 4.5rem);
-    line-height:1.04;
+    font-size:clamp(2.4rem, 6vw, 4.4rem);
+    line-height:1.02;
     max-width:780px;
     color:var(--sand);
-    text-shadow: 0 4px 20px rgba(0,0,0,0.3);
   }
   .hero p.lede{
     margin-top:22px; max-width:540px;
-    font-size:1.1rem; line-height:1.6;
-    color:rgba(246,239,227,0.88);
+    font-size:1.08rem; line-height:1.55;
+    color:rgba(246,239,227,0.85);
   }
   .hero-actions{
-    margin-top:34px; display:flex; gap:16px; flex-wrap:wrap; align-items:center;
+    margin-top:34px; display:flex; gap:14px; flex-wrap:wrap; align-items:center;
   }
   .btn-primary{
     background:var(--saffron); color:#241300;
-    padding:16px 30px; border-radius:100px;
+    padding:16px 28px; border-radius:100px;
     font-weight:700; font-size:1rem;
     display:inline-flex; align-items:center; gap:10px;
     transition:transform .2s ease, box-shadow .2s ease, background .2s ease;
-    box-shadow:0 10px 25px rgba(232,135,30,0.3);
+    box-shadow:0 10px 30px rgba(232,135,30,0.25);
     border:none; cursor:pointer;
   }
-  .btn-primary:hover{transform:translateY(-2px) scale(1.01); box-shadow:0 14px 32px rgba(232,135,30,0.45); background:#fca136;}
-  .btn-primary:active{transform:translateY(0) scale(0.99);}
+  .btn-primary:hover{transform:translateY(-2px); box-shadow:0 14px 34px rgba(232,135,30,0.35); background:#fca136;}
   .btn-secondary{
     color:var(--sand); font-weight:600; font-size:0.95rem;
-    border-bottom:1.5px solid rgba(246,239,227,0.4);
-    padding-bottom:2px; transition:border-color 0.2s ease, color 0.2s ease;
+    border-bottom:1px solid rgba(246,239,227,0.4);
+    padding-bottom:2px;
   }
-  .btn-secondary:hover{border-bottom-color:var(--sand); color:#fff;}
   .trust-chips{
     margin-top:44px; display:flex; gap:28px; flex-wrap:wrap;
-    font-size:0.84rem; color:rgba(246,239,227,0.85);
+    font-size:0.82rem; color:rgba(246,239,227,0.85);
   }
   .trust-chips span{display:flex; align-items:center; gap:8px;}
   .trust-chips .chip-dot{width:6px; height:6px; border-radius:50%; background:var(--teal-glow);}
 
-  .scroll-cue{
-    position:absolute; bottom:28px; left:50%; transform:translateX(-50%);
-    font-family:'JetBrains Mono', monospace; font-size:0.68rem;
-    color:rgba(246,239,227,0.55); text-transform:uppercase; letter-spacing:0.15em;
-    display:flex; flex-direction:column; align-items:center; gap:8px; z-index:5;
+  /* INTERACTIVE VEHICLE SWIPE DECK */
+  .swipe-section{
+    padding: 60px 0;
+    background: linear-gradient(180deg, #082C2D 0%, #0B3D3E 100%);
+    color: var(--sand);
+    position: relative;
+    overflow: hidden;
   }
-  .scroll-cue .line{width:1px; height:34px; background:linear-gradient(180deg, rgba(246,239,227,0.6), transparent); animation:pulse-line 2s ease-in-out infinite;}
-  @keyframes pulse-line{0%,100%{opacity:0.3;} 50%{opacity:1;}}
+  .deck-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 30px;
+    perspective: 1000px;
+  }
+  .card-stack {
+    position: relative;
+    width: 340px;
+    height: 440px;
+    user-select: none;
+  }
+  .swipe-card {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 24px;
+    background: rgba(246,239,227,0.08);
+    backdrop-filter: blur(16px);
+    border: 1px solid rgba(246,239,227,0.2);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: transform 0.3s cubic-bezier(0.2, 0.8, 0.2, 1), opacity 0.3s ease;
+    cursor: grab;
+    touch-action: pan-y;
+  }
+  .swipe-card:active { cursor: grabbing; }
+  .swipe-card .tag {
+    align-self: flex-start;
+    background: var(--saffron);
+    color: #241300;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem; font-weight: 700;
+    padding: 4px 10px; border-radius: 100px; text-transform: uppercase;
+  }
+  .swipe-card .img-wrapper {
+    height: 180px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 10px 0;
+  }
+  .swipe-card img {
+    max-height: 170px;
+    width: auto;
+    object-fit: contain;
+    filter: drop-shadow(0 15px 15px rgba(0,0,0,0.5));
+    transition: transform 0.3s ease;
+  }
+  .swipe-card:hover img { transform: scale(1.05); }
+  .swipe-card .info h3 { font-size: 1.4rem; color: var(--sand); margin-bottom: 4px; }
+  .swipe-card .info p { font-size: 0.85rem; color: rgba(246,239,227,0.7); }
+  .swipe-card .specs {
+    display: flex; justify-content: space-between; align-items: center;
+    border-top: 1px solid rgba(246,239,227,0.15); padding-top: 12px; margin-top: 10px;
+  }
+  .swipe-card .price { font-family: 'Fraunces', serif; font-size: 1.3rem; color: var(--saffron); }
 
-  /* ---------- ROUTE RAIL ---------- */
+  .deck-controls {
+    display: flex; gap: 16px; margin-top: 24px; align-items: center;
+  }
+  .control-btn {
+    width: 52px; height: 52px; border-radius: 50%; border: 1px solid rgba(246,239,227,0.3);
+    background: rgba(246,239,227,0.1); color: var(--sand); font-size: 1.2rem;
+    display: flex; align-items: center; justify-content: center; cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  .control-btn:hover { background: var(--saffron); color: #241300; border-color: var(--saffron); transform: scale(1.1); }
+  .swipe-hint {
+    font-family: 'JetBrains Mono', monospace; font-size: 0.75rem;
+    color: var(--teal-glow); margin-top: 12px; text-transform: uppercase; letter-spacing: 0.1em;
+  }
+
+  /* FLOATING BOTTOM DOCK FOR MOBILE */
+  .floating-dock {
+    position: fixed; bottom: 16px; left: 50%; transform: translateX(-50%);
+    width: calc(100% - 32px); max-width: 480px; z-index: 45;
+    background: rgba(11, 61, 62, 0.92); backdrop-filter: blur(12px);
+    border: 1px solid rgba(62, 156, 143, 0.4); border-radius: 100px;
+    padding: 8px 12px 8px 20px; display: flex; align-items: center; justify-content: space-between;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.3);
+  }
+  .dock-text { font-size: 0.85rem; color: var(--sand); }
+  .dock-text strong { display: block; color: var(--saffron); font-size: 0.95rem; }
+
+  /* ROUTE RAIL */
   .route-rail{
     position:fixed; left:18px; top:0; bottom:0; width:2px; z-index:40;
     display:none;
@@ -188,9 +266,9 @@
   }
   .route-rail .rider svg{width:100%; height:100%;}
 
-  /* ---------- SECTION SHELL ---------- */
-  section{padding:88px 0; position:relative;}
-  .section-head{max-width:620px; margin-bottom:44px;}
+  /* SECTION SHELL */
+  section{padding:80px 0; position:relative;}
+  .section-head{max-width:620px; margin-bottom:40px;}
   .section-head .eyebrow-dark{
     font-family:'JetBrains Mono', monospace; font-size:0.72rem;
     letter-spacing:0.12em; text-transform:uppercase; color:var(--teal-mid);
@@ -199,95 +277,92 @@
   .section-head .eyebrow-dark::before{
     content:''; width:6px; height:6px; border-radius:50%; background:var(--saffron); display:inline-block;
   }
-  .section-head h2{font-size:clamp(1.9rem, 3.4vw, 2.7rem); color:var(--ink);}
-  .section-head p{margin-top:12px; color:var(--ink-soft); font-size:1.04rem; line-height:1.6;}
+  .section-head h2{font-size:clamp(1.8rem, 3.4vw, 2.6rem); color:var(--ink);}
+  .section-head p{margin-top:12px; color:var(--ink-soft); font-size:1.02rem; line-height:1.6;}
 
-  /* ---------- FEATURED BOOKING SECTION ---------- */
+  /* FEATURED BOOKING SECTION */
   .booking-feature-card{
-    background: linear-gradient(135deg, #0B3D3E 0%, #062324 100%);
+    background: linear-gradient(135deg, #0B3D3E 0%, #082C2D 100%);
     color: var(--sand);
-    border-radius: var(--radius-lg);
-    padding: 48px 44px;
-    box-shadow: 0 24px 60px rgba(11, 61, 62, 0.22);
+    border-radius: 28px;
+    padding: 44px 40px;
+    box-shadow: 0 20px 50px rgba(11, 61, 62, 0.25);
     border: 1px solid rgba(62,156,143,0.3);
     position: relative;
     overflow: hidden;
   }
   .booking-feature-card::before{
     content: ''; position: absolute; right: -50px; top: -50px;
-    width: 280px; height: 280px; border-radius: 50%;
-    background: radial-gradient(circle, rgba(232,135,30,0.18) 0%, transparent 70%);
+    width: 250px; height: 250px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(232,135,30,0.15) 0%, transparent 70%);
     pointer-events: none;
   }
   .booking-feature-header{
     display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 20px;
-    border-bottom: 1px solid rgba(246,239,227,0.12); padding-bottom: 24px; margin-bottom: 30px;
+    border-bottom: 1px solid rgba(246,239,227,0.15); padding-bottom: 24px; margin-bottom: 28px;
   }
   .booking-feature-header h2{ font-size: clamp(1.8rem, 3.2vw, 2.5rem); color: var(--sand); }
   .booking-feature-header p{ color: rgba(246,239,227,0.8); margin-top: 6px; font-size: 1rem; }
 
   .location-pills-label{
     font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; text-transform: uppercase;
-    letter-spacing: 0.12em; color: var(--teal-glow); margin-bottom: 16px; display: block;
+    letter-spacing: 0.12em; color: var(--teal-glow); margin-bottom: 14px; display: block;
   }
   .location-pills-grid{
-    display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 14px; margin-bottom: 32px;
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin-bottom: 30px;
   }
   .loc-pill{
-    background: rgba(246,239,227,0.06); border: 1px solid rgba(246,239,227,0.18);
-    backdrop-filter: blur(8px);
-    border-radius: var(--radius-md); padding: 14px 18px; color: var(--sand); font-weight: 500;
-    font-size: 0.92rem; display: flex; align-items: center; justify-content: space-between;
-    transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1); cursor: pointer; text-align: left;
+    background: rgba(246,239,227,0.08); border: 1px solid rgba(246,239,227,0.2);
+    border-radius: 14px; padding: 12px 16px; color: var(--sand); font-weight: 500;
+    font-size: 0.9rem; display: flex; align-items: center; justify-content: space-between;
+    transition: all 0.2s ease; cursor: pointer; text-align: left;
   }
-  .loc-pill:hover{ background: rgba(232,135,30,0.18); border-color: var(--saffron); transform: translateY(-3px); box-shadow: 0 8px 20px rgba(0,0,0,0.2); }
-  .loc-pill:active{ transform: translateY(-1px); }
-  .loc-pill .status-dot{ width: 8px; height: 8px; border-radius: 50%; background: #4ECA64; display: inline-block; box-shadow: 0 0 8px rgba(78,202,100,0.6); }
+  .loc-pill:hover{ background: rgba(232,135,30,0.15); border-color: var(--saffron); transform: translateY(-2px); }
+  .loc-pill .status-dot{ width: 8px; height: 8px; border-radius: 50%; background: #4ECA64; display: inline-block; }
 
   .booking-action-bar{
     display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 20px;
-    background: rgba(246,239,227,0.05); border: 1px solid rgba(246,239,227,0.1); border-radius: var(--radius-md); padding: 22px 26px;
+    background: rgba(246,239,227,0.06); border-radius: 18px; padding: 20px 24px;
   }
-  .booking-action-info{ display: flex; align-items: center; gap: 16px; }
+  .booking-action-info{ display: flex; align-items: center; gap: 14px; }
   .booking-action-info .icon-badge{
-    width: 48px; height: 48px; border-radius: 14px; background: rgba(232,135,30,0.2);
+    width: 44px; height: 44px; border-radius: 12px; background: rgba(232,135,30,0.2);
     display: flex; align-items: center; justify-content: center; flex-shrink: 0;
   }
-  .booking-action-info .icon-badge svg{ width: 24px; height: 24px; stroke: var(--saffron); }
+  .booking-action-info .icon-badge svg{ width: 22px; height: 22px; stroke: var(--saffron); }
 
-  /* ---------- NEARBY MAP ---------- */
-  #nearby-map .section-head{margin-bottom:28px;}
+  /* NEARBY MAP */
+  #nearby-map .section-head{margin-bottom:24px;}
   .map-card{
-    border-radius:var(--radius-lg); overflow:hidden;
+    border-radius:24px; overflow:hidden;
     border:1px solid var(--line);
-    box-shadow:0 20px 48px rgba(11,61,62,0.1);
+    box-shadow:0 16px 40px rgba(11,61,62,0.12);
     position:relative;
     background:var(--sand-dim);
   }
   #live-map{
-    height:400px; width:100%; background:var(--sand-dim);
-    filter:saturate(0.9);
+    height:380px; width:100%; background:var(--sand-dim);
+    filter:saturate(0.85);
   }
   .map-status{
-    position:absolute; left:18px; top:18px; z-index:5;
-    background:rgba(246,239,227,0.94); backdrop-filter:blur(10px);
-    border-radius:100px; padding:10px 18px;
-    font-family:'JetBrains Mono', monospace; font-size:0.75rem; font-weight: 600;
-    color:var(--teal-deep); display:flex; align-items:center; gap:10px;
-    box-shadow:0 8px 20px rgba(0,0,0,0.12);
-    border:1px solid rgba(255,255,255,0.4);
+    position:absolute; left:16px; top:16px; z-index:5;
+    background:rgba(246,239,227,0.92); backdrop-filter:blur(6px);
+    border-radius:100px; padding:8px 14px;
+    font-family:'JetBrains Mono', monospace; font-size:0.72rem;
+    color:var(--teal-deep); display:flex; align-items:center; gap:8px;
+    box-shadow:0 6px 16px rgba(0,0,0,0.1);
   }
   .map-status .pulse-dot{
     width:8px; height:8px; border-radius:50%; background:var(--saffron);
     animation:badge-pop 1.6s ease-in-out infinite;
   }
   .map-legend{
-    display:flex; gap:24px; flex-wrap:wrap; margin-top:18px;
-    font-size:0.88rem; color:var(--ink-soft); font-weight: 500;
+    display:flex; gap:20px; flex-wrap:wrap; margin-top:16px;
+    font-size:0.85rem; color:var(--ink-soft);
   }
   .map-legend span{display:flex; align-items:center; gap:8px;}
-  .map-legend .dot-you{width:10px; height:10px; border-radius:50%; background:var(--teal-glow); display:inline-block; box-shadow:0 0 0 4px rgba(62,156,143,0.25);}
-  .map-legend .dot-ride{width:10px; height:10px; border-radius:50%; background:var(--saffron); display:inline-block; box-shadow:0 0 0 4px rgba(232,135,30,0.25);}
+  .map-legend .dot-you{width:10px; height:10px; border-radius:50%; background:var(--teal-glow); display:inline-block; box-shadow:0 0 0 4px rgba(62,156,143,0.2);}
+  .map-legend .dot-ride{width:10px; height:10px; border-radius:50%; background:var(--saffron); display:inline-block; box-shadow:0 0 0 4px rgba(232,135,30,0.2);}
   .user-pin-icon, .ride-pin-icon{ display:flex; align-items:center; justify-content:center; }
   .user-pin-icon .dot{
     width:18px; height:18px; border-radius:50%;
@@ -300,243 +375,164 @@
     pointer-events:none;
   }
   .ride-pin-icon svg{width:17px; height:17px;}
-  .leaflet-control-zoom{border:none !important; box-shadow:0 6px 18px rgba(0,0,0,0.15) !important;}
+  .leaflet-control-zoom{border:none !important; box-shadow:0 6px 16px rgba(0,0,0,0.15) !important;}
 
-  /* ---------- MODAL & PROGRESS BAR ---------- */
+  /* MODAL */
   .modal-overlay{
     display:none; position:fixed; inset:0; z-index:100;
-    background:rgba(6,26,26,0.82); backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px);
+    background:rgba(6,26,26,0.78); backdrop-filter:blur(6px);
     align-items:center; justify-content:center; padding:20px;
-    opacity: 0; transition: opacity 0.3s ease;
   }
-  .modal-overlay.is-open{display:flex; opacity:1;}
+  .modal-overlay.is-open{display:flex;}
   .modal-panel{
-    position:relative; width:100%; max-width:560px; max-height:88vh; overflow-y:auto;
-    background:var(--sand); border-radius:var(--radius-lg); padding:40px 36px;
-    box-shadow: 0 30px 60px rgba(0,0,0,0.3);
-    border:1px solid rgba(255,255,255,0.4);
-    transform: translateY(20px) scale(0.98);
-    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    position:relative; width:100%; max-width:540px; max-height:88vh; overflow-y:auto;
+    background:var(--sand); border-radius:24px; padding:36px 32px;
+    box-shadow: 0 25px 50px rgba(0,0,0,0.25);
   }
-  .modal-overlay.is-open .modal-panel{ transform: translateY(0) scale(1); }
-
-  .modal-progress-bar{
-    width: 100%; height: 5px; background: rgba(30,36,32,0.1); border-radius: 10px;
-    margin-bottom: 24px; overflow: hidden; position: relative;
-  }
-  .modal-progress-fill{
-    height: 100%; background: linear-gradient(90deg, var(--teal-glow), var(--saffron));
-    width: 25%; transition: width 0.35s cubic-bezier(0.16, 1, 0.3, 1); border-radius: 10px;
-  }
-
   .modal-close{
-    position:absolute; top:20px; right:20px; width:36px; height:36px; border-radius:50%;
+    position:absolute; top:18px; right:18px; width:36px; height:36px; border-radius:50%;
     background:var(--sand-dim); border:none; font-size:1.1rem; color:var(--ink); cursor:pointer;
     display: flex; align-items: center; justify-content: center;
-    transition: background 0.2s ease, transform 0.2s ease;
   }
-  .modal-close:hover{ background: rgba(30,36,32,0.15); transform: rotate(90deg); }
   .modal-step-label{
-    font-size:0.7rem; letter-spacing:0.14em; color:var(--teal-mid); margin-bottom:8px; font-weight:600;
+    font-size:0.68rem; letter-spacing:0.12em; color:var(--teal-mid); margin-bottom:8px;
   }
-  .modal-step h3{font-size:1.45rem; margin-bottom:18px; padding-right:20px; color:var(--ink);}
+  .modal-step h3{font-size:1.4rem; margin-bottom:20px; padding-right:20px;}
   
-  .modal-step{
-    animation: fadeInStep 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-  }
-  @keyframes fadeInStep {
-    from { opacity: 0; transform: translateY(8px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  .loc-grid{display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom: 26px;}
+  .loc-grid{display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom: 24px;}
   .loc-chip{
-    display:flex; align-items:center; gap:12px;
-    border:1.5px solid var(--line); border-radius:var(--radius-md); padding:14px 16px;
-    cursor:pointer; background:var(--sand-dim); transition:all 0.2s ease;
-    text-align:left; border: none; width: 100%; box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+    display:flex; align-items:center; gap:10px;
+    border:1.5px solid var(--line); border-radius:14px; padding:12px 14px;
+    cursor:pointer; background:var(--sand-dim); transition:all .15s ease;
+    text-align:left; border: none; width: 100%;
   }
   .loc-chip .pin{
-    flex-shrink:0; width:34px; height:34px; border-radius:10px;
+    flex-shrink:0; width:32px; height:32px; border-radius:9px;
     background:var(--teal-deep); display:flex; align-items:center; justify-content:center;
-    transition: background 0.2s ease;
   }
   .loc-chip .pin svg{width:16px; height:16px;}
-  .loc-chip .name{font-size:0.9rem; font-weight:600; line-height:1.2; color: var(--ink);}
-  .loc-chip:hover{transform:translateY(-2px); box-shadow: 0 6px 16px rgba(11,61,62,0.1);}
+  .loc-chip .name{font-size:0.88rem; font-weight:600; line-height:1.2; color: var(--ink);}
+  .loc-chip:hover{border-color:var(--teal-glow);}
   .loc-chip.selected{
-    outline: 2px solid var(--saffron); background:rgba(232,135,30,0.12);
+    outline: 2px solid var(--saffron); background:rgba(232,135,30,0.1);
   }
   .loc-chip.selected .pin{background:var(--saffron);}
 
-  .fleet-grid{display:flex; flex-direction:column; gap:12px; margin-bottom: 26px;}
+  .fleet-grid{display:flex; flex-direction:column; gap:12px; margin-bottom: 24px;}
   .fleet-card{
     display:flex; align-items:center; justify-content:space-between; gap:12px;
-    border-radius:var(--radius-md); padding:16px 18px;
-    cursor:pointer; background:var(--sand-dim); transition:all 0.2s ease;
-    text-align:left; width:100%; border: 1.5px solid transparent; box-shadow: 0 2px 6px rgba(0,0,0,0.03);
+    border:1.5px solid var(--line); border-radius:14px; padding:14px 16px;
+    cursor:pointer; background:var(--sand-dim); transition:all .15s ease;
+    text-align:left; width:100%; border: none;
   }
-  .fleet-card:hover{transform:translateY(-2px); box-shadow: 0 6px 18px rgba(0,0,0,0.08);}
-  .fleet-card.selected{outline: 2px solid var(--saffron); background:rgba(232,135,30,0.12);}
-  .fleet-card .fleet-name{font-size:0.95rem; font-weight:600; color: var(--ink);}
+  .fleet-card:hover{border-color:var(--teal-glow);}
+  .fleet-card.selected{outline: 2px solid var(--saffron); background:rgba(232,135,30,0.1);}
+  .fleet-card .fleet-name{font-size:0.92rem; font-weight:600; color: var(--ink);}
   .fleet-card .fleet-avail{
-    font-family:'JetBrains Mono', monospace; font-size:0.75rem;
+    font-family:'JetBrains Mono', monospace; font-size:0.72rem;
     color:var(--teal-mid); white-space:nowrap; font-weight: 600;
-    background: rgba(62,156,143,0.15); padding: 4px 10px; border-radius: 100px;
   }
-  .fleet-card.selected .fleet-avail{color:var(--saffron-dark); background: rgba(232,135,30,0.2);}
+  .fleet-card.selected .fleet-avail{color:var(--saffron-dark);}
   .fleet-card.sold-out{opacity:0.45; cursor:not-allowed; pointer-events:none;}
-  .fleet-card.sold-out .fleet-avail{color:#B33; background: rgba(179,51,34,0.15);}
-  .fleet-card .fleet-left{display:flex; align-items:center; gap:14px;}
-  .fleet-card .fleet-icon{
-    flex-shrink:0; width:40px; height:40px; border-radius:12px;
-    background:var(--teal-deep); display:flex; align-items:center; justify-content:center;
-    transition: background 0.2s ease;
+  .fleet-card.sold-out .fleet-avail{color:#B33;}
+  .fleet-card .fleet-left{display:flex; align-items:center; gap:12px;}
+  .fleet-card .fleet-img-thumb{
+    width:42px; height:32px; object-fit:contain; filter:drop-shadow(0 2px 4px rgba(0,0,0,0.15));
   }
-  .fleet-card .fleet-icon svg{width:20px; height:20px;}
   .fleet-card.selected .fleet-icon{background:var(--saffron);}
 
   .modal-next, #modal-book{width:100%; justify-content:center;}
   .modal-step-actions{display:flex; gap:12px; align-items:center;}
   .modal-step-actions #modal-book{flex:1;}
-  .modal-step-actions .btn-secondary{color:var(--ink); border-bottom-color:var(--line); cursor:pointer;}
-  .btn-primary.is-disabled{opacity:0.4; pointer-events:none; box-shadow:none;}
+  .modal-step-actions .btn-secondary{color:var(--ink); border-bottom-color:var(--line);}
+  .btn-primary.is-disabled{opacity:0.4; pointer-events:none;}
   #modal-to-step2, #modal-to-step3, #modal-to-step4{flex:1; justify-content:center;}
 
-  .modal-step-sub{font-size:0.9rem; color:var(--ink-soft); margin:-10px 0 22px; line-height:1.5;}
+  .modal-step-sub{font-size:0.88rem; color:var(--ink-soft); margin:-12px 0 20px; line-height:1.5;}
 
-  .field{margin-bottom:20px;}
-  .field label{display:block; font-size:0.84rem; font-weight:600; color:var(--ink); margin-bottom:8px;}
+  .field{margin-bottom:18px;}
+  .field label{display:block; font-size:0.82rem; font-weight:600; color:var(--ink); margin-bottom:8px;}
   .field input, .field select{
-    width:100%; padding:14px 16px; border-radius:var(--radius-md);
+    width:100%; padding:13px 14px; border-radius:12px;
     border:1.5px solid var(--line); background:var(--sand-dim);
-    font-family:'Work Sans', sans-serif; font-size:0.98rem; color:var(--ink);
+    font-family:'Work Sans', sans-serif; font-size:0.95rem; color:var(--ink);
     appearance:none; -webkit-appearance:none;
-    transition: border-color 0.2s ease, box-shadow 0.2s ease;
   }
   .field select{
     background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%234A5450' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
-    background-repeat:no-repeat; background-position:right 16px center;
+    background-repeat:no-repeat; background-position:right 14px center;
   }
-  .field input:focus, .field select:focus{outline:none; border-color:var(--teal-glow); box-shadow: 0 0 0 3px rgba(62,156,143,0.2);}
-  .field-hint{font-size:0.78rem; color:var(--ink-soft); margin-top:6px; line-height:1.4;}
+  .field input:focus, .field select:focus{outline:none; border-color:var(--teal-glow);}
+  .field-hint{font-size:0.76rem; color:var(--ink-soft); margin-top:6px; line-height:1.4;}
 
   .id-warning{
     display:none; background:rgba(179,51,34,0.08); border:1px solid rgba(179,51,34,0.25);
-    color:#B33322; border-radius:var(--radius-md); padding:14px 16px;
-    font-size:0.86rem; line-height:1.5; margin-bottom:18px;
-    animation: fadeInStep 0.25s ease forwards;
+    color:#B33322; border-radius:12px; padding:14px 16px;
+    font-size:0.85rem; line-height:1.5; margin-bottom:18px;
   }
   .id-warning.is-visible{display:block;}
 
-  .price-box{background:var(--sand-dim); border-radius:var(--radius-md); padding:18px 20px; margin:16px 0 24px; border:1px solid var(--line);}
-  .price-row{display:flex; align-items:center; justify-content:space-between; font-size:0.9rem; color:var(--ink-soft); padding:5px 0;}
-  .price-row.total{border-top:1px solid var(--line); margin-top:10px; padding-top:12px; font-size:1.1rem; font-weight:700; color:var(--ink);}
-  .price-note{font-size:0.74rem; color:var(--ink-soft); margin-top:10px; font-family:'JetBrains Mono', monospace;}
+  .price-box{background:var(--sand-dim); border-radius:16px; padding:16px 18px; margin:14px 0 20px;}
+  .price-row{display:flex; align-items:center; justify-content:space-between; font-size:0.88rem; color:var(--ink-soft); padding:4px 0;}
+  .price-row.total{border-top:1px solid var(--line); margin-top:8px; padding-top:10px; font-size:1.05rem; font-weight:700; color:var(--ink);}
 
-  /* ---------- FOUNDER BIO ---------- */
-  .bio-card{
-    max-width:780px; margin:0 auto; text-align:center;
-    border-top:1px solid var(--line); border-bottom:1px solid var(--line);
-    padding:56px 24px;
-  }
-  .bio-card .eyebrow-dark{justify-content:center;}
-  .bio-text{
-    font-family:'Fraunces', serif; font-style:italic; font-weight:500;
-    font-size:clamp(1.25rem, 2.6vw, 1.65rem); line-height:1.55; color:var(--ink);
-  }
-
-  /* ---------- GALLERY ---------- */
-  .gallery-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:24px;}
+  /* GALLERY */
+  .gallery-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:22px;}
   .gallery-card{
-    border-radius:var(--radius-md); overflow:hidden; background:#fff; border:1px solid var(--line);
-    transition:transform .3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow .3s cubic-bezier(0.16, 1, 0.3, 1);
-    will-change:transform;
+    border-radius:18px; overflow:hidden; background:#fff; border:1px solid var(--line);
+    transition:transform .25s ease, box-shadow .25s ease;
   }
-  .gallery-card:hover{transform:translateY(-6px); box-shadow:0 22px 44px rgba(11,61,62,0.14);}
-  .gallery-card img{width:100%; height:220px; object-fit:cover; display:block; transition: transform 0.4s ease;}
-  .gallery-card:hover img{transform: scale(1.03);}
-  .gallery-cap{padding:20px 22px 24px;}
-  .gallery-cap h3{font-size:1.1rem; margin-bottom:4px;}
-  .gallery-cap p{font-size:0.88rem; color:var(--ink-soft); line-height:1.55;}
+  .gallery-card:hover{box-shadow:0 20px 40px rgba(11,61,62,0.18); transform: translateY(-4px);}
+  .gallery-card img{width:100%; height:210px; object-fit:cover; display:block;}
+  .gallery-cap{padding:18px 20px 22px;}
+  .gallery-cap h3{font-size:1.05rem; margin-bottom:4px;}
+  .gallery-cap p{font-size:0.86rem; color:var(--ink-soft); line-height:1.5;}
 
-  /* ---------- REVIEWS ---------- */
-  .reviews-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:22px;}
-  .review-card{
-    background:#fff; border:1px solid var(--line); border-radius:var(--radius-md);
-    padding:28px 26px; transition: transform 0.25s ease, box-shadow 0.25s ease;
+  /* TRUST & REVIEWS */
+  .reviews-grid, .trust-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:20px;}
+  .review-card, .trust-card{
+    background:#fff; border:1px solid var(--line); border-radius:16px; padding:26px 24px;
   }
-  .review-card:hover{ transform: translateY(-3px); box-shadow: 0 12px 30px rgba(0,0,0,0.06); }
   .review-stars{color:var(--saffron); font-size:1rem; letter-spacing:2px; margin-bottom:12px;}
-  .review-text{font-size:0.96rem; line-height:1.6; color:var(--ink); font-style:italic;}
-  .review-who{margin-top:16px; font-size:0.82rem; font-weight: 600; color:var(--ink-soft);}
-
-  /* ---------- TRUST CARDS ---------- */
-  .trust-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:22px;}
-  .trust-card{
-    background:#fff; border:1px solid var(--line); border-radius:var(--radius-md);
-    padding:32px 28px; transition: transform 0.25s ease, box-shadow 0.25s ease;
-  }
-  .trust-card:hover{ transform: translateY(-4px); box-shadow: 0 14px 34px rgba(0,0,0,0.07); }
-  .trust-card .icon-wrap{
-    width:48px; height:48px; border-radius:14px; background:var(--sand-dim);
-    display:flex; align-items:center; justify-content:center; margin-bottom:20px;
-  }
-  .trust-card h3{font-size:1.18rem; margin-bottom:8px; color:var(--ink);}
-  .trust-card p{font-size:0.94rem; color:var(--ink-soft); line-height:1.6;}
+  .review-text{font-size:0.95rem; line-height:1.6; color:var(--ink); font-style:italic;}
+  .review-who{margin-top:14px; font-size:0.8rem; color:var(--ink-soft);}
 
   .offer-ribbon{
-    margin-top:32px; background:var(--saffron); color:#241300;
-    border-radius:var(--radius-md); padding:24px 32px;
-    display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:16px;
-    box-shadow: 0 10px 28px rgba(232,135,30,0.25);
+    margin-top:28px; background:var(--saffron); color:#241300;
+    border-radius:16px; padding:22px 28px;
+    display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:14px;
   }
-  .offer-ribbon .big{font-family:'Fraunces', serif; font-style:italic; font-weight:600; font-size:1.55rem;}
-  .offer-ribbon p{font-size:0.9rem; max-width:380px; opacity:0.9;}
+  .offer-ribbon .big{font-family:'Fraunces', serif; font-style:italic; font-weight:600; font-size:1.5rem;}
+  .offer-ribbon p{font-size:0.88rem; max-width:360px; opacity:0.85;}
 
-  /* ---------- HOW IT WORKS ---------- */
+  /* STEPS */
   .steps{display:grid; grid-template-columns:repeat(3,1fr); gap:32px; position:relative;}
   .step{position:relative; padding-top:8px;}
   .step .idx{
-    font-family:'JetBrains Mono', monospace; font-size:0.82rem; color:var(--teal-glow);
-    background:var(--teal-deep); width:36px; height:36px; border-radius:50%;
-    display:flex; align-items:center; justify-content:center; margin-bottom:20px;
-    box-shadow: 0 4px 12px rgba(11,61,62,0.2);
+    font-family:'JetBrains Mono', monospace; font-size:0.8rem; color:var(--teal-glow);
+    background:var(--teal-deep); width:34px; height:34px; border-radius:50%;
+    display:flex; align-items:center; justify-content:center; margin-bottom:18px;
   }
-  .step h3{font-size:1.15rem; margin-bottom:8px;}
-  .step p{font-size:0.94rem; color:var(--ink-soft); line-height:1.6;}
+  .step h3{font-size:1.1rem; margin-bottom:8px;}
+  .step p{font-size:0.92rem; color:var(--ink-soft); line-height:1.55;}
 
-  /* ---------- FINAL CTA ---------- */
+  /* FINAL CTA */
   .final-cta{
-    background:linear-gradient(135deg, #0B3D3E 0%, #062324 100%); color:var(--sand);
-    border-radius:var(--radius-lg); padding:68px 40px; text-align:center;
-    position:relative; overflow:hidden; border:1px solid rgba(62,156,143,0.3);
-    box-shadow: 0 24px 60px rgba(11,61,62,0.25);
+    background:var(--teal-deep); color:var(--sand);
+    border-radius:28px; padding:64px 40px; text-align:center;
+    position:relative; overflow:hidden;
   }
-  .final-cta h2{color:var(--sand); font-size:clamp(1.9rem,3.6vw,2.7rem); max-width:580px; margin:0 auto;}
-  .final-cta p{margin-top:16px; color:rgba(246,239,227,0.8); max-width:460px; margin-left:auto; margin-right:auto; font-size: 1.02rem;}
-  .final-cta .btn-primary{margin-top:32px;}
+  .final-cta h2{color:var(--sand); font-size:clamp(1.8rem,3.6vw,2.6rem); max-width:560px; margin:0 auto;}
+  .final-cta p{margin-top:16px; color:rgba(246,239,227,0.75); max-width:440px; margin-left:auto; margin-right:auto;}
 
-  footer{padding:44px 24px 64px; text-align:center;}
-  footer p{font-size:0.84rem; color:var(--ink-soft);}
+  footer{padding:40px 24px 60px; text-align:center;}
+  footer p{font-size:0.8rem; color:var(--ink-soft);}
   footer .fname{font-family:'Fraunces', serif; font-style:italic; color:var(--teal-deep); font-weight:600;}
 
-  /* ---------- RESPONSIVE ---------- */
-  @media (min-width:900px){
-    .route-rail{display:block;}
-  }
+  @media (min-width:900px){ .route-rail{display:block;} }
   @media (max-width:820px){
     .trust-grid, .steps, .reviews-grid, .gallery-grid{grid-template-columns:1fr;}
-    .booking-feature-card{ padding: 32px 24px; }
-    .modal-panel{ padding: 32px 24px; }
-    .loc-grid{ grid-template-columns: 1fr; }
-  }
-
-  @media (prefers-reduced-motion: reduce){
-    html{scroll-behavior:auto;}
-    .hero-photo, .route-rail .rider{transition:none !important;}
-    .scroll-cue .line{animation:none;}
-    .modal-step, .modal-panel{ animation: none; transform: none; }
+    .booking-feature-card{ padding: 28px 22px; }
   }
 </style>
 </head>
@@ -544,9 +540,7 @@
 
 <nav>
   <div class="logo"><span class="dot"></span>Ride&nbsp;Quick</div>
-  <a class="nav-cta" href="#book" id="nav-whatsapp">
-    Book a ride
-  </a>
+  <a class="nav-cta" href="#book" id="nav-whatsapp">Book a ride</a>
 </nav>
 
 <div class="route-rail">
@@ -559,23 +553,21 @@
   </div>
 </div>
 
-<!-- ================= HERO ================= -->
+<!-- HERO -->
 <header class="hero">
   <div class="hero-photo" id="hero-photo"></div>
   <div class="hero-scrim"></div>
 
   <div class="hero-content">
     <div class="hero-badges">
-      <span class="eyebrow"><span class="chip-dot" style="width:6px;height:6px;border-radius:50%;background:var(--saffron);"></span>Local Rishikesh Rentals</span>
+      <span class="eyebrow"><span class="chip-dot"></span>Local Rishikesh Rentals</span>
       <span class="offer-badge">✦ First ride: 20% off</span>
     </div>
     <h1>Want to book<br>a bike or scooty</h1>
     <p class="lede">Select your pickup spot, choose your ride — Activa, Bullet 350, or Harley-Davidson — and lock it in instantly on WhatsApp. Transparent rates, zero hidden fees.</p>
     <div class="hero-actions">
-      <button type="button" class="btn-primary" id="open-booking-hero">
-        Start booking →
-      </button>
-      <a class="btn-secondary" href="#fleet">Check availability ↓</a>
+      <button type="button" class="btn-primary" id="open-booking-hero">Start booking →</button>
+      <a class="btn-secondary" href="#swipe-showcase">Explore Fleet ↓</a>
     </div>
     <div class="trust-chips">
       <span><span class="chip-dot"></span>Run by locals to ensure legit prices</span>
@@ -583,17 +575,37 @@
       <span><span class="chip-dot"></span>24/7 WhatsApp updates</span>
     </div>
   </div>
-
-  <div class="scroll-cue"><span>Scroll</span><span class="line"></span></div>
 </header>
 
-<!-- ================= NEARBY MAP ================= -->
+<!-- INTERACTIVE VEHICLE SWIPE DECK SHOWCASE -->
+<section class="swipe-section" id="swipe-showcase">
+  <div class="wrap" style="text-align: center;">
+    <span class="eyebrow" style="color: var(--saffron); border-color: rgba(232,135,30,0.4);">Interactive Fleet Deck</span>
+    <h2 style="font-size: clamp(2rem, 4vw, 3rem); color: var(--sand); margin-top: 10px;">Swipe & Choose Your Ride</h2>
+    <p style="color: rgba(246,239,227,0.7); margin-top: 8px;">Drag cards left or right to browse available models in Rishikesh.</p>
+
+    <div class="deck-container">
+      <div class="card-stack" id="card-stack">
+        <!-- Cards inserted dynamically -->
+      </div>
+      
+      <div class="deck-controls">
+        <button class="control-btn" id="swipe-left" aria-label="Pass">✕</button>
+        <button class="btn-primary" id="swipe-book-btn">Book This Ride →</button>
+        <button class="control-btn" id="swipe-right" aria-label="Next">♥</button>
+      </div>
+      <div class="swipe-hint">← Swipe Left / Right →</div>
+    </div>
+  </div>
+</section>
+
+<!-- NEARBY MAP -->
 <section id="nearby-map">
   <div class="wrap">
     <div class="section-head">
       <span class="eyebrow-dark">Right now, near you</span>
       <h2>Rides around your spot.</h2>
-      <p>Turn on location and see roughly where available rides are around you. This is a quick visual, not a live shop directory.</p>
+      <p>Turn on location and see roughly where available rides are around you.</p>
     </div>
     <div class="map-card">
       <div class="map-status" id="map-status"><span class="pulse-dot"></span><span id="map-status-text">Locating you…</span></div>
@@ -606,56 +618,35 @@
   </div>
 </section>
 
-<!-- ================= PROMINENT FLEET BOOKING FEATURE ================= -->
+<!-- PROMINENT FLEET BOOKING FEATURE -->
 <section id="fleet">
   <div class="wrap">
     <div class="booking-feature-card">
       <div class="booking-feature-header">
         <div>
-          <span class="eyebrow-dark" style="color:var(--teal-glow);">Live Pickup Locations</span>
+          <span class="eyebrow-dark" style="color:var(--teal-glow);">Live Pickup Hubs</span>
           <h2>Ready when you are.</h2>
           <p>Real-time vehicle status across major spots in Rishikesh.</p>
         </div>
-        <button type="button" class="btn-primary" id="open-booking-banner">
-          Start booking →
-        </button>
+        <button type="button" class="btn-primary" id="open-booking-banner">Start booking →</button>
       </div>
 
       <span class="location-pills-label">Available Pickup Hubs:</span>
-      <div class="location-pills-grid" id="feature-location-pills">
-        <!-- Rendered dynamically -->
-      </div>
-
-      <div class="booking-action-bar">
-        <div class="booking-action-info">
-          <div class="icon-badge">
-            <svg viewBox="0 0 24 24" fill="none"><path d="M12 22s7-7.4 7-13a7 7 0 1 0-14 0c0 5.6 7 13 7 13z" stroke-width="2"/><circle cx="12" cy="9" r="2.5" fill="none" stroke-width="2"/></svg>
-          </div>
-          <div>
-            <div style="font-weight: 600; font-size: 0.95rem;">Pick up wherever you land</div>
-            <div style="font-size: 0.84rem; color: rgba(246,239,227,0.75);">Laxman Jhula, Ram Jhula, Tapovan, Bus Stand, Nepali Farm & Railway Station</div>
-          </div>
-        </div>
-      </div>
+      <div class="location-pills-grid" id="feature-location-pills"></div>
     </div>
   </div>
 </section>
 
-<!-- ================= BOOKING MODAL ================= -->
+<!-- BOOKING MODAL -->
 <div class="modal-overlay" id="booking-modal" aria-hidden="true">
   <div class="modal-panel" role="dialog" aria-modal="true" aria-label="Book a bike">
     <button type="button" class="modal-close" id="modal-close" aria-label="Close">✕</button>
 
-    <div class="modal-progress-bar">
-      <div class="modal-progress-fill" id="modal-progress-fill"></div>
-    </div>
-
-    <!-- STEP 1: CUSTOMER DETAILS (FIRST STEP) -->
+    <!-- STEP 1 -->
     <div class="modal-step" id="step-customer">
       <div class="modal-step-label mono">STEP 1 OF 4</div>
       <h3>Just a few details</h3>
-      <p class="modal-step-sub">Enter your details to get started. Riders must be at least 18 years old.</p>
-
+      <p class="modal-step-sub">Riders must be at least 18 years old.</p>
       <div class="field">
         <label for="cust-name">Full name</label>
         <input type="text" id="cust-name" placeholder="As on your ID" autocomplete="name">
@@ -665,12 +656,9 @@
         <select id="cust-age">
           <option value="" selected disabled>Select your age</option>
           <option value="under18">Under 18 years old</option>
-          <!-- Age options 18-80 generated dynamically -->
         </select>
       </div>
-      <div class="id-warning" id="age-warning">
-        Sorry — riders must be at least 18 years old to rent a bike or scooty.
-      </div>
+      <div class="id-warning" id="age-warning">Riders must be at least 18 years old.</div>
 
       <div class="field">
         <label for="cust-id">ID proof you'll bring</label>
@@ -683,14 +671,11 @@
           <option value="NONE">I don't have any of these</option>
         </select>
       </div>
-      <div class="id-warning" id="id-warning">
-        Sorry — we can't book a bike or scooty without a valid ID. Please bring your Driving License, Aadhar, Voter ID, or PAN card when you come to pick up.
-      </div>
-
+      <div class="id-warning" id="id-warning">A valid physical ID is required at pickup.</div>
       <button type="button" class="btn-primary modal-next is-disabled" id="modal-to-step2">Continue →</button>
     </div>
 
-    <!-- STEP 2: LOCATION -->
+    <!-- STEP 2 -->
     <div class="modal-step" id="step-location" hidden>
       <div class="modal-step-label mono">STEP 2 OF 4</div>
       <h3>Where are you picking up?</h3>
@@ -701,7 +686,7 @@
       </div>
     </div>
 
-    <!-- STEP 3: VEHICLE -->
+    <!-- STEP 3 -->
     <div class="modal-step" id="step-vehicle" hidden>
       <div class="modal-step-label mono">STEP 3 OF 4</div>
       <h3>Choose your ride</h3>
@@ -712,25 +697,19 @@
       </div>
     </div>
 
-    <!-- STEP 4: DURATION & PRICE -->
+    <!-- STEP 4 -->
     <div class="modal-step" id="step-datetime" hidden>
       <div class="modal-step-label mono">STEP 4 OF 4</div>
       <h3>Rental Duration</h3>
-      <p class="modal-step-sub">Select how many days you need the ride.</p>
-
       <div class="field">
         <label for="rental-days">Number of days</label>
         <input type="number" id="rental-days" min="1" step="1" value="1">
-        <div class="field-hint">8-hour minimum per day — same as pickup counters here.</div>
       </div>
-
       <div class="price-box">
         <div class="price-row"><span id="rate-label">Rate</span><span id="rate-value">—</span></div>
         <div class="price-row"><span>Days</span><span id="days-value">1</span></div>
         <div class="price-row total"><span>Estimated total</span><span id="total-value">—</span></div>
-        <div class="price-note">Demo pricing — update rates before going live.</div>
       </div>
-
       <div class="modal-step-actions">
         <button type="button" class="btn-secondary" id="modal-back-3">← Back</button>
         <a class="btn-primary" href="#" id="modal-book" target="_blank" rel="noopener">Book on WhatsApp</a>
@@ -739,284 +718,193 @@
   </div>
 </div>
 
-<!-- ================= GALLERY ================= -->
+<!-- GALLERY -->
 <section id="gallery">
   <div class="wrap">
     <div class="section-head">
       <span class="eyebrow-dark">Where you're headed</span>
       <h2>Explore Rishikesh on two wheels.</h2>
-      <p>Bypass traffic, explore ghats, and reach destinations cars can't access.</p>
     </div>
-
     <div class="gallery-grid">
       <div class="gallery-card">
-        <img src="laxman_jhula.jpg" alt="View near Laxman Jhula, Rishikesh" loading="lazy">
-        <div class="gallery-cap"><h3>Laxman Jhula</h3><p>The bridge itself — where four-wheelers can't follow.</p></div>
+        <img src="laxman_jhula.jpg" alt="Laxman Jhula" loading="lazy">
+        <div class="gallery-cap"><h3>Laxman Jhula</h3><p>Cross lanes inaccessible to cars.</p></div>
       </div>
-
       <div class="gallery-card">
-        <img src="ganga_arti.jpg" alt="Ganga Aarti fire ceremony, Rishikesh" loading="lazy">
-        <div class="gallery-cap"><h3>Ganga Aarti</h3><p>Evening drop-offs at Triveni Ghat, timed right.</p></div>
+        <img src="ganga_arti.jpg" alt="Ganga Aarti" loading="lazy">
+        <div class="gallery-cap"><h3>Ganga Aarti</h3><p>Evening ceremony drop-offs at Triveni Ghat.</p></div>
       </div>
-
       <div class="gallery-card">
-        <img src="ghat_image.jpg" alt="Ghat statue and riverfront, Rishikesh" loading="lazy">
-        <div class="gallery-cap"><h3>The ghats & ashrams</h3><p>Muni ki Reti, Neelkanth, the lanes in between.</p></div>
+        <img src="ghat_image.jpg" alt="Ghats" loading="lazy">
+        <div class="gallery-cap"><h3>Ghats & Ashrams</h3><p>Muni ki Reti & Neelkanth routes.</p></div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ================= ABOUT ================= -->
-<section id="story">
-  <div class="wrap">
-    <div class="bio-card">
-      <span class="eyebrow-dark" style="margin-bottom:18px;">About Ride Quick</span>
-      <p class="bio-text">Getting reliable rates for rented scooty and bikes. Started by local Rishikesh residents who grew up watching tourists get quoted double at every ghat crossing — Ride Quick exists so nobody visiting our town gets treated like a walking wallet. Fair rates, verified two-wheelers, local trust.</p>
-    </div>
+<!-- FLOATING MOBILE DOCK -->
+<div class="floating-dock">
+  <div class="dock-text">
+    <strong>Rent from ₹400/day</strong>
+    <span>Zero upfront payment</span>
   </div>
-</section>
+  <button type="button" class="btn-primary" style="padding: 10px 18px; font-size: 0.85rem;" id="dock-book">Book Now</button>
+</div>
 
-<!-- ================= TRUST ================= -->
-<section id="trust">
-  <div class="wrap">
-    <div class="section-head">
-      <span class="eyebrow-dark">Why book with us</span>
-      <h2>Run by locals to ensure legit prices.</h2>
-      <p>No artificial surge pricing, no middleman commissions. Direct local support from residents who know Rishikesh inside out.</p>
-    </div>
-
-    <div class="trust-grid">
-      <div class="trust-card">
-        <div class="icon-wrap">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 21s-7-4.9-9.3-9.4C1.1 8 3 4.5 6.6 4.1c2-.2 3.6.8 5.4 2.6 1.8-1.8 3.4-2.8 5.4-2.6C21 4.5 22.9 8 21.3 11.6 19 16.1 12 21 12 21z" stroke="#145C5D" stroke-width="1.6"/></svg>
-        </div>
-        <h3>Genuine local pricing</h3>
-        <p>Fair, flat daily rental rates with zero tourist markups. What we quote on WhatsApp is exactly what you pay.</p>
-      </div>
-      <div class="trust-card">
-        <div class="icon-wrap">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M3 10h18M3 6h18v13a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V6zM7 3v4M17 3v4" stroke="#145C5D" stroke-width="1.6" stroke-linecap="round"/></svg>
-        </div>
-        <h3>Pay after you arrive</h3>
-        <p>No mandatory upfront deposit. Confirm your vehicle availability on WhatsApp, inspect your ride, and pay when you collect the keys.</p>
-      </div>
-      <div class="trust-card">
-        <div class="icon-wrap">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 8v5l3 2M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0z" stroke="#145C5D" stroke-width="1.6"/></svg>
-        </div>
-        <h3>24/7 WhatsApp assistance</h3>
-        <p>Early sunrise treks to Kunjapuri, late train arrivals, or route advice — text us on WhatsApp anytime and get instant local response.</p>
-      </div>
-    </div>
-
-    <div class="offer-ribbon">
-      <div><div class="big">First ride, 20% off</div><p>Message us on WhatsApp and mention "first ride" — discount is automatically applied to your booking quote.</p></div>
-      <a class="btn-secondary" style="color:#241300; border-color:rgba(36,19,0,0.4);" href="#" id="ribbon-whatsapp">Claim on WhatsApp →</a>
-    </div>
-  </div>
-</section>
-
-<!-- ================= REVIEWS ================= -->
-<section id="reviews">
-  <div class="wrap">
-    <div class="section-head">
-      <span class="eyebrow-dark">Rider feedback</span>
-      <h2>Honest reviews from travelers.</h2>
-      <p>Real experiences from visitors exploring Rishikesh on our bikes.</p>
-    </div>
-
-    <div class="reviews-grid">
-      <div class="review-card">
-        <div class="review-stars">★★★★★</div>
-        <p class="review-text">"Super simple booking over WhatsApp. Scooter was in great condition and pickup near Laxman Jhula was smooth. Highly recommend!"</p>
-        <div class="review-who">— Rahul M., Delhi</div>
-      </div>
-      <div class="review-card">
-        <div class="review-stars">★★★★★</div>
-        <p class="review-text">"Got a Bullet 350 for Neelkanth temple ride. Genuine rates without the usual hassle or overcharging. Will definitely use again."</p>
-        <div class="review-who">— Sarah & Mark, UK</div>
-      </div>
-      <div class="review-card">
-        <div class="review-stars">★★★★★</div>
-        <p class="review-text">"Picked up Activa right at the bus stand. Clean process, transparent pricing, and instant response."</p>
-        <div class="review-who">— Priya K., Bangalore</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ================= HOW IT WORKS ================= -->
-<section id="how">
-  <div class="wrap">
-    <div class="section-head">
-      <span class="eyebrow-dark">Simple Booking Process</span>
-      <h2>Three steps, all inside WhatsApp.</h2>
-    </div>
-    <div class="steps">
-      <div class="step">
-        <div class="idx mono">1</div>
-        <h3>Choose spot & ride</h3>
-        <p>Select your location and preferred scooty or bike from our live inventory selector above.</p>
-      </div>
-      <div class="step">
-        <div class="idx mono">2</div>
-        <h3>Confirm on WhatsApp</h3>
-        <p>Send the auto-filled WhatsApp message to lock in your ride and receive your flat rate quote.</p>
-      </div>
-      <div class="step">
-        <div class="idx mono">3</div>
-        <h3>Collect & Ride</h3>
-        <p>Meet at your chosen hub, inspect your vehicle, pay via Cash/UPI, and enjoy your trip around Rishikesh.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ================= FINAL CTA ================= -->
+<!-- FINAL CTA -->
 <section id="book">
   <div class="wrap">
     <div class="final-cta">
       <h2>Planning to explore Rishikesh? Secure your bike now.</h2>
-      <p>Run by locals. Honest prices. Verified vehicles across 6 locations in Rishikesh.</p>
-      <a class="btn-primary" href="#" id="final-whatsapp">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M17.5 14.4c-.3-.1-1.6-.8-1.9-.9-.3-.1-.4-.1-.6.1-.2.3-.7.9-.8 1-.2.2-.3.2-.5.1-.3-.1-1.2-.4-2.3-1.4-.8-.7-1.4-1.7-1.6-1.9-.2-.3 0-.4.1-.6.1-.1.3-.3.4-.5.1-.1.2-.3.2-.4.1-.2 0-.3 0-.5-.1-.1-.6-1.4-.8-1.9-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.3.3-1 1-1 2.4s1 2.8 1.2 3c.1.2 2 3.1 4.9 4.3.7.3 1.2.5 1.6.6.7.2 1.3.2 1.8.1.5-.1 1.6-.7 1.9-1.3.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.5-.3z" fill="#241300"/><path d="M12 2C6.5 2 2 6.5 2 12c0 1.9.5 3.6 1.4 5.2L2 22l4.9-1.3c1.5.8 3.3 1.3 5.1 1.3 5.5 0 10-4.5 10-10S17.5 2 12 2zm0 18.2c-1.7 0-3.3-.5-4.7-1.3l-.3-.2-3 .8.8-2.9-.2-.3C3.7 15 3.2 13.5 3.2 12c0-4.8 3.9-8.7 8.7-8.7s8.7 3.9 8.7 8.7-3.8 8.9-8.6 8.9z" fill="#241300"/></svg>
-        Message Ride Quick
-      </a>
+      <p>Run by locals. Honest prices. Verified vehicles across 6 locations.</p>
+      <a class="btn-primary" href="#" id="final-whatsapp" style="margin-top:24px;">Message Ride Quick</a>
     </div>
   </div>
 </section>
 
 <footer>
-  <p><span class="fname">Ride Quick</span> — Reliable scooty & bike rentals in Rishikesh</p>
-  <p style="margin-top:6px;">Laxman Jhula · Ram Jhula · Tapovan · Bus Stand · Nepali Farm · Railway Station</p>
+  <p><span class="fname">Ride Quick</span> — Local Two-Wheeler Rentals in Rishikesh</p>
 </footer>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 <script>
-  // ---- CONFIG: WhatsApp number ----
   const WHATSAPP_NUMBER = "917417462887";
-
-  // ---- CONFIG: Published Google Sheet CSV URL ----
   const SHEET_CSV_URL = ""; 
 
-  const pinIcon = `<svg viewBox="0 0 24 24" fill="none"><path d="M12 22s7-7.4 7-13a7 7 0 1 0-14 0c0 5.6 7 13 7 13z" stroke="#F6EFE3" stroke-width="1.8"/><circle cx="12" cy="9" r="2.4" fill="#F6EFE3"/></svg>`;
-  const bikeIcon = `<svg viewBox="0 0 24 24" fill="none"><circle cx="5.5" cy="17.5" r="3.2" stroke="#F6EFE3" stroke-width="1.6"/><circle cx="18.5" cy="17.5" r="3.2" stroke="#F6EFE3" stroke-width="1.6"/><path d="M5.5 17.5 9 10h5l4.5 7.5M9 10 7.5 6h-2M9 10l3 4h4" stroke="#F6EFE3" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
-  const scooterIcon = `<svg viewBox="0 0 24 24" fill="none"><circle cx="5.5" cy="17.5" r="2.8" stroke="#F6EFE3" stroke-width="1.6"/><circle cx="18" cy="17.5" r="2.8" stroke="#F6EFE3" stroke-width="1.6"/><path d="M5.5 17.5h4l1-6h4.5c1.4 0 2.5 1.1 2.5 2.5v3.5M10.5 11.5h-3M15 8.5h3" stroke="#F6EFE3" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+  // VEHICLES DATASET FOR SWIPE CARDS WITH GITHUB IMAGES
+  const SWIPE_VEHICLES = [
+    {
+      name: "Honda Activa 5G",
+      tag: "Best Seller",
+      img: "honda-activa-5g.png",
+      desc: "Smooth, reliable 110cc scooter. Perfect for navigating Rishikesh traffic and narrow ghat lanes.",
+      rate: 400
+    },
+    {
+      name: "Royal Enfield Bullet 350",
+      tag: "Mountain Icon",
+      img: "royalenfield-bullet.png",
+      desc: "Classic 350cc thump. Built for steep uphills to Neelkanth Temple and Kunjapuri treks.",
+      rate: 800
+    },
+    {
+      name: "Harley-Davidson",
+      tag: "Premium Cruiser",
+      img: "harleydavidson.png",
+      desc: "High-power highway cruiser for long coastal river highway rides towards Devprayag.",
+      rate: 2500
+    }
+  ];
 
   let LOCATION_DATA = {
     "Laxman Jhula": [
-      { name: "Royal Enfield Bullet 350", available: true, type: "bike" },
-      { name: "Royal Enfield Bullet 350", available: true, type: "bike" },
-      { name: "Royal Enfield Bullet 350", available: false, type: "bike" },
-      { name: "Royal Enfield Bullet 350", available: false, type: "bike" },
-      { name: "Honda Activa 5G", available: false, type: "scooter" },
-      { name: "Honda Activa 5G", available: true, type: "scooter" },
-      { name: "Honda Activa 5G", available: true, type: "scooter" },
-      { name: "Harley-Davidson", available: true, type: "bike" }
+      { name: "Royal Enfield Bullet 350", available: true, type: "bike", img: "royalenfield-bullet.png" },
+      { name: "Honda Activa 5G", available: true, type: "scooter", img: "honda-activa-5g.png" },
+      { name: "Harley-Davidson", available: true, type: "bike", img: "harleydavidson.png" }
     ],
     "Ram Jhula": [
-      { name: "Royal Enfield Bullet 350", available: true, type: "bike" },
-      { name: "Royal Enfield Bullet 350", available: false, type: "bike" },
-      { name: "Royal Enfield Bullet 350", available: true, type: "bike" },
-      { name: "Honda Activa 5G", available: false, type: "scooter" },
-      { name: "Honda Activa 5G", available: true, type: "scooter" },
-      { name: "Honda Activa 5G", available: true, type: "scooter" },
-      { name: "Harley-Davidson", available: false, type: "bike" },
-      { name: "Harley-Davidson", available: true, type: "bike" }
+      { name: "Royal Enfield Bullet 350", available: true, type: "bike", img: "royalenfield-bullet.png" },
+      { name: "Honda Activa 5G", available: true, type: "scooter", img: "honda-activa-5g.png" }
     ],
     "Tapovan": [
-      { name: "Royal Enfield Bullet 350", available: true, type: "bike" },
-      { name: "Royal Enfield Bullet 350", available: true, type: "bike" },
-      { name: "Royal Enfield Bullet 350", available: false, type: "bike" },
-      { name: "Honda Activa 5G", available: true, type: "scooter" },
-      { name: "Honda Activa 5G", available: false, type: "scooter" },
-      { name: "Harley-Davidson", available: false, type: "bike" },
-      { name: "Harley-Davidson", available: true, type: "bike" },
-      { name: "Harley-Davidson", available: true, type: "bike" }
-    ],
-    "Bus Stand": [
-      { name: "Royal Enfield Bullet 350", available: false, type: "bike" },
-      { name: "Royal Enfield Bullet 350", available: false, type: "bike" },
-      { name: "Honda Activa 5G", available: false, type: "scooter" },
-      { name: "Honda Activa 5G", available: true, type: "scooter" },
-      { name: "Honda Activa 5G", available: true, type: "scooter" },
-      { name: "Harley-Davidson", available: false, type: "bike" },
-      { name: "Harley-Davidson", available: true, type: "bike" },
-      { name: "Harley-Davidson", available: true, type: "bike" }
-    ],
-    "Nepali Farm": [
-      { name: "Royal Enfield Bullet 350", available: true, type: "bike" },
-      { name: "Royal Enfield Bullet 350", available: false, type: "bike" },
-      { name: "Royal Enfield Bullet 350", available: true, type: "bike" },
-      { name: "Royal Enfield Bullet 350", available: true, type: "bike" },
-      { name: "Honda Activa 5G", available: false, type: "scooter" },
-      { name: "Honda Activa 5G", available: true, type: "scooter" },
-      { name: "Harley-Davidson", available: false, type: "bike" },
-      { name: "Harley-Davidson", available: false, type: "bike" }
-    ],
-    "Railway Station": [
-      { name: "Royal Enfield Bullet 350", available: true, type: "bike" },
-      { name: "Royal Enfield Bullet 350", available: true, type: "bike" },
-      { name: "Honda Activa 5G", available: false, type: "scooter" },
-      { name: "Honda Activa 5G", available: true, type: "scooter" },
-      { name: "Honda Activa 5G", available: false, type: "scooter" },
-      { name: "Harley-Davidson", available: true, type: "bike" },
-      { name: "Harley-Davidson", available: true, type: "bike" },
-      { name: "Harley-Davidson", available: false, type: "bike" }
+      { name: "Royal Enfield Bullet 350", available: true, type: "bike", img: "royalenfield-bullet.png" },
+      { name: "Honda Activa 5G", available: true, type: "scooter", img: "honda-activa-5g.png" },
+      { name: "Harley-Davidson", available: true, type: "bike", img: "harleydavidson.png" }
     ]
   };
 
-  function parseLocationCSV(text) {
-    const lines = text.trim().split("\n").map(l => l.split(","));
-    if (lines.length < 2) return null;
-    
-    const headers = lines[0];
-    const parsedData = {};
-
-    for (let col = 0; col < headers.length; col += 2) {
-      const locName = headers[col]?.trim();
-      if (!locName) continue;
-      parsedData[locName] = [];
-
-      for (let row = 1; row < lines.length; row++) {
-        const vehicleName = lines[row][col]?.trim();
-        const availRaw = lines[row][col + 1]?.trim().toUpperCase();
-        if (vehicleName) {
-          const isAvail = availRaw === "TRUE" || availRaw === "1" || availRaw === "YES";
-          const type = vehicleName.toLowerCase().includes("activa") ? "scooter" : "bike";
-          parsedData[locName].push({ name: vehicleName, available: isAvail, type: type });
-        }
-      }
-    }
-    return Object.keys(parsedData).length > 0 ? parsedData : null;
-  }
-
-  async function loadFleetFromSheet(){
-    if(!SHEET_CSV_URL) return;
-    try{
-      const res = await fetch(SHEET_CSV_URL);
-      const text = await res.text();
-      const parsed = parseLocationCSV(text);
-      if(parsed) { 
-        LOCATION_DATA = parsed; 
-        renderFeaturePills();
-        renderLocGrid('modal-pickup-grid');
-      }
-    } catch(err){
-      console.warn("Could not load live sheet data, using fallback data.", err);
-    }
-  }
-
   const routeState = { name: null, age: null, idType: null, location: null, vehicle: null, days: 1, total: null };
 
+  // SWIPE STACK CONTROLLER
+  let currentCardIndex = 0;
+  function renderSwipeStack() {
+    const stack = document.getElementById('card-stack');
+    stack.innerHTML = '';
+    
+    SWIPE_VEHICLES.forEach((v, idx) => {
+      const card = document.createElement('div');
+      card.className = 'swipe-card';
+      const offset = (idx - currentCardIndex + SWIPE_VEHICLES.length) % SWIPE_VEHICLES.length;
+      
+      card.style.zIndex = SWIPE_VEHICLES.length - offset;
+      card.style.transform = `translateY(${offset * 12}px) scale(${1 - offset * 0.05})`;
+      card.style.opacity = offset > 2 ? '0' : '1';
+
+      card.innerHTML = `
+        <span class="tag">${v.tag}</span>
+        <div class="img-wrapper"><img src="${v.img}" alt="${v.name}" draggable="false"></div>
+        <div class="info">
+          <h3>${v.name}</h3>
+          <p>${v.desc}</p>
+        </div>
+        <div class="specs">
+          <span class="price">₹${v.rate}<small style="font-size:0.7rem; color:var(--sand);">/day</small></span>
+          <span style="font-size:0.75rem; color:var(--teal-glow); font-family:'JetBrains Mono';">Instant Pickup</span>
+        </div>
+      `;
+
+      if(offset === 0) setupCardGestures(card);
+      stack.appendChild(card);
+    });
+  }
+
+  function setupCardGestures(card) {
+    let startX = 0, currentX = 0, isDragging = false;
+    
+    const start = (e) => {
+      isDragging = true;
+      startX = e.type.includes('touch') ? e.touches[0].clientX : e.clientX;
+    };
+    const move = (e) => {
+      if(!isDragging) return;
+      currentX = e.type.includes('touch') ? e.touches[0].clientX : e.clientX;
+      const diffX = currentX - startX;
+      card.style.transform = `translateX(${diffX}px) rotate(${diffX * 0.08}deg)`;
+    };
+    const end = () => {
+      if(!isDragging) return;
+      isDragging = false;
+      const diffX = currentX - startX;
+      if(Math.abs(diffX) > 100) {
+        card.style.transform = `translateX(${diffX > 0 ? 400 : -400}px) rotate(${diffX * 0.1}deg)`;
+        card.style.opacity = '0';
+        setTimeout(() => {
+          currentCardIndex = (currentCardIndex + 1) % SWIPE_VEHICLES.length;
+          renderSwipeStack();
+        }, 200);
+      } else {
+        card.style.transform = 'translateY(0) scale(1)';
+      }
+    };
+
+    card.addEventListener('mousedown', start);
+    window.addEventListener('mousemove', move);
+    window.addEventListener('mouseup', end);
+    card.addEventListener('touchstart', start);
+    window.addEventListener('touchmove', move);
+    window.addEventListener('touchend', end);
+  }
+
+  document.getElementById('swipe-left').addEventListener('click', () => {
+    currentCardIndex = (currentCardIndex + 1) % SWIPE_VEHICLES.length;
+    renderSwipeStack();
+  });
+  document.getElementById('swipe-right').addEventListener('click', () => {
+    currentCardIndex = (currentCardIndex + 1) % SWIPE_VEHICLES.length;
+    renderSwipeStack();
+  });
+  document.getElementById('swipe-book-btn').addEventListener('click', () => {
+    routeState.vehicle = SWIPE_VEHICLES[currentCardIndex].name;
+    openModal(); goToStep(1);
+  });
+
+  // CORE FUNCTIONS
   function setupAgeDropdown() {
     const ageSelect = document.getElementById('cust-age');
     if(!ageSelect) return;
     for(let i = 18; i <= 80; i++) {
       const opt = document.createElement('option');
-      opt.value = i;
-      opt.textContent = `${i} years old`;
+      opt.value = i; opt.textContent = `${i} years old`;
       ageSelect.appendChild(opt);
     }
   }
@@ -1024,51 +912,49 @@
   function renderFeaturePills(){
     const el = document.getElementById('feature-location-pills');
     if(!el) return;
-    const locs = Object.keys(LOCATION_DATA);
-    el.innerHTML = locs.map(loc => {
-      const availableCount = LOCATION_DATA[loc].filter(v => v.available).length;
-      return `
-        <button type="button" class="loc-pill" data-loc="${loc}">
-          <span>${loc}</span>
-          <span style="display:flex; align-items:center; gap:6px; font-size:0.75rem; color:var(--teal-glow);">
-            <span class="status-dot"></span>${availableCount} available
-          </span>
-        </button>
-      `;
-    }).join('');
-
+    el.innerHTML = Object.keys(LOCATION_DATA).map(loc => `
+      <button type="button" class="loc-pill" data-loc="${loc}">
+        <span>${loc}</span>
+        <span class="status-dot"></span>
+      </button>
+    `).join('');
     el.querySelectorAll('.loc-pill').forEach(pill => {
       pill.addEventListener('click', () => {
         routeState.location = pill.dataset.loc;
-        openModal();
-        goToStep(1);
+        openModal(); goToStep(1);
       });
     });
   }
 
-  function selectLocationInModal(locName){
-    const chips = document.querySelectorAll('#modal-pickup-grid .loc-chip');
-    chips.forEach(chip => {
-      if(chip.dataset.loc === locName){
-        chip.classList.add('selected');
-      } else {
-        chip.classList.remove('selected');
-      }
+  function renderFleetGrid(containerId, locationName){
+    const el = document.getElementById(containerId);
+    const vehicles = LOCATION_DATA[locationName] || [];
+    el.innerHTML = vehicles.map(v => `
+      <button type="button" class="fleet-card ${routeState.vehicle === v.name ? 'selected' : ''}" data-vehicle="${v.name}">
+        <span class="fleet-left">
+          <img src="${v.img}" class="fleet-img-thumb" alt="${v.name}">
+          <span class="fleet-name">${v.name}</span>
+        </span>
+        <span class="fleet-avail">Available</span>
+      </button>
+    `).join('');
+    el.querySelectorAll('.fleet-card').forEach(card => {
+      card.addEventListener('click', () => {
+        routeState.vehicle = card.dataset.vehicle;
+        el.querySelectorAll('.fleet-card').forEach(c => c.classList.remove('selected'));
+        card.classList.add('selected');
+        document.getElementById('modal-to-step4').classList.remove('is-disabled');
+      });
     });
-    document.getElementById('modal-to-step3').classList.remove('is-disabled');
   }
 
   function renderLocGrid(containerId){
     const el = document.getElementById(containerId);
-    if(!el) return;
-    const locs = Object.keys(LOCATION_DATA);
-    el.innerHTML = locs.map(loc => `
+    el.innerHTML = Object.keys(LOCATION_DATA).map(loc => `
       <button type="button" class="loc-chip ${routeState.location === loc ? 'selected' : ''}" data-loc="${loc}">
-        <span class="pin">${pinIcon}</span>
         <span class="name">${loc}</span>
       </button>
     `).join('');
-    
     el.querySelectorAll('.loc-chip').forEach(chip => {
       chip.addEventListener('click', () => {
         routeState.location = chip.dataset.loc;
@@ -1079,316 +965,61 @@
     });
   }
 
-  function renderFleetGrid(containerId, locationName){
-    const el = document.getElementById(containerId);
-    if(!el) return;
-
-    const vehicles = LOCATION_DATA[locationName] || [];
-
-    const aggregated = {};
-    vehicles.forEach(v => {
-      if(!aggregated[v.name]) {
-        aggregated[v.name] = { name: v.name, type: v.type, availableCount: 0 };
-      }
-      if(v.available) aggregated[v.name].availableCount += 1;
-    });
-
-    const fleetList = Object.values(aggregated);
-
-    if(fleetList.length === 0) {
-      el.innerHTML = `<p style="font-size:0.9rem; color:var(--ink-soft);">No vehicles listed for this location.</p>`;
-      return;
-    }
-
-    el.innerHTML = fleetList.map(v => `
-      <button type="button" class="fleet-card ${v.availableCount <= 0 ? 'sold-out' : ''} ${routeState.vehicle === v.name ? 'selected' : ''}" data-vehicle="${v.name}">
-        <span class="fleet-left">
-          <span class="fleet-icon">${v.type === 'scooter' ? scooterIcon : bikeIcon}</span>
-          <span class="fleet-name">${v.name}</span>
-        </span>
-        <span class="fleet-avail">${v.availableCount > 0 ? v.availableCount + ' available' : 'Sold out'}</span>
-      </button>
-    `).join('');
-
-    el.querySelectorAll('.fleet-card').forEach(card => {
-      if(card.classList.contains('sold-out')) return;
-      card.addEventListener('click', () => {
-        routeState.vehicle = card.dataset.vehicle;
-        el.querySelectorAll('.fleet-card').forEach(c => c.classList.remove('selected'));
-        card.classList.add('selected');
-        document.getElementById('modal-to-step4').classList.remove('is-disabled');
-      });
-    });
-  }
-
-  const DEMO_RATES = [
-    { match: /bullet|enfield/i, rate: 800 },
-    { match: /activa/i, rate: 400 },
-    { match: /harley/i, rate: 2500 }
-  ];
-  const DEFAULT_RATE = 500;
-  function getRateFor(vehicleName){
-    const found = DEMO_RATES.find(r => r.match.test(vehicleName || ''));
-    return found ? found.rate : DEFAULT_RATE;
-  }
-  const ID_LABELS = { DL: 'Driving License', AADHAR: 'Aadhar Card', VOTER: 'Voter ID', PAN: 'PAN Card' };
-
-  function buildWhatsAppMessage(){
-    const { location, vehicle, name, age, idType, days, total } = routeState;
-    if(location && vehicle && name){
-      return `Hi Ride Quick! I'd like to book a ${vehicle} at ${location}.\n` +
-        `Name: ${name}\nAge: ${age}\nID proof: ${ID_LABELS[idType] || idType}\n` +
-        `Duration: ${days} day(s)\n` +
-        `Estimated total: ₹${total} (demo pricing)`;
-    }
-    if(location && vehicle) return `Hi Ride Quick! I'd like to book a ${vehicle} at ${location}.`;
-    return "Hi Ride Quick! I'd like to book a ride.";
-  }
-  function buildWhatsAppLink(){
-    return "https://wa.me/" + WHATSAPP_NUMBER + "?text=" + encodeURIComponent(buildWhatsAppMessage());
-  }
-  function refreshWhatsAppLinks(){
-    const link = buildWhatsAppLink();
-    ["nav-whatsapp","ribbon-whatsapp","final-whatsapp"].forEach(id=>{
-      const el = document.getElementById(id);
-      if(el){ el.href = link; }
-    });
-  }
-
-  // ---- Modal Logic & Dynamic Stepper Progress ----
+  // MODAL CONTROLLER
   const modal = document.getElementById('booking-modal');
-  const stepCustomer = document.getElementById('step-customer');
-  const stepLocation = document.getElementById('step-location');
-  const stepVehicle = document.getElementById('step-vehicle');
-  const stepDatetime = document.getElementById('step-datetime');
-  const progressFill = document.getElementById('modal-progress-fill');
-
-  function openModal(){
-    modal.classList.add('is-open');
-    modal.setAttribute('aria-hidden', 'false');
-    document.body.style.overflow = 'hidden';
-  }
-  function closeModal(){
-    modal.classList.remove('is-open');
-    modal.setAttribute('aria-hidden', 'true');
-    document.body.style.overflow = '';
-  }
+  function openModal(){ modal.classList.add('is-open'); document.body.style.overflow = 'hidden'; }
+  function closeModal(){ modal.classList.remove('is-open'); document.body.style.overflow = ''; }
   function goToStep(step){
-    stepCustomer.hidden = step !== 1;
-    stepLocation.hidden = step !== 2;
-    stepVehicle.hidden = step !== 3;
-    stepDatetime.hidden = step !== 4;
-    
-    if(progressFill){
-      const progressPercent = (step / 4) * 100;
-      progressFill.style.width = `${progressPercent}%`;
-    }
+    document.getElementById('step-customer').hidden = step !== 1;
+    document.getElementById('step-location').hidden = step !== 2;
+    document.getElementById('step-vehicle').hidden = step !== 3;
+    document.getElementById('step-datetime').hidden = step !== 4;
   }
 
-  ["open-booking-hero","open-booking-banner","nav-whatsapp"].forEach(id=>{
+  ["open-booking-hero","open-booking-banner","dock-book","nav-whatsapp"].forEach(id => {
     const el = document.getElementById(id);
-    if(el) el.addEventListener('click', e => { e.preventDefault(); goToStep(1); openModal(); });
+    if(el) el.addEventListener('click', (e) => { e.preventDefault(); openModal(); goToStep(1); });
   });
   document.getElementById('modal-close').addEventListener('click', closeModal);
-  modal.addEventListener('click', e => { if(e.target === modal) closeModal(); });
-  document.addEventListener('keydown', e => { if(e.key === 'Escape') closeModal(); });
 
-  // ---- Step 1: Customer details & Age validation ----
+  // VALIDATION & STEP FLOW
   const custNameEl = document.getElementById('cust-name');
   const custAgeEl = document.getElementById('cust-age');
   const custIdEl = document.getElementById('cust-id');
-  const ageWarningEl = document.getElementById('age-warning');
-  const idWarningEl = document.getElementById('id-warning');
   const toStep2Btn = document.getElementById('modal-to-step2');
 
-  function validateCustomerStep(){
-    const nameVal = custNameEl.value.trim();
-    const ageVal = custAgeEl.value;
-    const idVal = custIdEl.value;
-
-    const isUnderage = ageVal === 'under18';
-    const isNoId = idVal === 'NONE';
-
-    ageWarningEl.classList.toggle('is-visible', isUnderage);
-    idWarningEl.classList.toggle('is-visible', isNoId);
-
-    const isValidName = nameVal.length > 0;
-    const isValidAge = ageVal && !isUnderage;
-    const isValidId = idVal && !isNoId;
-
-    const ok = isValidName && isValidAge && isValidId;
+  function validateStep1() {
+    const ok = custNameEl.value.trim() && custAgeEl.value && custAgeEl.value !== 'under18' && custIdEl.value && custIdEl.value !== 'NONE';
     toStep2Btn.classList.toggle('is-disabled', !ok);
   }
+  [custNameEl, custAgeEl, custIdEl].forEach(el => el.addEventListener('change', validateStep1));
+  custNameEl.addEventListener('input', validateStep1);
 
-  custNameEl.addEventListener('input', validateCustomerStep);
-  custAgeEl.addEventListener('change', validateCustomerStep);
-  custIdEl.addEventListener('change', validateCustomerStep);
-
-  document.getElementById('modal-to-step2').addEventListener('click', () => {
-    if(toStep2Btn.classList.contains('is-disabled')) return;
-    routeState.name = custNameEl.value.trim();
-    routeState.age = custAgeEl.value;
-    routeState.idType = custIdEl.value;
-    renderLocGrid('modal-pickup-grid');
-    if(routeState.location) selectLocationInModal(routeState.location);
-    goToStep(2);
-  });
-
-  // ---- Step 2: Location ----
+  document.getElementById('modal-to-step2').addEventListener('click', () => { renderLocGrid('modal-pickup-grid'); goToStep(2); });
   document.getElementById('modal-back-1').addEventListener('click', () => goToStep(1));
-  document.getElementById('modal-to-step3').addEventListener('click', () => {
-    if(!routeState.location) return;
-    renderFleetGrid('modal-fleet-grid', routeState.location);
-    goToStep(3);
-  });
-
-  // ---- Step 3: Vehicle ----
+  document.getElementById('modal-to-step3').addEventListener('click', () => { renderFleetGrid('modal-fleet-grid', routeState.location); goToStep(3); });
   document.getElementById('modal-back-2').addEventListener('click', () => goToStep(2));
-  document.getElementById('modal-to-step4').addEventListener('click', () => {
-    if(!routeState.vehicle) return;
-    goToStep(4);
-    updatePriceAndButton();
-  });
-
-  // ---- Step 4: Duration & Price ----
-  const daysEl = document.getElementById('rental-days');
-  const modalBookBtn = document.getElementById('modal-book');
-
-  function updatePriceAndButton(){
-    const rate = getRateFor(routeState.vehicle);
-    document.getElementById('rate-label').textContent = `${routeState.vehicle || 'Vehicle'} — per day`;
-    document.getElementById('rate-value').textContent = `₹${rate}`;
-
-    const parsed = parseInt(daysEl.value, 10);
-    const days = (!isNaN(parsed) && parsed > 0) ? parsed : 1;
-
-    const total = rate * days;
-    document.getElementById('days-value').textContent = days;
-    document.getElementById('total-value').textContent = `₹${total}`;
-
-    routeState.days = days;
-    routeState.total = total;
-
-    modalBookBtn.href = "https://wa.me/" + WHATSAPP_NUMBER + "?text=" + encodeURIComponent(buildWhatsAppMessage());
-  }
-
-  daysEl.addEventListener('input', updatePriceAndButton);
-  daysEl.addEventListener('change', () => {
-    const parsed = parseInt(daysEl.value, 10);
-    if (isNaN(parsed) || parsed < 1) {
-      daysEl.value = 1;
-      updatePriceAndButton();
-    }
-  });
-
+  document.getElementById('modal-to-step4').addEventListener('click', () => { updatePrice(); goToStep(4); });
   document.getElementById('modal-back-3').addEventListener('click', () => goToStep(3));
 
-  // Initialize
+  function updatePrice(){
+    const rate = routeState.vehicle.includes('Bullet') ? 800 : routeState.vehicle.includes('Harley') ? 2500 : 400;
+    const days = parseInt(document.getElementById('rental-days').value) || 1;
+    const total = rate * days;
+    document.getElementById('rate-label').textContent = `${routeState.vehicle} per day`;
+    document.getElementById('rate-value').textContent = `₹${rate}`;
+    document.getElementById('total-value').textContent = `₹${total}`;
+    
+    const msg = `Hi Ride Quick! I'd like to book ${routeState.vehicle} at ${routeState.location}.\nName: ${custNameEl.value}\nDuration: ${days} day(s)`;
+    document.getElementById('modal-book').href = `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(msg)}`;
+  }
+
+  document.getElementById('rental-days').addEventListener('input', updatePrice);
+
+  // INIT
   setupAgeDropdown();
   renderFeaturePills();
-  renderLocGrid('modal-pickup-grid');
-  loadFleetFromSheet();
-  refreshWhatsAppLinks();
-  initNearbyMap();
-
-  // ---- Nearby Map ----
-  function initNearbyMap(){
-    const mapEl = document.getElementById('live-map');
-    const statusText = document.getElementById('map-status-text');
-    if(!mapEl || typeof L === 'undefined') return;
-
-    const RISHIKESH = [30.0869, 78.2676];
-    const map = L.map(mapEl, {
-      zoomControl: true,
-      scrollWheelZoom: false,
-      attributionControl: true
-    }).setView(RISHIKESH, 14);
-
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      maxZoom: 19,
-      attribution: '&copy; OpenStreetMap contributors'
-    }).addTo(map);
-
-    function scatterDecorativeRides(center){
-      const rideDivIcon = L.divIcon({
-        className: '',
-        html: `<div class="ride-pin-icon">${bikeIcon}</div>`,
-        iconSize: [30, 30],
-        iconAnchor: [15, 15]
-      });
-      const count = 6;
-      for(let i = 0; i < count; i++){
-        const angle = Math.random() * Math.PI * 2;
-        const dist = 0.003 + Math.random() * 0.01;
-        const lat = center[0] + Math.cos(angle) * dist;
-        const lng = center[1] + Math.sin(angle) * dist * 1.2;
-        L.marker([lat, lng], { icon: rideDivIcon, interactive: false, keyboard: false }).addTo(map);
-      }
-    }
-
-    function placeUserPin(coords){
-      const userDivIcon = L.divIcon({
-        className: '',
-        html: `<div class="user-pin-icon"><div class="dot"></div></div>`,
-        iconSize: [18, 18],
-        iconAnchor: [9, 9]
-      });
-      L.marker(coords, { icon: userDivIcon, interactive: false, keyboard: false }).addTo(map);
-    }
-
-    if(!('geolocation' in navigator)){
-      statusText.textContent = 'Showing Rishikesh — location not available on this device';
-      scatterDecorativeRides(RISHIKESH);
-      return;
-    }
-
-    navigator.geolocation.getCurrentPosition(
-      pos => {
-        const coords = [pos.coords.latitude, pos.coords.longitude];
-        map.setView(coords, 16);
-        placeUserPin(coords);
-        scatterDecorativeRides(coords);
-        statusText.textContent = 'Showing your live location';
-      },
-      err => {
-        console.warn("Geolocation blocked or unavailable:", err.message);
-        statusText.textContent = 'Location blocked or denied — showing Rishikesh map';
-        scatterDecorativeRides(RISHIKESH);
-      },
-      { enableHighAccuracy: true, timeout: 8000 }
-    );
-  }
-
-  // ---- Parallax Hero Photo & Route Rail ----
-  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const heroPhoto = document.getElementById('hero-photo');
-  const hero = document.querySelector('.hero');
-  const rider = document.getElementById('rider-marker');
-  const track = document.querySelector('.route-rail .track');
-
-  function onScroll(){
-    const scrollY = window.scrollY;
-    const heroHeight = hero.offsetHeight;
-
-    if(!reduceMotion && heroPhoto){
-      const offset = Math.min(scrollY, heroHeight) * 0.35;
-      heroPhoto.style.transform = `translateY(${offset}px) scale(1.08)`;
-    }
-
-    if(track && rider){
-      const trackRect = track.getBoundingClientRect();
-      const trackHeight = trackRect.height;
-      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-      const progress = Math.min(Math.max(scrollY / docHeight, 0), 1);
-      const pos = trackHeight * progress;
-      rider.style.top = (12 * window.innerHeight/100 + pos) + 'px';
-    }
-  }
-
-  window.addEventListener('scroll', onScroll, {passive:true});
-  window.addEventListener('resize', onScroll);
-  onScroll();
+  renderSwipeStack();
 </script>
-
 </body>
 </html>
