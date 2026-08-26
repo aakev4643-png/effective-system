@@ -152,7 +152,7 @@
   .trust-chips span{display:flex; align-items:center; gap:8px;}
   .trust-chips .chip-dot{width:6px; height:6px; border-radius:50%; background:var(--teal-glow);}
 
-  /* INTERACTIVE VEHICLE SWIPE DECK */
+  /* VEHICLE SWIPE DECK */
   .swipe-section{
     padding: 60px 0;
     background: linear-gradient(180deg, #082C2D 0%, #0B3D3E 100%);
@@ -232,13 +232,13 @@
     display: flex; align-items: center; justify-content: center; cursor: pointer;
     transition: all 0.2s ease;
   }
-  .control-btn:hover { background: var(--saffron); color: #241300; border-color: var(--saffron); transform: scale(1.1); }
+  .control-btn:hover { background: var(--saffron); color: #241300; border-color: var(--saffron); transform: scale(1.08); }
   .swipe-hint {
     font-family: 'JetBrains Mono', monospace; font-size: 0.75rem;
     color: var(--teal-glow); margin-top: 12px; text-transform: uppercase; letter-spacing: 0.1em;
   }
 
-  /* FLOATING BOTTOM DOCK FOR MOBILE */
+  /* FLOATING MOBILE DOCK */
   .floating-dock {
     position: fixed; bottom: 16px; left: 50%; transform: translateX(-50%);
     width: calc(100% - 32px); max-width: 480px; z-index: 45;
@@ -320,17 +320,6 @@
   .loc-pill:hover{ background: rgba(232,135,30,0.15); border-color: var(--saffron); transform: translateY(-2px); }
   .loc-pill .status-dot{ width: 8px; height: 8px; border-radius: 50%; background: #4ECA64; display: inline-block; }
 
-  .booking-action-bar{
-    display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 20px;
-    background: rgba(246,239,227,0.06); border-radius: 18px; padding: 20px 24px;
-  }
-  .booking-action-info{ display: flex; align-items: center; gap: 14px; }
-  .booking-action-info .icon-badge{
-    width: 44px; height: 44px; border-radius: 12px; background: rgba(232,135,30,0.2);
-    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
-  }
-  .booking-action-info .icon-badge svg{ width: 22px; height: 22px; stroke: var(--saffron); }
-
   /* NEARBY MAP */
   #nearby-map .section-head{margin-bottom:24px;}
   .map-card{
@@ -363,19 +352,6 @@
   .map-legend span{display:flex; align-items:center; gap:8px;}
   .map-legend .dot-you{width:10px; height:10px; border-radius:50%; background:var(--teal-glow); display:inline-block; box-shadow:0 0 0 4px rgba(62,156,143,0.2);}
   .map-legend .dot-ride{width:10px; height:10px; border-radius:50%; background:var(--saffron); display:inline-block; box-shadow:0 0 0 4px rgba(232,135,30,0.2);}
-  .user-pin-icon, .ride-pin-icon{ display:flex; align-items:center; justify-content:center; }
-  .user-pin-icon .dot{
-    width:18px; height:18px; border-radius:50%;
-    background:var(--teal-glow); border:3px solid var(--sand);
-    box-shadow:0 0 0 6px rgba(62,156,143,0.28);
-  }
-  .ride-pin-icon{
-    width:30px; height:30px; border-radius:9px;
-    background:var(--saffron); box-shadow:0 4px 12px rgba(232,135,30,0.4);
-    pointer-events:none;
-  }
-  .ride-pin-icon svg{width:17px; height:17px;}
-  .leaflet-control-zoom{border:none !important; box-shadow:0 6px 16px rgba(0,0,0,0.15) !important;}
 
   /* MODAL */
   .modal-overlay{
@@ -406,17 +382,11 @@
     cursor:pointer; background:var(--sand-dim); transition:all .15s ease;
     text-align:left; border: none; width: 100%;
   }
-  .loc-chip .pin{
-    flex-shrink:0; width:32px; height:32px; border-radius:9px;
-    background:var(--teal-deep); display:flex; align-items:center; justify-content:center;
-  }
-  .loc-chip .pin svg{width:16px; height:16px;}
   .loc-chip .name{font-size:0.88rem; font-weight:600; line-height:1.2; color: var(--ink);}
   .loc-chip:hover{border-color:var(--teal-glow);}
   .loc-chip.selected{
     outline: 2px solid var(--saffron); background:rgba(232,135,30,0.1);
   }
-  .loc-chip.selected .pin{background:var(--saffron);}
 
   .fleet-grid{display:flex; flex-direction:column; gap:12px; margin-bottom: 24px;}
   .fleet-card{
@@ -439,7 +409,6 @@
   .fleet-card .fleet-img-thumb{
     width:42px; height:32px; object-fit:contain; filter:drop-shadow(0 2px 4px rgba(0,0,0,0.15));
   }
-  .fleet-card.selected .fleet-icon{background:var(--saffron);}
 
   .modal-next, #modal-book{width:100%; justify-content:center;}
   .modal-step-actions{display:flex; gap:12px; align-items:center;}
@@ -463,7 +432,6 @@
     background-repeat:no-repeat; background-position:right 14px center;
   }
   .field input:focus, .field select:focus{outline:none; border-color:var(--teal-glow);}
-  .field-hint{font-size:0.76rem; color:var(--ink-soft); margin-top:6px; line-height:1.4;}
 
   .id-warning{
     display:none; background:rgba(179,51,34,0.08); border:1px solid rgba(179,51,34,0.25);
@@ -488,34 +456,6 @@
   .gallery-cap h3{font-size:1.05rem; margin-bottom:4px;}
   .gallery-cap p{font-size:0.86rem; color:var(--ink-soft); line-height:1.5;}
 
-  /* TRUST & REVIEWS */
-  .reviews-grid, .trust-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:20px;}
-  .review-card, .trust-card{
-    background:#fff; border:1px solid var(--line); border-radius:16px; padding:26px 24px;
-  }
-  .review-stars{color:var(--saffron); font-size:1rem; letter-spacing:2px; margin-bottom:12px;}
-  .review-text{font-size:0.95rem; line-height:1.6; color:var(--ink); font-style:italic;}
-  .review-who{margin-top:14px; font-size:0.8rem; color:var(--ink-soft);}
-
-  .offer-ribbon{
-    margin-top:28px; background:var(--saffron); color:#241300;
-    border-radius:16px; padding:22px 28px;
-    display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:14px;
-  }
-  .offer-ribbon .big{font-family:'Fraunces', serif; font-style:italic; font-weight:600; font-size:1.5rem;}
-  .offer-ribbon p{font-size:0.88rem; max-width:360px; opacity:0.85;}
-
-  /* STEPS */
-  .steps{display:grid; grid-template-columns:repeat(3,1fr); gap:32px; position:relative;}
-  .step{position:relative; padding-top:8px;}
-  .step .idx{
-    font-family:'JetBrains Mono', monospace; font-size:0.8rem; color:var(--teal-glow);
-    background:var(--teal-deep); width:34px; height:34px; border-radius:50%;
-    display:flex; align-items:center; justify-content:center; margin-bottom:18px;
-  }
-  .step h3{font-size:1.1rem; margin-bottom:8px;}
-  .step p{font-size:0.92rem; color:var(--ink-soft); line-height:1.55;}
-
   /* FINAL CTA */
   .final-cta{
     background:var(--teal-deep); color:var(--sand);
@@ -529,9 +469,8 @@
   footer p{font-size:0.8rem; color:var(--ink-soft);}
   footer .fname{font-family:'Fraunces', serif; font-style:italic; color:var(--teal-deep); font-weight:600;}
 
-  @media (min-width:900px){ .route-rail{display:block;} }
   @media (max-width:820px){
-    .trust-grid, .steps, .reviews-grid, .gallery-grid{grid-template-columns:1fr;}
+    .gallery-grid{grid-template-columns:1fr;}
     .booking-feature-card{ padding: 28px 22px; }
   }
 </style>
@@ -542,16 +481,6 @@
   <div class="logo"><span class="dot"></span>Ride&nbsp;Quick</div>
   <a class="nav-cta" href="#book" id="nav-whatsapp">Book a ride</a>
 </nav>
-
-<div class="route-rail">
-  <div class="track"></div>
-  <div class="rider" id="rider-marker">
-    <svg viewBox="0 0 24 24" fill="none">
-      <circle cx="12" cy="12" r="11" fill="#E8871E"/>
-      <path d="M6 15.5h1.2l1-3.4h3.6l1.3 3.4H16M8.7 12.1h4.6M9.5 9.5l1-1.6h2.3l1.1 2.4" stroke="#0B3D3E" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"/>
-    </svg>
-  </div>
-</div>
 
 <!-- HERO -->
 <header class="hero">
@@ -585,14 +514,12 @@
     <p style="color: rgba(246,239,227,0.7); margin-top: 8px;">Drag cards left or right to browse available models in Rishikesh.</p>
 
     <div class="deck-container">
-      <div class="card-stack" id="card-stack">
-        <!-- Cards inserted dynamically -->
-      </div>
+      <div class="card-stack" id="card-stack"></div>
       
       <div class="deck-controls">
-        <button class="control-btn" id="swipe-left" aria-label="Pass">✕</button>
+        <button class="control-btn" id="swipe-left" aria-label="Previous">←</button>
         <button class="btn-primary" id="swipe-book-btn">Book This Ride →</button>
-        <button class="control-btn" id="swipe-right" aria-label="Next">♥</button>
+        <button class="control-btn" id="swipe-right" aria-label="Next">→</button>
       </div>
       <div class="swipe-hint">← Swipe Left / Right →</div>
     </div>
@@ -618,7 +545,7 @@
   </div>
 </section>
 
-<!-- PROMINENT FLEET BOOKING FEATURE -->
+<!-- FLEET BOOKING FEATURE (ALL 6 LOCATIONS) -->
 <section id="fleet">
   <div class="wrap">
     <div class="booking-feature-card">
@@ -626,7 +553,7 @@
         <div>
           <span class="eyebrow-dark" style="color:var(--teal-glow);">Live Pickup Hubs</span>
           <h2>Ready when you are.</h2>
-          <p>Real-time vehicle status across major spots in Rishikesh.</p>
+          <p>Real-time vehicle status across 6 major spots in Rishikesh.</p>
         </div>
         <button type="button" class="btn-primary" id="open-booking-banner">Start booking →</button>
       </div>
@@ -769,7 +696,8 @@
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 <script>
   const WHATSAPP_NUMBER = "917417462887";
-  const SHEET_CSV_URL = ""; 
+  // PASTE YOUR PUBLISHED GOOGLE SHEET CSV URL HERE TO DYNAMICALLY UPDATE INVENTORY LIVE
+  const SHEET_CSV_URL = "YOUR_PUBLISHED_GOOGLE_SHEET_CSV_URL_HERE";
 
   // VEHICLES DATASET FOR SWIPE CARDS WITH GITHUB IMAGES
   const SWIPE_VEHICLES = [
@@ -796,6 +724,7 @@
     }
   ];
 
+  // ALL 6 RISHIKESH LOCATIONS (DEFAULT DATA)
   let LOCATION_DATA = {
     "Laxman Jhula": [
       { name: "Royal Enfield Bullet 350", available: true, type: "bike", img: "royalenfield-bullet.png" },
@@ -810,10 +739,52 @@
       { name: "Royal Enfield Bullet 350", available: true, type: "bike", img: "royalenfield-bullet.png" },
       { name: "Honda Activa 5G", available: true, type: "scooter", img: "honda-activa-5g.png" },
       { name: "Harley-Davidson", available: true, type: "bike", img: "harleydavidson.png" }
+    ],
+    "Triveni Ghat": [
+      { name: "Honda Activa 5G", available: true, type: "scooter", img: "honda-activa-5g.png" },
+      { name: "Royal Enfield Bullet 350", available: true, type: "bike", img: "royalenfield-bullet.png" }
+    ],
+    "Rishikesh ISBT": [
+      { name: "Honda Activa 5G", available: true, type: "scooter", img: "honda-activa-5g.png" },
+      { name: "Royal Enfield Bullet 350", available: true, type: "bike", img: "royalenfield-bullet.png" }
+    ],
+    "Shivpuri": [
+      { name: "Royal Enfield Bullet 350", available: true, type: "bike", img: "royalenfield-bullet.png" },
+      { name: "Harley-Davidson", available: true, type: "bike", img: "harleydavidson.png" }
     ]
   };
 
   const routeState = { name: null, age: null, idType: null, location: null, vehicle: null, days: 1, total: null };
+
+  // LIVE GOOGLE SHEET FETCH INTEGRATION
+  async function fetchSheetData() {
+    if (!SHEET_CSV_URL || SHEET_CSV_URL.includes("YOUR_PUBLISHED_GOOGLE_SHEET")) return;
+    try {
+      const res = await fetch(SHEET_CSV_URL);
+      const csvText = await res.text();
+      const rows = csvText.split('\n').map(row => row.split(','));
+      
+      const parsedData = {};
+      // Assumes Sheet Headers: Location, VehicleName, Available, Type, Image
+      for (let i = 1; i < rows.length; i++) {
+        const [loc, name, avail, type, img] = rows[i].map(c => c?.trim());
+        if (!loc || !name) continue;
+        if (!parsedData[loc]) parsedData[loc] = [];
+        parsedData[loc].push({
+          name: name,
+          available: avail?.toLowerCase() === 'true' || avail === '1',
+          type: type || 'scooter',
+          img: img || 'honda-activa-5g.png'
+        });
+      }
+      if (Object.keys(parsedData).length > 0) {
+        LOCATION_DATA = parsedData;
+        renderFeaturePills();
+      }
+    } catch (err) {
+      console.warn("Could not load live Google Sheet data, using fallback inventory.", err);
+    }
+  }
 
   // SWIPE STACK CONTROLLER
   let currentCardIndex = 0;
@@ -886,7 +857,7 @@
   }
 
   document.getElementById('swipe-left').addEventListener('click', () => {
-    currentCardIndex = (currentCardIndex + 1) % SWIPE_VEHICLES.length;
+    currentCardIndex = (currentCardIndex - 1 + SWIPE_VEHICLES.length) % SWIPE_VEHICLES.length;
     renderSwipeStack();
   });
   document.getElementById('swipe-right').addEventListener('click', () => {
@@ -898,7 +869,7 @@
     openModal(); goToStep(1);
   });
 
-  // CORE FUNCTIONS
+  // UI UI LOGIC & MODALS
   function setupAgeDropdown() {
     const ageSelect = document.getElementById('cust-age');
     if(!ageSelect) return;
@@ -930,15 +901,15 @@
     const el = document.getElementById(containerId);
     const vehicles = LOCATION_DATA[locationName] || [];
     el.innerHTML = vehicles.map(v => `
-      <button type="button" class="fleet-card ${routeState.vehicle === v.name ? 'selected' : ''}" data-vehicle="${v.name}">
+      <button type="button" class="fleet-card ${v.available ? '' : 'sold-out'} ${routeState.vehicle === v.name ? 'selected' : ''}" data-vehicle="${v.name}">
         <span class="fleet-left">
           <img src="${v.img}" class="fleet-img-thumb" alt="${v.name}">
           <span class="fleet-name">${v.name}</span>
         </span>
-        <span class="fleet-avail">Available</span>
+        <span class="fleet-avail">${v.available ? 'Available' : 'Sold Out'}</span>
       </button>
     `).join('');
-    el.querySelectorAll('.fleet-card').forEach(card => {
+    el.querySelectorAll('.fleet-card:not(.sold-out)').forEach(card => {
       card.addEventListener('click', () => {
         routeState.vehicle = card.dataset.vehicle;
         el.querySelectorAll('.fleet-card').forEach(c => c.classList.remove('selected'));
@@ -1003,7 +974,7 @@
   document.getElementById('modal-back-3').addEventListener('click', () => goToStep(3));
 
   function updatePrice(){
-    const rate = routeState.vehicle.includes('Bullet') ? 800 : routeState.vehicle.includes('Harley') ? 2500 : 400;
+    const rate = routeState.vehicle?.includes('Bullet') ? 800 : routeState.vehicle?.includes('Harley') ? 2500 : 400;
     const days = parseInt(document.getElementById('rental-days').value) || 1;
     const total = rate * days;
     document.getElementById('rate-label').textContent = `${routeState.vehicle} per day`;
@@ -1020,6 +991,7 @@
   setupAgeDropdown();
   renderFeaturePills();
   renderSwipeStack();
+  fetchSheetData();
 </script>
 </body>
 </html>
