@@ -1188,7 +1188,7 @@
     updatePriceAndButton();
   });
 
-  // ---- Step 4: Duration & Price ----
+  // ---- Step 4: Duration & Price (FIXED: Allow typing & deleting without overriding value) ----
   const daysEl = document.getElementById('rental-days');
   const modalBookBtn = document.getElementById('modal-book');
 
@@ -1197,8 +1197,9 @@
     document.getElementById('rate-label').textContent = `${routeState.vehicle || 'Vehicle'} — per day`;
     document.getElementById('rate-value').textContent = `₹${rate}`;
 
-    const days = Math.max(1, parseInt(daysEl.value, 10) || 1);
-    daysEl.value = days;
+    const parsed = parseInt(daysEl.value, 10);
+    const days = (!isNaN(parsed) && parsed > 0) ? parsed : 1;
+
     const total = rate * days;
     document.getElementById('days-value').textContent = days;
     document.getElementById('total-value').textContent = `₹${total}`;
@@ -1210,6 +1211,14 @@
   }
 
   daysEl.addEventListener('input', updatePriceAndButton);
+  daysEl.addEventListener('change', () => {
+    const parsed = parseInt(daysEl.value, 10);
+    if (isNaN(parsed) || parsed < 1) {
+      daysEl.value = 1;
+      updatePriceAndButton();
+    }
+  });
+
   document.getElementById('modal-back-3').addEventListener('click', () => goToStep(3));
 
   // Initialize
@@ -1280,7 +1289,8 @@
         statusText.textContent = 'Showing your live location';
       },
       err => {
-        statusText.textContent = 'Showing Rishikesh — enable location for your live pin';
+        console.warn("Geolocation blocked or unavailable:", err.message);
+        statusText.textContent = 'Location blocked or denied — showing Rishikesh map';
         scatterDecorativeRides(RISHIKESH);
       },
       { enableHighAccuracy: true, timeout: 8000 }
