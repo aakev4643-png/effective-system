@@ -1,4 +1,5 @@
-<!DOCTYPE html>
+
+   <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -10,700 +11,381 @@
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
 <style>
   :root{
-    --teal-deep:#0B3D3E;
-    --teal-mid:#145C5D;
-    --teal-glow:#3E9C8F;
-    --saffron:#E8871E;
-    --saffron-dark:#C96B0E;
-    --sand:#F6EFE3;
-    --sand-dim:#EDE3D0;
-    --ink:#1E2420;
-    --ink-soft:#4A5450;
-    --line:rgba(30,36,32,0.12);
+    --teal-deep:#0B3D3E; --teal-mid:#145C5D; --teal-glow:#3E9C8F;
+    --saffron:#E8871E; --saffron-dark:#C96B0E;
+    --sand:#F6EFE3; --sand-dim:#EDE3D0;
+    --ink:#1E2420; --ink-soft:#4A5450; --line:rgba(30,36,32,0.12);
   }
-
   *{box-sizing:border-box; margin:0; padding:0;}
   html{scroll-behavior:smooth;}
-  body{
-    background:var(--sand);
-    color:var(--ink);
-    font-family:'Work Sans', sans-serif;
-    overflow-x:hidden;
-  }
-  h1,h2,h3, .display{
-    font-family:'Fraunces', serif;
-    font-weight:600;
-    letter-spacing:-0.01em;
-  }
+  body{background:var(--sand); color:var(--ink); font-family:'Work Sans', sans-serif; overflow-x:hidden;}
+  h1,h2,h3, .display{font-family:'Fraunces', serif; font-weight:600; letter-spacing:-0.01em;}
   .mono{font-family:'JetBrains Mono', monospace;}
   a{color:inherit; text-decoration:none;}
   img,svg{display:block; max-width:100%;}
   .wrap{max-width:1080px; margin:0 auto; padding:0 24px;}
 
-  /* ---------- NAV ---------- */
-  nav{
-    position:fixed; top:0; left:0; right:0; z-index:50;
-    display:flex; align-items:center; justify-content:space-between;
-    padding:18px 24px;
-    background:rgba(246,239,227,0.85);
-    backdrop-filter:blur(10px);
-    border-bottom:1px solid var(--line);
-  }
-  .logo{
-    font-family:'Fraunces', serif; font-weight:600; font-style:italic;
-    font-size:1.3rem; color:var(--teal-deep);
-    display:flex; align-items:center; gap:8px;
-  }
+  /* NAV */
+  nav{position:fixed; top:0; left:0; right:0; z-index:50; display:flex; align-items:center; justify-content:space-between; padding:18px 24px; background:rgba(246,239,227,0.85); backdrop-filter:blur(10px); border-bottom:1px solid var(--line);}
+  .logo{font-family:'Fraunces', serif; font-weight:600; font-style:italic; font-size:1.3rem; color:var(--teal-deep); display:flex; align-items:center; gap:8px;}
   .logo .dot{width:8px; height:8px; border-radius:50%; background:var(--saffron); display:inline-block;}
-  .nav-cta{
-    background:var(--teal-deep); color:var(--sand);
-    padding:10px 18px; border-radius:100px;
-    font-size:0.85rem; font-weight:600;
-    display:flex; align-items:center; gap:6px;
-    transition:transform .2s ease, background .2s ease;
-    border:none; cursor:pointer;
-  }
+  .nav-cta{background:var(--teal-deep); color:var(--sand); padding:10px 18px; border-radius:100px; font-size:0.85rem; font-weight:600; display:flex; align-items:center; gap:6px; transition:transform .2s ease, background .2s ease; border:none; cursor:pointer;}
   .nav-cta:hover{background:var(--saffron); color:#241300; transform:translateY(-1px);}
 
-  /* ---------- HERO / PARALLAX ---------- */
-  .hero{
-    position:relative;
-    min-height:100vh;
-    display:flex; flex-direction:column; align-items:center; justify-content:center;
-    overflow:hidden;
-    background:#082C2D;
-    color:var(--sand);
-    padding-top:80px;
-  }
-  .hero-photo{
-    position:absolute; inset:0; width:100%; height:120%; top:-10%;
-    background-image:url("main_image.jpg");
-    background-size:cover; background-position:center 65%;
-    will-change:transform;
-  }
-  .hero-scrim{
-    position:absolute; inset:0;
-    background:
-      linear-gradient(180deg, rgba(6,26,26,0.78) 0%, rgba(6,26,26,0.60) 40%, rgba(6,26,26,0.88) 100%),
-      linear-gradient(90deg, rgba(6,26,26,0.65) 0%, rgba(6,26,26,0.20) 55%, rgba(6,26,26,0.65) 100%);
-  }
-
-  .hero-content{
-    position:relative; z-index:5;
-    max-width:1080px; margin:0 auto; padding:0 24px;
-    width:100%;
-  }
-  .hero-badges{
-    display:flex; align-items:center; gap:12px; flex-wrap:wrap;
-    margin-bottom:22px;
-  }
-  .eyebrow{
-    display:inline-flex; align-items:center; gap:8px;
-    font-family:'JetBrains Mono', monospace; font-size:0.72rem;
-    letter-spacing:0.12em; text-transform:uppercase;
-    color:var(--teal-glow);
-    border:1px solid rgba(62,156,143,0.4);
-    padding:6px 12px; border-radius:100px;
-  }
-  .offer-badge{
-    display:inline-flex; align-items:center; gap:6px;
-    background:var(--saffron); color:#241300;
-    font-size:0.78rem; font-weight:700;
-    padding:7px 14px; border-radius:100px;
-    animation:badge-pop 2.4s ease-in-out infinite;
-  }
-  @keyframes badge-pop{
-    0%,100%{transform:scale(1); box-shadow:0 0 0 0 rgba(232,135,30,0.4);}
-    50%{transform:scale(1.05); box-shadow:0 0 0 8px rgba(232,135,30,0);}
-  }
-  .hero h1{
-    font-size:clamp(2.4rem, 6vw, 4.4rem);
-    line-height:1.02;
-    max-width:780px;
-    color:var(--sand);
-  }
-  .hero p.lede{
-    margin-top:22px; max-width:540px;
-    font-size:1.08rem; line-height:1.55;
-    color:rgba(246,239,227,0.85);
-  }
-  .hero-actions{
-    margin-top:34px; display:flex; gap:14px; flex-wrap:wrap; align-items:center;
-  }
-  .btn-primary{
-    background:var(--saffron); color:#241300;
-    padding:16px 28px; border-radius:100px;
-    font-weight:700; font-size:1rem;
-    display:inline-flex; align-items:center; gap:10px;
-    transition:transform .2s ease, box-shadow .2s ease, background .2s ease;
-    box-shadow:0 10px 30px rgba(232,135,30,0.25);
-    border:none; cursor:pointer;
-  }
+  /* HERO (base) */
+  .hero-badges{display:flex; align-items:center; gap:12px; flex-wrap:wrap; margin-bottom:22px;}
+  .eyebrow{display:inline-flex; align-items:center; gap:8px; font-family:'JetBrains Mono', monospace; font-size:0.72rem; letter-spacing:0.12em; text-transform:uppercase; color:var(--teal-glow); border:1px solid rgba(62,156,143,0.4); padding:6px 12px; border-radius:100px;}
+  .offer-badge{display:inline-flex; align-items:center; gap:6px; background:var(--saffron); color:#241300; font-size:0.78rem; font-weight:700; padding:7px 14px; border-radius:100px; animation:badge-pop 2.4s ease-in-out infinite;}
+  @keyframes badge-pop{0%,100%{transform:scale(1); box-shadow:0 0 0 0 rgba(232,135,30,0.4);} 50%{transform:scale(1.05); box-shadow:0 0 0 8px rgba(232,135,30,0);}}
+  .hero h1{font-size:clamp(2.4rem, 6vw, 4.4rem); line-height:1.02; max-width:780px;}
+  .hero p.lede{margin-top:22px; max-width:540px; font-size:1.08rem; line-height:1.55;}
+  .hero-actions{margin-top:34px; display:flex; gap:14px; flex-wrap:wrap; align-items:center;}
+  .btn-primary{background:var(--saffron); color:#241300; padding:16px 28px; border-radius:100px; font-weight:700; font-size:1rem; display:inline-flex; align-items:center; gap:10px; transition:transform .2s ease, box-shadow .2s ease, background .2s ease; box-shadow:0 10px 30px rgba(232,135,30,0.25); border:none; cursor:pointer;}
   .btn-primary:hover{transform:translateY(-2px); box-shadow:0 14px 34px rgba(232,135,30,0.35); background:#fca136;}
-  .btn-secondary{
-    color:var(--sand); font-weight:600; font-size:0.95rem;
-    border-bottom:1px solid rgba(246,239,227,0.4);
-    padding-bottom:2px;
-  }
-  .trust-chips{
-    margin-top:44px; display:flex; gap:28px; flex-wrap:wrap;
-    font-size:0.82rem; color:rgba(246,239,227,0.85);
-  }
+  .btn-secondary{color:var(--sand); font-weight:600; font-size:0.95rem; border-bottom:1px solid rgba(246,239,227,0.4); padding-bottom:2px;}
+  .trust-chips{margin-top:44px; display:flex; gap:28px; flex-wrap:wrap; font-size:0.82rem;}
   .trust-chips span{display:flex; align-items:center; gap:8px;}
   .trust-chips .chip-dot{width:6px; height:6px; border-radius:50%; background:var(--teal-glow);}
 
-  /* ---------- SWIPE DECK (hero) ---------- */
-  .swipe-deck-wrap{
-    position:relative; z-index:5;
-    display:flex; flex-direction:column; align-items:center; gap:14px;
-    margin-top:36px; padding-bottom:10px;
-  }
-  .swipe-deck{
-    position:relative; width:min(88vw, 300px); height:340px;
-    touch-action:pan-y;
-  }
-  .swipe-card{
-    position:absolute; inset:0;
-    background:var(--sand); border-radius:22px; overflow:hidden;
-    box-shadow:0 20px 45px rgba(0,0,0,0.35);
-    display:flex; flex-direction:column;
-    cursor:grab; user-select:none;
-    transition:transform .35s cubic-bezier(.2,.8,.2,1), opacity .35s ease;
-    will-change:transform;
-  }
+  /* SWIPE DECK */
+  .swipe-deck-wrap{position:relative; z-index:5; display:flex; flex-direction:column; align-items:center; gap:14px; margin-top:36px; padding-bottom:10px;}
+  .swipe-deck{position:relative; width:min(88vw, 300px); height:340px; touch-action:pan-y;}
+  .swipe-card{position:absolute; inset:0; background:var(--sand); border-radius:22px; overflow:hidden; box-shadow:0 20px 45px rgba(0,0,0,0.35); display:flex; flex-direction:column; cursor:grab; user-select:none; transition:transform .35s cubic-bezier(.2,.8,.2,1), opacity .35s ease; will-change:transform;}
   .swipe-card:active{cursor:grabbing;}
   .swipe-card.dragging{transition:none;}
-  .swipe-card .swipe-img{
-    flex:1; width:100%; object-fit:cover; background:var(--sand-dim);
-    pointer-events:none;
-  }
-  .swipe-card .swipe-info{
-    padding:14px 16px 16px; background:var(--sand);
-  }
+  .swipe-card .swipe-img{flex:1; width:100%; min-height:0; object-fit:cover; background:var(--sand-dim); pointer-events:none;}
+  .swipe-card .swipe-info{padding:14px 16px 16px; background:var(--sand);}
   .swipe-card .swipe-name{font-family:'Fraunces', serif; font-weight:600; font-size:1.05rem; color:var(--ink);}
-  .swipe-card .swipe-meta{
-    display:flex; justify-content:space-between; align-items:center;
-    margin-top:6px; font-size:0.78rem; color:var(--ink-soft);
-  }
+  .swipe-card .swipe-meta{display:flex; justify-content:space-between; align-items:center; margin-top:6px; font-size:0.78rem; color:var(--ink-soft);}
   .swipe-card .swipe-avail{color:var(--teal-mid); font-weight:600;}
   .swipe-card .swipe-avail.sold{color:#B33;}
-  .swipe-card .swipe-book{
-    margin-top:10px; width:100%; text-align:center;
-    background:var(--saffron); color:#241300; font-weight:700; font-size:0.85rem;
-    padding:9px; border-radius:100px; border:none; cursor:pointer;
-  }
-  .swipe-hint{font-size:0.68rem; letter-spacing:0.08em; color:rgba(246,239,227,0.55);}
+  .swipe-card .swipe-book{margin-top:10px; width:100%; text-align:center; background:var(--saffron); color:#241300; font-weight:700; font-size:0.85rem; padding:9px; border-radius:100px; border:none; cursor:pointer;}
+  .swipe-hint{font-size:0.68rem; letter-spacing:0.08em;}
 
-  .scroll-cue{
-    position:absolute; bottom:28px; left:50%; transform:translateX(-50%);
-    font-family:'JetBrains Mono', monospace; font-size:0.68rem;
-    color:rgba(246,239,227,0.55); text-transform:uppercase; letter-spacing:0.15em;
-    display:flex; flex-direction:column; align-items:center; gap:8px; z-index:5;
-  }
-  .scroll-cue .line{width:1px; height:34px; background:linear-gradient(180deg, rgba(246,239,227,0.6), transparent); animation:pulse-line 2s ease-in-out infinite;}
+  .scroll-cue{position:absolute; bottom:28px; left:50%; transform:translateX(-50%); font-family:'JetBrains Mono', monospace; font-size:0.68rem; text-transform:uppercase; letter-spacing:0.15em; display:flex; flex-direction:column; align-items:center; gap:8px; z-index:5;}
+  .scroll-cue .line{width:1px; height:34px; animation:pulse-line 2s ease-in-out infinite;}
   @keyframes pulse-line{0%,100%{opacity:0.3;} 50%{opacity:1;}}
 
-  /* ---------- ROUTE RAIL ---------- */
-  .route-rail{
-    position:fixed; left:18px; top:0; bottom:0; width:2px; z-index:40;
-    display:none;
-  }
-  .route-rail .track{
-    position:absolute; left:0; top:12vh; bottom:12vh; width:2px;
-    background:repeating-linear-gradient(180deg, var(--ink) 0 6px, transparent 6px 14px);
-    opacity:0.25;
-  }
-  .route-rail .rider{
-    position:absolute; left:-9px; top:12vh; width:20px; height:20px;
-    transition:top .05s linear;
-  }
+  /* ROUTE RAIL */
+  .route-rail{position:fixed; left:18px; top:0; bottom:0; width:2px; z-index:40; display:none;}
+  .route-rail .track{position:absolute; left:0; top:12vh; bottom:12vh; width:2px; background:repeating-linear-gradient(180deg, var(--ink) 0 6px, transparent 6px 14px); opacity:0.25;}
+  .route-rail .rider{position:absolute; left:-9px; top:12vh; width:20px; height:20px; transition:top .05s linear;}
   .route-rail .rider svg{width:100%; height:100%;}
 
-  /* ---------- SECTION SHELL ---------- */
+  /* SECTIONS */
   section{padding:80px 0; position:relative;}
   .section-head{max-width:620px; margin-bottom:40px;}
-  .section-head .eyebrow-dark{
-    font-family:'JetBrains Mono', monospace; font-size:0.72rem;
-    letter-spacing:0.12em; text-transform:uppercase; color:var(--teal-mid);
-    margin-bottom:14px; display:flex; align-items:center; gap:8px;
-  }
-  .section-head .eyebrow-dark::before{
-    content:''; width:6px; height:6px; border-radius:50%; background:var(--saffron); display:inline-block;
-  }
+  .section-head .eyebrow-dark{font-family:'JetBrains Mono', monospace; font-size:0.72rem; letter-spacing:0.12em; text-transform:uppercase; color:var(--teal-mid); margin-bottom:14px; display:flex; align-items:center; gap:8px;}
+  .section-head .eyebrow-dark::before{content:''; width:6px; height:6px; border-radius:50%; background:var(--saffron); display:inline-block;}
   .section-head h2{font-size:clamp(1.8rem, 3.4vw, 2.6rem); color:var(--ink);}
   .section-head p{margin-top:12px; color:var(--ink-soft); font-size:1.02rem; line-height:1.6;}
+  .eyebrow-dark{font-family:'JetBrains Mono', monospace; font-size:0.72rem; letter-spacing:0.12em; text-transform:uppercase; display:flex; align-items:center; gap:8px; margin-bottom:14px;}
 
-  /* ---------- FEATURED BOOKING SECTION ---------- */
-  .booking-feature-card{
-    background: linear-gradient(135deg, #0B3D3E 0%, #082C2D 100%);
-    color: var(--sand);
-    border-radius: 28px;
-    padding: 44px 40px;
-    box-shadow: 0 20px 50px rgba(11, 61, 62, 0.25);
-    border: 1px solid rgba(62,156,143,0.3);
-    position: relative;
-    overflow: hidden;
-  }
-  .booking-feature-card::before{
-    content: ''; position: absolute; right: -50px; top: -50px;
-    width: 250px; height: 250px; border-radius: 50%;
-    background: radial-gradient(circle, rgba(232,135,30,0.15) 0%, transparent 70%);
-    pointer-events: none;
-  }
-  .booking-feature-header{
-    display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 20px;
-    border-bottom: 1px solid rgba(246,239,227,0.15); padding-bottom: 24px; margin-bottom: 28px;
-  }
-  .booking-feature-header h2{ font-size: clamp(1.8rem, 3.2vw, 2.5rem); color: var(--sand); }
-  .booking-feature-header p{ color: rgba(246,239,227,0.8); margin-top: 6px; font-size: 1rem; }
+  /* BOOKING FEATURE */
+  .booking-feature-card{color:var(--sand); border-radius:28px; padding:44px 40px; position:relative; overflow:hidden;}
+  .booking-feature-header{display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:20px; border-bottom:1px solid rgba(246,239,227,0.15); padding-bottom:24px; margin-bottom:28px;}
+  .booking-feature-header h2{font-size:clamp(1.8rem, 3.2vw, 2.5rem);}
+  .booking-feature-header p{margin-top:6px; font-size:1rem;}
+  .location-pills-label{font-family:'JetBrains Mono', monospace; font-size:0.72rem; text-transform:uppercase; letter-spacing:0.12em; margin-bottom:14px; display:block;}
+  .location-pills-grid{display:grid; grid-template-columns:repeat(auto-fit, minmax(150px, 1fr)); gap:12px; margin-bottom:30px;}
+  .loc-pill{border-radius:14px; padding:12px 16px; font-weight:500; font-size:0.9rem; display:flex; align-items:center; justify-content:space-between; transition:all 0.2s ease; cursor:pointer; text-align:left;}
+  .loc-pill:hover{transform:translateY(-2px);}
+  .loc-pill .status-dot{width:8px; height:8px; border-radius:50%; background:#4ECA64; display:inline-block;}
+  .booking-action-bar{display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:20px; border-radius:18px; padding:20px 24px;}
+  .booking-action-info{display:flex; align-items:center; gap:14px;}
+  .booking-action-info .icon-badge{width:44px; height:44px; border-radius:12px; display:flex; align-items:center; justify-content:center; flex-shrink:0;}
+  .booking-action-info .icon-badge svg{width:22px; height:22px;}
 
-  .location-pills-label{
-    font-family: 'JetBrains Mono', monospace; font-size: 0.72rem; text-transform: uppercase;
-    letter-spacing: 0.12em; color: var(--teal-glow); margin-bottom: 14px; display: block;
-  }
-  .location-pills-grid{
-    display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin-bottom: 30px;
-  }
-  .loc-pill{
-    background: rgba(246,239,227,0.08); border: 1px solid rgba(246,239,227,0.2);
-    border-radius: 14px; padding: 12px 16px; color: var(--sand); font-weight: 500;
-    font-size: 0.9rem; display: flex; align-items: center; justify-content: space-between;
-    transition: all 0.2s ease; cursor: pointer; text-align: left;
-  }
-  .loc-pill:hover{ background: rgba(232,135,30,0.15); border-color: var(--saffron); transform: translateY(-2px); }
-  .loc-pill .status-dot{ width: 8px; height: 8px; border-radius: 50%; background: #4ECA64; display: inline-block; }
-
-  .booking-action-bar{
-    display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 20px;
-    background: rgba(246,239,227,0.06); border-radius: 18px; padding: 20px 24px;
-  }
-  .booking-action-info{ display: flex; align-items: center; gap: 14px; }
-  .booking-action-info .icon-badge{
-    width: 44px; height: 44px; border-radius: 12px; background: rgba(232,135,30,0.2);
-    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
-  }
-  .booking-action-info .icon-badge svg{ width: 22px; height: 22px; stroke: var(--saffron); }
-
-  /* ---------- NEARBY MAP ---------- */
+  /* MAP */
   #nearby-map .section-head{margin-bottom:24px;}
-  .map-card{
-    border-radius:24px; overflow:hidden;
-    border:1px solid var(--line);
-    box-shadow:0 16px 40px rgba(11,61,62,0.12);
-    position:relative;
-    background:var(--sand-dim);
-  }
-  #live-map{
-    height:380px; width:100%; background:var(--sand-dim);
-    filter:saturate(0.85);
-  }
-  .map-status{
-    position:absolute; left:16px; top:16px; z-index:5;
-    background:rgba(246,239,227,0.92); backdrop-filter:blur(6px);
-    border-radius:100px; padding:8px 14px;
-    font-family:'JetBrains Mono', monospace; font-size:0.72rem;
-    color:var(--teal-deep); display:flex; align-items:center; gap:8px;
-    box-shadow:0 6px 16px rgba(0,0,0,0.1);
-  }
-  .map-status .pulse-dot{
-    width:8px; height:8px; border-radius:50%; background:var(--saffron);
-    animation:badge-pop 1.6s ease-in-out infinite;
-  }
+  .map-card{border-radius:24px; overflow:hidden; position:relative;}
+  #live-map{height:380px; width:100%; background:var(--sand-dim); filter:saturate(0.85);}
+  .map-status{position:absolute; left:16px; top:16px; z-index:500; background:rgba(255,255,255,0.92); backdrop-filter:blur(6px); border-radius:100px; padding:8px 14px; font-family:'JetBrains Mono', monospace; font-size:0.72rem; color:var(--teal-deep); display:flex; align-items:center; gap:8px; box-shadow:0 6px 16px rgba(0,0,0,0.1);}
+  .map-status .pulse-dot{width:8px; height:8px; border-radius:50%; background:var(--saffron);}
 
-  /* ========== GLASSMORPHISM EFFECTS ========== */
-  @keyframes shimmer {
-    0% { background-position: -1000px 0; }
-    100% { background-position: 1000px 0; }
-  }
-  @keyframes float {
-    0%, 100% { transform: translateY(0px); }
-    50% { transform: translateY(-10px); }
-  }
+  @keyframes shimmer{0%{background-position:-1000px 0;} 100%{background-position:1000px 0;}}
+  @keyframes float{0%,100%{transform:translateY(0);} 50%{transform:translateY(-10px);}}
 
-  /* ---------- GALLERY CARDS WITH GLASSMORPHISM ---------- */
+  /* GALLERY */
   .gallery-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:22px;}
-  .gallery-card{
-    border-radius:24px; overflow:hidden; background:transparent;
-    transition:all .4s cubic-bezier(0.34, 1.56, 0.64, 1);
-    transform-style:preserve-3d;
-    position:relative;
-    cursor:pointer;
-    height:360px;
-  }
-  .gallery-card:hover{
-    transform:translateY(-12px) scale(1.02);
-  }
+  .gallery-card{border-radius:24px; overflow:hidden; transition:all .4s cubic-bezier(0.34, 1.56, 0.64, 1); position:relative; cursor:pointer; height:360px;}
+  .gallery-card:hover{transform:translateY(-12px) scale(1.02);}
+  .gallery-card-img-wrap{position:absolute; inset:0; width:100%; height:100%; border-radius:24px; overflow:hidden;}
+  .gallery-card img{width:100%; height:100%; object-fit:cover; display:block; transition:transform 0.4s ease;}
+  .gallery-card:hover img{transform:scale(1.08);}
+  .gallery-card::after{content:''; position:absolute; inset:0; border-radius:24px; z-index:1; pointer-events:none;}
+  .gallery-cap{position:absolute; bottom:0; left:0; right:0; padding:28px 24px; z-index:2; transition:all 0.3s ease;}
+  .gallery-cap h3{font-size:1.3rem; margin-bottom:6px;}
+  .gallery-cap p{font-size:0.9rem; line-height:1.5;}
+  .gallery-card::before{content:''; position:absolute; top:0; left:-1000px; width:1000px; height:100%; background:linear-gradient(90deg, transparent, rgba(255,255,255,0.35), transparent); opacity:0; z-index:3; border-radius:24px; pointer-events:none; transition:opacity 0.3s ease;}
+  .gallery-card:hover::before{animation:shimmer 0.8s ease-in-out; opacity:1;}
 
-  .gallery-card-img-wrap{
-    position:absolute; inset:0; width:100%; height:100%;
-    border-radius:24px; overflow:hidden;
-    background:linear-gradient(135deg, var(--teal-deep), var(--teal-mid));
-  }
-  .gallery-card img{
-    width:100%; height:100%; object-fit:cover; display:block;
-    transition:transform 0.4s ease;
-  }
-  .gallery-card:hover img{
-    transform:scale(1.08);
-  }
-
-  .gallery-card::after{
-    content:''; position:absolute; inset:0;
-    background:linear-gradient(180deg, transparent 0%, rgba(6,26,26,0.7) 100%);
-    border-radius:24px;
-    z-index:1;
-  }
-
-  .gallery-cap{
-    position:absolute; bottom:0; left:0; right:0;
-    padding:28px 24px;
-    color:var(--sand);
-    z-index:2;
-    background:rgba(11, 61, 62, 0.3);
-    backdrop-filter:blur(16px) saturate(180%);
-    border-top:1px solid rgba(246,239,227,0.2);
-    border-radius:0 0 24px 24px;
-    transition:all 0.3s ease;
-  }
-  .gallery-card:hover .gallery-cap{
-    background:rgba(11, 61, 62, 0.5);
-    backdrop-filter:blur(20px) saturate(200%);
-  }
-
-  .gallery-cap h3{
-    font-size:1.3rem; margin-bottom:6px;
-    text-shadow:0 2px 8px rgba(0,0,0,0.3);
-  }
-  .gallery-cap p{
-    font-size:0.9rem; line-height:1.5;
-    opacity:0.9;
-  }
-
-  /* Shimmer effect */
-  .gallery-card::before{
-    content:'';
-    position:absolute;
-    top:0; left:-1000px; width:1000px; height:100%;
-    background:linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-    opacity:0;
-    z-index:3;
-    border-radius:24px;
-    transition:opacity 0.3s ease;
-  }
-  .gallery-card:hover::before{
-    animation:shimmer 0.8s ease-in-out;
-    opacity:1;
-  }
-
-  /* ---------- TRUST CARDS WITH GLASSMORPHISM ---------- */
+  /* TRUST */
   .trust-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:20px;}
-  .trust-card{
-    background:rgba(246,239,227,0.4);
-    backdrop-filter:blur(20px) saturate(180%);
-    border:1px solid rgba(62,156,143,0.3);
-    border-radius:24px;
-    padding:32px 28px;
-    transition:all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-    position:relative;
-    overflow:hidden;
-  }
-  .trust-card:hover{
-    background:rgba(246,239,227,0.5);
-    backdrop-filter:blur(25px) saturate(200%);
-    transform:translateY(-8px);
-    border-color:rgba(62,156,143,0.5);
-    box-shadow:0 20px 50px rgba(62,156,143,0.15);
-  }
+  .trust-card{border-radius:24px; padding:32px 28px; transition:all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); position:relative; overflow:hidden;}
+  .trust-card:hover{transform:translateY(-8px);}
+  .trust-card .icon-wrap{width:56px; height:56px; border-radius:16px; display:flex; align-items:center; justify-content:center; margin-bottom:20px; border:1px solid; transition:all 0.3s ease; position:relative; z-index:1;}
+  .trust-card:hover .icon-wrap{transform:scale(1.1) rotate(5deg);}
+  .trust-card h3{font-size:1.2rem; margin-bottom:10px; color:var(--ink); position:relative; z-index:1;}
+  .trust-card p{font-size:0.95rem; color:var(--ink-soft); line-height:1.6; position:relative; z-index:1;}
 
-  .trust-card::before{
-    content:'';
-    position:absolute; inset:0;
-    background:linear-gradient(135deg, rgba(232,135,30,0.05), transparent);
-    opacity:0;
-    transition:opacity 0.3s ease;
-  }
-  .trust-card:hover::before{
-    opacity:1;
-  }
-
-  .trust-card .icon-wrap{
-    width:56px; height:56px; border-radius:16px;
-    background:linear-gradient(135deg, rgba(20,92,93,0.3), rgba(62,156,143,0.2));
-    backdrop-filter:blur(10px);
-    display:flex; align-items:center; justify-content:center;
-    margin-bottom:20px;
-    border:1px solid rgba(62,156,143,0.3);
-    transition:all 0.3s ease;
-    position:relative;
-    z-index:1;
-  }
-  .trust-card:hover .icon-wrap{
-    background:linear-gradient(135deg, rgba(232,135,30,0.3), rgba(232,135,30,0.15));
-    border-color:var(--saffron);
-    transform:scale(1.1) rotate(5deg);
-  }
-
-  .trust-card h3{
-    font-size:1.2rem; margin-bottom:10px; color:var(--ink);
-    position:relative; z-index:1;
-  }
-  .trust-card p{
-    font-size:0.95rem; color:var(--ink-soft); line-height:1.6;
-    position:relative; z-index:1;
-  }
-
-  /* ---------- REVIEWS WITH GLASSMORPHISM ---------- */
+  /* REVIEWS */
   .reviews-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:20px;}
-  .review-card{
-    background:rgba(246,239,227,0.35);
-    backdrop-filter:blur(18px) saturate(180%);
-    border:1px solid rgba(62,156,143,0.25);
-    border-radius:20px;
-    padding:28px 24px;
-    transition:all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-    position:relative;
-    overflow:hidden;
-  }
-  .review-card:hover{
-    background:rgba(246,239,227,0.45);
-    backdrop-filter:blur(24px) saturate(200%);
-    transform:translateY(-6px);
-    border-color:rgba(62,156,143,0.4);
-    box-shadow:0 16px 40px rgba(62,156,143,0.1);
-  }
+  .review-card{border-radius:20px; padding:28px 24px; transition:all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1); position:relative; overflow:hidden;}
+  .review-card:hover{transform:translateY(-6px);}
+  .review-stars{font-size:1rem; letter-spacing:2px; margin-bottom:14px;}
+  .review-text{font-size:0.95rem; line-height:1.6; color:var(--ink); font-style:italic;}
+  .review-who{margin-top:14px; font-size:0.8rem; color:var(--ink-soft);}
 
-  .review-card::after{
-    content:'';
-    position:absolute; top:-50%; right:-50%; width:200px; height:200px;
-    background:radial-gradient(circle, rgba(232,135,30,0.15), transparent);
-    border-radius:50%;
-    opacity:0;
-    transition:opacity 0.3s ease;
-  }
-  .review-card:hover::after{
-    opacity:1;
-  }
+  /* OFFER */
+  .offer-ribbon{margin-top:28px; border-radius:20px; padding:28px 32px; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:14px; position:relative; overflow:hidden;}
+  .offer-ribbon .big{font-family:'Fraunces', serif; font-style:italic; font-weight:600; font-size:1.6rem;}
+  .offer-ribbon p{font-size:0.92rem; max-width:360px; opacity:0.9;}
 
-  .review-stars{
-    color:var(--saffron); font-size:1rem; letter-spacing:2px; margin-bottom:14px;
-    position:relative; z-index:1;
-  }
-  .review-text{
-    font-size:0.95rem; line-height:1.6; color:var(--ink); font-style:italic;
-    position:relative; z-index:1;
-  }
-  .review-who{
-    margin-top:14px; font-size:0.8rem; color:var(--ink-soft);
-    position:relative; z-index:1;
-  }
-
-  /* ---------- OFFER RIBBON ---------- */
-  .offer-ribbon{
-    margin-top:28px; background:linear-gradient(135deg, var(--saffron), #fca136);
-    color:#241300;
-    border-radius:20px; padding:28px 32px;
-    display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:14px;
-    box-shadow:0 16px 40px rgba(232,135,30,0.25);
-    position:relative;
-    overflow:hidden;
-  }
-  .offer-ribbon::before{
-    content:'';
-    position:absolute; top:-50%; right:-50%; width:300px; height:300px;
-    background:radial-gradient(circle, rgba(255,255,255,0.2), transparent);
-    border-radius:50%;
-    animation:float 6s ease-in-out infinite;
-  }
-  .offer-ribbon .big{
-    font-family:'Fraunces', serif; font-style:italic; font-weight:600; font-size:1.6rem;
-    position:relative; z-index:1;
-  }
-  .offer-ribbon p{
-    font-size:0.92rem; max-width:360px; opacity:0.9;
-    position:relative; z-index:1;
-  }
-
+  /* MODAL */
   .btn-primary.is-disabled{opacity:0.4; pointer-events:none;}
-  .modal-overlay{
-    display:none; position:fixed; inset:0; z-index:100;
-    background:rgba(6,26,26,0.78); backdrop-filter:blur(6px);
-    align-items:center; justify-content:center; padding:20px;
-  }
+  .modal-overlay{display:none; position:fixed; inset:0; z-index:100; align-items:center; justify-content:center; padding:20px;}
   .modal-overlay.is-open{display:flex;}
-  .modal-panel{
-    position:relative; width:100%; max-width:540px; max-height:88vh; overflow-y:auto;
-    background:var(--sand); border-radius:24px; padding:36px 32px;
-    box-shadow: 0 25px 50px rgba(0,0,0,0.25);
-  }
-  .modal-close{
-    position:absolute; top:18px; right:18px; width:36px; height:36px; border-radius:50%;
-    background:var(--sand-dim); border:none; font-size:1.1rem; color:var(--ink); cursor:pointer;
-    display: flex; align-items: center; justify-content: center;
-  }
-  .modal-step-label{
-    font-size:0.68rem; letter-spacing:0.12em; color:var(--teal-mid); margin-bottom:8px;
-  }
+  .modal-panel{position:relative; width:100%; max-width:540px; max-height:88vh; overflow-y:auto; border-radius:24px; padding:36px 32px;}
+  .modal-close{position:absolute; top:18px; right:18px; width:36px; height:36px; border-radius:50%; border:none; font-size:1.1rem; color:var(--ink); cursor:pointer; display:flex; align-items:center; justify-content:center;}
+  .modal-step-label{font-size:0.68rem; letter-spacing:0.12em; color:var(--teal-mid); margin-bottom:8px;}
   .modal-step h3{font-size:1.4rem; margin-bottom:20px; padding-right:20px;}
-
-  .loc-grid{display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom: 24px;}
-  .loc-chip{
-    display:flex; align-items:center; gap:10px;
-    border:1.5px solid var(--line); border-radius:14px; padding:12px 14px;
-    cursor:pointer; background:var(--sand-dim); transition:all .15s ease;
-    text-align:left; border: none; width: 100%;
-  }
-  .loc-chip .pin{
-    flex-shrink:0; width:32px; height:32px; border-radius:9px;
-    background:var(--teal-deep); display:flex; align-items:center; justify-content:center;
-  }
+  .modal-step[hidden]{display:none;}
+  .loc-grid{display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:24px;}
+  .loc-chip{display:flex; align-items:center; gap:10px; border-radius:14px; padding:12px 14px; cursor:pointer; background:var(--sand-dim); transition:all .15s ease; text-align:left; border:none; width:100%;}
+  .loc-chip .pin{flex-shrink:0; width:32px; height:32px; border-radius:9px; background:var(--teal-deep); display:flex; align-items:center; justify-content:center;}
   .loc-chip .pin svg{width:16px; height:16px;}
-  .loc-chip .name{font-size:0.88rem; font-weight:600; line-height:1.2; color: var(--ink);}
-  .loc-chip:hover{border-color:var(--teal-glow);}
-  .loc-chip.selected{
-    outline: 2px solid var(--saffron); background:rgba(232,135,30,0.1);
-  }
+  .loc-chip .name{font-size:0.88rem; font-weight:600; line-height:1.2; color:var(--ink);}
+  .loc-chip.selected{outline:2px solid var(--saffron);}
   .loc-chip.selected .pin{background:var(--saffron);}
-
-  .fleet-grid{display:flex; flex-direction:column; gap:12px; margin-bottom: 24px;}
-  .fleet-card{
-    display:flex; align-items:center; justify-content:space-between; gap:12px;
-    border:1.5px solid var(--line); border-radius:14px; padding:14px 16px;
-    cursor:pointer; background:var(--sand-dim); transition:all .15s ease;
-    text-align:left; width:100%; border: none;
-  }
-  .fleet-card:hover{border-color:var(--teal-glow);}
-  .fleet-card.selected{outline: 2px solid var(--saffron); background:rgba(232,135,30,0.1);}
-  .fleet-card .fleet-name{font-size:0.92rem; font-weight:600; color: var(--ink);}
-  .fleet-card .fleet-avail{
-    font-family:'JetBrains Mono', monospace; font-size:0.72rem;
-    color:var(--teal-mid); white-space:nowrap; font-weight: 600;
-  }
+  .fleet-grid{display:flex; flex-direction:column; gap:12px; margin-bottom:24px;}
+  .fleet-card{display:flex; align-items:center; justify-content:space-between; gap:12px; border-radius:14px; padding:14px 16px; cursor:pointer; background:var(--sand-dim); transition:all .15s ease; text-align:left; width:100%; border:none;}
+  .fleet-card.selected{outline:2px solid var(--saffron);}
+  .fleet-card .fleet-name{font-size:0.92rem; font-weight:600; color:var(--ink);}
+  .fleet-card .fleet-avail{font-family:'JetBrains Mono', monospace; font-size:0.72rem; color:var(--teal-mid); white-space:nowrap; font-weight:600;}
   .fleet-card.selected .fleet-avail{color:var(--saffron-dark);}
   .fleet-card.sold-out{opacity:0.45; cursor:not-allowed; pointer-events:none;}
   .fleet-card.sold-out .fleet-avail{color:#B33;}
   .fleet-card .fleet-left{display:flex; align-items:center; gap:12px;}
-  .fleet-card .fleet-icon{
-    flex-shrink:0; width:38px; height:38px; border-radius:10px;
-    background:var(--teal-deep); display:flex; align-items:center; justify-content:center;
-  }
+  .fleet-card .fleet-icon{flex-shrink:0; width:38px; height:38px; border-radius:10px; background:var(--teal-deep); display:flex; align-items:center; justify-content:center;}
   .fleet-card .fleet-icon svg{width:20px; height:20px;}
   .fleet-card.selected .fleet-icon{background:var(--saffron);}
-
   .modal-next, #modal-book{width:100%; justify-content:center;}
   .modal-step-actions{display:flex; gap:12px; align-items:center;}
   .modal-step-actions #modal-book{flex:1;}
   .modal-step-actions .btn-secondary{color:var(--ink); border-bottom-color:var(--line);}
   #modal-to-step2, #modal-to-step3, #modal-to-step4{flex:1; justify-content:center;}
-
   .modal-step-sub{font-size:0.88rem; color:var(--ink-soft); margin:-12px 0 20px; line-height:1.5;}
-
   .field{margin-bottom:18px;}
   .field label{display:block; font-size:0.82rem; font-weight:600; color:var(--ink); margin-bottom:8px;}
-  .field input, .field select{
-    width:100%; padding:13px 14px; border-radius:12px;
-    border:1.5px solid var(--line); background:var(--sand-dim);
-    font-family:'Work Sans', sans-serif; font-size:0.95rem; color:var(--ink);
-    appearance:none; -webkit-appearance:none;
-  }
-  .field select{
-    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%234A5450' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
-    background-repeat:no-repeat; background-position:right 14px center;
-  }
+  .field input, .field select{width:100%; padding:13px 14px; border-radius:12px; border:1.5px solid var(--line); background:var(--sand-dim); font-family:'Work Sans', sans-serif; font-size:0.95rem; color:var(--ink); appearance:none; -webkit-appearance:none;}
+  .field select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%234A5450' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E"); background-repeat:no-repeat; background-position:right 14px center;}
   .field input:focus, .field select:focus{outline:none; border-color:var(--teal-glow);}
   .field-hint{font-size:0.76rem; color:var(--ink-soft); margin-top:6px; line-height:1.4;}
-
-  .id-warning{
-    display:none; background:rgba(179,51,34,0.08); border:1px solid rgba(179,51,34,0.25);
-    color:#B33322; border-radius:12px; padding:14px 16px;
-    font-size:0.85rem; line-height:1.5; margin-bottom:18px;
-  }
+  .id-warning{display:none; background:rgba(179,51,34,0.08); border:1px solid rgba(179,51,34,0.25); color:#B33322; border-radius:12px; padding:14px 16px; font-size:0.85rem; line-height:1.5; margin-bottom:18px;}
   .id-warning.is-visible{display:block;}
-
   .price-box{background:var(--sand-dim); border-radius:16px; padding:16px 18px; margin:14px 0 20px;}
   .price-row{display:flex; align-items:center; justify-content:space-between; font-size:0.88rem; color:var(--ink-soft); padding:4px 0;}
   .price-row.total{border-top:1px solid var(--line); margin-top:8px; padding-top:10px; font-size:1.05rem; font-weight:700; color:var(--ink);}
   .price-note{font-size:0.72rem; color:var(--ink-soft); margin-top:8px; font-family:'JetBrains Mono', monospace;}
 
-  .final-cta{
-    background:var(--teal-deep); color:var(--sand);
-    border-radius:28px; padding:64px 40px; text-align:center;
-    position:relative; overflow:hidden;
-  }
-  .final-cta h2{color:var(--sand); font-size:clamp(1.8rem,3.6vw,2.6rem); max-width:560px; margin:0 auto;}
-  .final-cta p{margin-top:16px; color:rgba(246,239,227,0.75); max-width:440px; margin-left:auto; margin-right:auto;}
+  .final-cta{border-radius:28px; padding:64px 40px; text-align:center; position:relative; overflow:hidden;}
+  .final-cta h2{font-size:clamp(1.8rem,3.6vw,2.6rem); max-width:560px; margin:0 auto;}
+  .final-cta p{margin-top:16px; max-width:440px; margin-left:auto; margin-right:auto;}
   .final-cta .btn-primary{margin-top:30px;}
-
   footer{padding:40px 24px 60px; text-align:center;}
-  footer p{font-size:0.8rem; color:var(--ink-soft);}
-  footer .fname{font-family:'Fraunces', serif; font-style:italic; color:var(--teal-deep); font-weight:600;}
+  footer p{font-size:0.8rem;}
+  footer .fname{font-family:'Fraunces', serif; font-style:italic; font-weight:600;}
 
-  @media (min-width:900px){
-    .route-rail{display:block;}
-  }
-  @media (max-width:820px){
-    .trust-grid, .reviews-grid, .gallery-grid{grid-template-columns:1fr;}
-    .booking-feature-card{ padding: 28px 22px; }
-  }
+  @media (min-width:900px){ .route-rail{display:block;} }
+  @media (max-width:820px){ .trust-grid, .reviews-grid, .gallery-grid{grid-template-columns:1fr;} .booking-feature-card{padding:28px 22px;} }
+  @media (prefers-reduced-motion: reduce){ html{scroll-behavior:auto;} .route-rail .rider{transition:none !important;} .scroll-cue .line{animation:none;} .gallery-card::before{animation:none;} }
 
-  @media (prefers-reduced-motion: reduce){
-    html{scroll-behavior:auto;}
-    .hero-photo, .route-rail .rider{transition:none !important;}
-    .scroll-cue .line{animation:none;}
-    .gallery-card::before, .offer-ribbon::before{animation:none;}
-  }
+  /* ================= WHITE / GREY LIQUID-GLASS THEME + SCROLL HERO ================= */
+/* Ride Quick — white/grey liquid-glass theme + scroll-frame hero. Load AFTER your existing <style>. */
+:root{
+  --teal-deep:#1c1f23; --teal-mid:#4a5057; --teal-glow:#c9cdd2;
+  --saffron:#2b2f34; --saffron-dark:#111316;
+  --sand:#f4f5f7; --sand-dim:#e6e8eb;
+  --ink:#16181b; --ink-soft:#5a6068; --line:rgba(22,24,27,.12);
+}
+body{background:#f4f5f7;}
+#bg-canvas{position:fixed;inset:0;z-index:-1;display:block;}
+
+/* ---------- liquid glass ---------- */
+.glass,.booking-feature-card,.trust-card,.review-card,.bio-card,.offer-ribbon,.map-card,.final-cta,
+#how .steps,.section-head,.browse-card,.gallery-cap{
+  background:
+    radial-gradient(120% 90% at 8% 0%,rgba(255,255,255,.75),transparent 55%),
+    linear-gradient(145deg,rgba(255,255,255,.56),rgba(255,255,255,.22));
+  -webkit-backdrop-filter:blur(22px) saturate(170%); backdrop-filter:blur(22px) saturate(170%);
+  border:1px solid rgba(255,255,255,.8);
+  box-shadow:0 18px 50px rgba(40,46,54,.14),inset 0 1.5px 0 rgba(255,255,255,.95),
+             inset 0 -1px 0 rgba(255,255,255,.4),inset 0 0 26px rgba(255,255,255,.22);
+  color:var(--ink);
+}
+.trust-card:hover,.review-card:hover{
+  background:radial-gradient(120% 90% at 8% 0%,rgba(255,255,255,.85),transparent 55%),linear-gradient(145deg,rgba(255,255,255,.66),rgba(255,255,255,.3));
+  border-color:rgba(255,255,255,.95);box-shadow:0 22px 56px rgba(40,46,54,.18),inset 0 1.5px 0 #fff;
+}
+.section-head{padding:24px 28px;border-radius:24px;}
+.bio-card{padding:40px;border-radius:28px;} .bio-text{font-size:1.15rem;line-height:1.7;margin-top:14px;}
+#how .steps{padding:34px;border-radius:28px;}
+.browse-card{display:grid;grid-template-columns:1fr auto;gap:40px;align-items:center;padding:44px;border-radius:28px;}
+.browse-card h2{font-size:clamp(1.8rem,3.4vw,2.6rem);} .browse-card p{margin-top:12px;color:var(--ink-soft);line-height:1.6;}
+.browse-card .swipe-deck-wrap{margin-top:0;}
+.map-card{padding:8px;} #live-map{border-radius:18px;}
+
+/* ---------- hero: pinned scroll runway ---------- */
+.hero{display:block;height:420vh;min-height:0;overflow:visible;background:none;padding:0;color:var(--ink);}
+.hero-stage{position:sticky;top:0;height:100vh;overflow:hidden;}
+.hero-title-layer{position:absolute;right:6vw;top:50%;margin-top:-140px;width:min(46vw,580px);will-change:opacity,filter,transform;}
+.hero h1{color:var(--ink);font-size:clamp(2.1rem,5.2vw,4.4rem);letter-spacing:-.01em;}
+.hero-title-layer .btn-primary{margin-top:30px;}
+.hero-intro{position:absolute;left:0;right:0;bottom:11vh;margin:0 auto;width:min(92vw,760px);padding:34px 36px;
+  border-radius:30px;opacity:0;pointer-events:none;will-change:opacity,transform;}
+.hero-intro .lede{margin-top:0;max-width:none;color:var(--ink-soft);}
+.hero-intro .trust-chips{margin-top:26px;color:var(--ink-soft);}
+.scroll-cue{color:var(--ink-soft);} .scroll-cue .line{background:linear-gradient(180deg,rgba(22,24,27,.5),transparent);}
+.swipe-hint{color:var(--ink-soft);}
+.eyebrow{color:var(--ink-soft);border-color:rgba(22,24,27,.18);background:rgba(255,255,255,.55);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);}
+.eyebrow-dark,.section-head .eyebrow-dark{color:var(--ink-soft);}
+.chip-dot{background:var(--ink-soft)!important;}
+
+/* ---------- nav / buttons ---------- */
+nav{background:rgba(255,255,255,.55);-webkit-backdrop-filter:blur(18px) saturate(170%);backdrop-filter:blur(18px) saturate(170%);
+  border-bottom:1px solid rgba(255,255,255,.8);box-shadow:0 8px 30px rgba(40,46,54,.08);}
+.logo{color:var(--ink);}
+.nav-cta,.btn-primary,.swipe-card .swipe-book{
+  background:linear-gradient(180deg,#34383e,#14161a);color:#fff;
+  box-shadow:0 10px 26px rgba(20,22,26,.28),inset 0 1px 0 rgba(255,255,255,.28);}
+.nav-cta:hover,.btn-primary:hover{background:linear-gradient(180deg,#464b52,#1c1f23);color:#fff;box-shadow:0 14px 32px rgba(20,22,26,.34),inset 0 1px 0 rgba(255,255,255,.3);}
+.btn-primary svg path{fill:#fff;}
+.btn-secondary{color:var(--ink);border-bottom-color:rgba(22,24,27,.3);}
+.offer-badge{background:rgba(255,255,255,.75);color:var(--ink);border:1px solid #fff;box-shadow:0 6px 18px rgba(40,46,54,.12);animation:none;}
+.map-status .pulse-dot{animation:none;}
+
+/* ---------- booking feature card ---------- */
+.booking-feature-card::before,.offer-ribbon::before{display:none;}
+.booking-feature-header{border-bottom-color:var(--line);}
+.booking-feature-header h2{color:var(--ink);} .booking-feature-header p{color:var(--ink-soft);}
+.booking-feature-header .eyebrow-dark,.location-pills-label{color:var(--ink-soft)!important;}
+.loc-pill{background:rgba(255,255,255,.55);border:1px solid rgba(255,255,255,.9);color:var(--ink);box-shadow:inset 0 1px 0 #fff,0 6px 16px rgba(40,46,54,.08);}
+.loc-pill:hover{background:#fff;border-color:#fff;}
+.loc-pill span[style]{color:var(--ink-soft)!important;}
+.booking-action-bar{background:rgba(255,255,255,.4);border:1px solid rgba(255,255,255,.7);}
+.booking-action-info div[style]{color:var(--ink-soft)!important;} .booking-action-info div[style*="font-weight"]{color:var(--ink)!important;}
+.icon-badge{background:rgba(22,24,27,.07)!important;} .icon-badge svg{stroke:var(--ink)!important;}
+
+/* ---------- gallery / trust / reviews / cta ---------- */
+.gallery-card-img-wrap{background:linear-gradient(135deg,#dfe2e6,#c4c9cf);}
+.gallery-card::after{background:linear-gradient(180deg,transparent 40%,rgba(30,34,40,.28) 100%);}
+.gallery-cap{border-radius:0 0 24px 24px;border:0;border-top:1px solid rgba(255,255,255,.8);}
+.gallery-cap h3{text-shadow:none;color:var(--ink);} .gallery-cap p{opacity:1;color:var(--ink-soft);}
+.gallery-card:hover .gallery-cap{background:rgba(255,255,255,.7);}
+.trust-card .icon-wrap{background:rgba(255,255,255,.6);border-color:rgba(255,255,255,.9);}
+.trust-card:hover .icon-wrap{background:#fff;border-color:var(--ink-soft);}
+.trust-card .icon-wrap svg path{stroke:var(--ink-soft);}
+.trust-card::before,.review-card::after{display:none;}
+.review-stars{color:var(--ink);}
+.offer-ribbon{color:var(--ink);} .offer-ribbon .big{color:var(--ink);}
+.final-cta h2{color:var(--ink);} .final-cta p{color:var(--ink-soft);}
+footer p{color:var(--ink-soft);} footer .fname{color:var(--ink);}
+.step .idx{color:#fff!important;}
+
+/* ---------- swipe cards (need to stay opaque enough when stacked) ---------- */
+.swipe-card{background:rgba(255,255,255,.9);border:1px solid #fff;box-shadow:0 20px 45px rgba(40,46,54,.22),inset 0 1.5px 0 #fff;}
+.swipe-card .swipe-info{background:transparent;} .swipe-card .swipe-img{background:#eceef0;}
+.swipe-card .swipe-avail{color:var(--ink-soft);}
+
+/* ---------- modal ---------- */
+.modal-overlay{background:rgba(60,66,74,.35);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);}
+.modal-panel{background:linear-gradient(145deg,rgba(255,255,255,.88),rgba(255,255,255,.7));-webkit-backdrop-filter:blur(26px) saturate(170%);backdrop-filter:blur(26px) saturate(170%);
+  border:1px solid #fff;box-shadow:0 30px 70px rgba(30,34,40,.28),inset 0 1.5px 0 #fff;}
+.modal-close{background:rgba(22,24,27,.08);}
+.field input,.field select{background-color:rgba(255,255,255,.7);}
+.loc-chip.selected,.fleet-card.selected{background:rgba(22,24,27,.07);}
+.loc-chip.selected .pin,.fleet-card.selected .fleet-icon{background:#000;}
+.id-warning{background:rgba(22,24,27,.05);border-color:rgba(22,24,27,.2);color:var(--ink);}
+
+/* map pins (the original markup referenced these classes but never styled them, so they were invisible) */
+.ride-pin-icon{width:30px;height:30px;border-radius:50%;background:#1c1f23;padding:5px;box-shadow:0 4px 12px rgba(0,0,0,.3);border:2px solid #fff;}
+.user-pin-icon{width:18px;height:18px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;box-shadow:0 0 0 6px rgba(22,24,27,.15);}
+.user-pin-icon .dot{width:10px;height:10px;border-radius:50%;background:#16181b;}
+
+@media(max-width:820px){
+  .browse-card{grid-template-columns:1fr;padding:30px 22px;justify-items:center;text-align:center;}
+  .hero-title-layer{right:5vw;left:5vw;width:auto;top:9vh;margin-top:0;}
+  .hero-title-layer .eyebrow{display:none;}
+  .hero-intro{padding:26px 22px;bottom:8vh;}
+  #how .steps{grid-template-columns:1fr!important;}
+}
 </style>
 </head>
 <body>
 
+<canvas id="bg-canvas" aria-hidden="true"></canvas>
+
 <nav>
   <div class="logo"><span class="dot"></span>Ride&nbsp;Quick</div>
-  <a class="nav-cta" href="#book" id="nav-whatsapp">
-    Book a ride
-  </a>
+  <a class="nav-cta" href="#book" id="nav-whatsapp">Book a ride</a>
 </nav>
 
 <div class="route-rail">
   <div class="track"></div>
   <div class="rider" id="rider-marker">
     <svg viewBox="0 0 24 24" fill="none">
-      <circle cx="12" cy="12" r="11" fill="#E8871E"/>
-      <path d="M6 15.5h1.2l1-3.4h3.6l1.3 3.4H16M8.7 12.1h4.6M9.5 9.5l1-1.6h2.3l1.1 2.4" stroke="#0B3D3E" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"/>
+      <circle cx="12" cy="12" r="11" fill="#2b2f34"/>
+      <path d="M6 15.5h1.2l1-3.4h3.6l1.3 3.4H16M8.7 12.1h4.6M9.5 9.5l1-1.6h2.3l1.1 2.4" stroke="#fff" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"/>
     </svg>
   </div>
 </div>
 
-<!-- ================= HERO ================= -->
-<header class="hero">
-  <div class="hero-photo" id="hero-photo"></div>
-  <div class="hero-scrim"></div>
+<!-- ================= HERO (scroll-driven frames) ================= -->
+<header class="hero" id="hero">
+  <div class="hero-stage">
+    <div class="hero-title-layer" id="hero-title">
+      <div class="hero-badges">
+        <span class="eyebrow">Local Rishikesh Rentals</span>
+        <span class="offer-badge">✦ First ride: 20% off</span>
+      </div>
+      <h1>Want to book<br>a bike or scooty</h1>
+      <button type="button" class="btn-primary" id="open-booking-hero">Start booking →</button>
+    </div>
 
-  <div class="hero-content">
-    <div class="hero-badges">
-      <span class="eyebrow"><span class="chip-dot" style="width:6px;height:6px;border-radius:50%;background:var(--saffron);"></span>Local Rishikesh Rentals</span>
-      <span class="offer-badge">✦ First ride: 20% off</span>
+    <div class="hero-intro glass" id="hero-intro">
+      <p class="lede">Select your pickup spot, choose your ride — Activa, Bullet 350, or Harley-Davidson — and lock it in instantly on WhatsApp. Transparent rates, zero hidden fees.</p>
+      <div class="hero-actions">
+        <button type="button" class="btn-primary" id="open-booking-hero-2">Start booking →</button>
+        <a class="btn-secondary" href="#fleet">Check availability ↓</a>
+      </div>
+      <div class="trust-chips">
+        <span><span class="chip-dot"></span>Run by locals to ensure legit prices</span>
+        <span><span class="chip-dot"></span>Pay only after you arrive</span>
+        <span><span class="chip-dot"></span>24/7 WhatsApp updates</span>
+      </div>
     </div>
-    <h1>Want to book<br>a bike or scooty</h1>
-    <p class="lede">Select your pickup spot, choose your ride — Activa, Bullet 350, or Harley-Davidson — and lock it in instantly on WhatsApp. Transparent rates, zero hidden fees.</p>
-    <div class="hero-actions">
-      <button type="button" class="btn-primary" id="open-booking-hero">
-        Start booking →
-      </button>
-      <a class="btn-secondary" href="#fleet">Check availability ↓</a>
-    </div>
-    <div class="trust-chips">
-      <span><span class="chip-dot"></span>Run by locals to ensure legit prices</span>
-      <span><span class="chip-dot"></span>Pay only after you arrive</span>
-      <span><span class="chip-dot"></span>24/7 WhatsApp updates</span>
-    </div>
+
+    <div class="scroll-cue"><span>Scroll</span><span class="line"></span></div>
   </div>
-
-  <div class="swipe-deck-wrap">
-    <div class="swipe-deck" id="swipe-deck"></div>
-    <div class="swipe-hint mono">← swipe to browse the fleet →</div>
-  </div>
-
-  <div class="scroll-cue"><span>Scroll</span><span class="line"></span></div>
 </header>
+
+<!-- ================= FLEET SWIPE DECK ================= -->
+<section id="browse">
+  <div class="wrap">
+    <div class="glass browse-card">
+      <div class="browse-copy">
+        <span class="eyebrow-dark">The fleet</span>
+        <h2>Pick your ride.</h2>
+        <p>Swipe through what's on the road today, then tap Book.</p>
+      </div>
+      <div class="swipe-deck-wrap">
+        <div class="swipe-deck" id="swipe-deck"></div>
+        <div class="swipe-hint mono">← swipe to browse the fleet →</div>
+      </div>
+    </div>
+  </div>
+</section>
 
 <!-- ================= NEARBY MAP ================= -->
 <section id="nearby-map">
@@ -720,25 +402,21 @@
   </div>
 </section>
 
-<!-- ================= PROMINENT FLEET BOOKING FEATURE ================= -->
+<!-- ================= PICKUP HUBS ================= -->
 <section id="fleet">
   <div class="wrap">
     <div class="booking-feature-card">
       <div class="booking-feature-header">
         <div>
-          <span class="eyebrow-dark" style="color:var(--teal-glow);">Live Pickup Locations</span>
+          <span class="eyebrow-dark">Live Pickup Locations</span>
           <h2>Ready when you are.</h2>
           <p>Real-time vehicle status across major spots in Rishikesh.</p>
         </div>
-        <button type="button" class="btn-primary" id="open-booking-banner">
-          Start booking →
-        </button>
+        <button type="button" class="btn-primary" id="open-booking-banner">Start booking →</button>
       </div>
 
       <span class="location-pills-label">Available Pickup Hubs:</span>
-      <div class="location-pills-grid" id="feature-location-pills">
-        <!-- Rendered dynamically -->
-      </div>
+      <div class="location-pills-grid" id="feature-location-pills"></div>
 
       <div class="booking-action-bar">
         <div class="booking-action-info">
@@ -747,7 +425,7 @@
           </div>
           <div>
             <div style="font-weight: 600; font-size: 0.95rem;">Pick up wherever you land</div>
-            <div style="font-size: 0.82rem; color: rgba(246,239,227,0.7);">Laxman Jhula, Ram Jhula, Tapovan, Bus Stand, Nepali Farm & Railway Station</div>
+            <div style="font-size: 0.82rem;">Laxman Jhula, Ram Jhula, Tapovan, Bus Stand, Nepali Farm & Railway Station</div>
           </div>
         </div>
       </div>
@@ -763,36 +441,18 @@
       <h2>Explore Rishikesh on two wheels.</h2>
       <p>Bypass traffic, explore ghats, and reach destinations cars can't access.</p>
     </div>
-
     <div class="gallery-grid">
       <div class="gallery-card">
-        <div class="gallery-card-img-wrap">
-          <img src="laxman_jhula.jpg" alt="View near Laxman Jhula, Rishikesh" loading="lazy">
-        </div>
-        <div class="gallery-cap">
-          <h3>Laxman Jhula</h3>
-          <p>The bridge itself — where four-wheelers can't follow.</p>
-        </div>
+        <div class="gallery-card-img-wrap"><img src="laxman_jhula.jpg" alt="View near Laxman Jhula, Rishikesh" loading="lazy"></div>
+        <div class="gallery-cap"><h3>Laxman Jhula</h3><p>The bridge itself — where four-wheelers can't follow.</p></div>
       </div>
-
       <div class="gallery-card">
-        <div class="gallery-card-img-wrap">
-          <img src="ganga_arti.jpg" alt="Ganga Aarti fire ceremony, Rishikesh" loading="lazy">
-        </div>
-        <div class="gallery-cap">
-          <h3>Ganga Aarti</h3>
-          <p>Evening drop-offs at Triveni Ghat, timed right.</p>
-        </div>
+        <div class="gallery-card-img-wrap"><img src="ganga_arti.jpg" alt="Ganga Aarti fire ceremony, Rishikesh" loading="lazy"></div>
+        <div class="gallery-cap"><h3>Ganga Aarti</h3><p>Evening drop-offs at Triveni Ghat, timed right.</p></div>
       </div>
-
       <div class="gallery-card">
-        <div class="gallery-card-img-wrap">
-          <img src="ghat_image.jpg" alt="Ghat statue and riverfront, Rishikesh" loading="lazy">
-        </div>
-        <div class="gallery-cap">
-          <h3>The ghats & ashrams</h3>
-          <p>Muni ki Reti, Neelkanth, the lanes in between.</p>
-        </div>
+        <div class="gallery-card-img-wrap"><img src="ghat_image.jpg" alt="Ghat statue and riverfront, Rishikesh" loading="lazy"></div>
+        <div class="gallery-cap"><h3>The ghats & ashrams</h3><p>Muni ki Reti, Neelkanth, the lanes in between.</p></div>
       </div>
     </div>
   </div>
@@ -816,34 +476,26 @@
       <h2>Run by locals to ensure legit prices.</h2>
       <p>No artificial surge pricing, no middleman commissions. Direct local support from residents who know Rishikesh inside out.</p>
     </div>
-
     <div class="trust-grid">
       <div class="trust-card">
-        <div class="icon-wrap">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 21s-7-4.9-9.3-9.4C1.1 8 3 4.5 6.6 4.1c2-.2 3.6.8 5.4 2.6 1.8-1.8 3.4-2.8 5.4-2.6C21 4.5 22.9 8 21.3 11.6 19 16.1 12 21 12 21z" stroke="#145C5D" stroke-width="1.6"/></svg>
-        </div>
+        <div class="icon-wrap"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 21s-7-4.9-9.3-9.4C1.1 8 3 4.5 6.6 4.1c2-.2 3.6.8 5.4 2.6 1.8-1.8 3.4-2.8 5.4-2.6C21 4.5 22.9 8 21.3 11.6 19 16.1 12 21 12 21z" stroke-width="1.6"/></svg></div>
         <h3>Genuine local pricing</h3>
         <p>Fair, flat daily rental rates with zero tourist markups. What we quote on WhatsApp is exactly what you pay.</p>
       </div>
       <div class="trust-card">
-        <div class="icon-wrap">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M3 10h18M3 6h18v13a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V6zM7 3v4M17 3v4" stroke="#145C5D" stroke-width="1.6" stroke-linecap="round"/></svg>
-        </div>
+        <div class="icon-wrap"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M3 10h18M3 6h18v13a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V6zM7 3v4M17 3v4" stroke-width="1.6" stroke-linecap="round"/></svg></div>
         <h3>Pay after you arrive</h3>
         <p>No mandatory upfront deposit. Confirm your vehicle availability on WhatsApp, inspect your ride, and pay when you collect the keys.</p>
       </div>
       <div class="trust-card">
-        <div class="icon-wrap">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 8v5l3 2M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0z" stroke="#145C5D" stroke-width="1.6"/></svg>
-        </div>
+        <div class="icon-wrap"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 8v5l3 2M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0z" stroke-width="1.6"/></svg></div>
         <h3>24/7 WhatsApp assistance</h3>
         <p>Early sunrise treks to Kunjapuri, late train arrivals, or route advice — text us on WhatsApp anytime and get instant local response.</p>
       </div>
     </div>
-
     <div class="offer-ribbon">
       <div><div class="big">First ride, 20% off</div><p>Message us on WhatsApp and mention "first ride" — discount is automatically applied to your booking quote.</p></div>
-      <a class="btn-secondary" style="color:#241300; border-color:rgba(36,19,0,0.4);" href="#" id="ribbon-whatsapp">Claim on WhatsApp →</a>
+      <a class="btn-secondary" style="color:#16181b; border-color:rgba(22,24,27,0.4);" href="#" id="ribbon-whatsapp">Claim on WhatsApp →</a>
     </div>
   </div>
 </section>
@@ -856,9 +508,7 @@
       <h2>Honest reviews from travelers.</h2>
       <p>Real experiences from visitors exploring Rishikesh on our bikes.</p>
     </div>
-
     <p style="margin-top:-4px; margin-bottom:20px; color:var(--ink-soft); font-size:0.95rem;">Real riders, added by hand as they come in — newest first.</p>
-
     <div class="reviews-grid">
       <div class="review-card">
         <div class="review-stars">★★★★★</div>
@@ -878,17 +528,17 @@
     </div>
     <div class="steps" style="display:grid; grid-template-columns:repeat(3,1fr); gap:32px; position:relative;">
       <div class="step" style="position:relative; padding-top:8px;">
-        <div class="idx mono" style="font-family:'JetBrains Mono', monospace; font-size:0.8rem; color:var(--teal-glow); background:var(--teal-deep); width:34px; height:34px; border-radius:50%; display:flex; align-items:center; justify-content:center; margin-bottom:18px;">1</div>
+        <div class="idx mono" style="font-family:'JetBrains Mono', monospace; font-size:0.8rem; background:var(--teal-deep); width:34px; height:34px; border-radius:50%; display:flex; align-items:center; justify-content:center; margin-bottom:18px;">1</div>
         <h3 style="font-size:1.1rem; margin-bottom:8px;">Choose spot & ride</h3>
         <p style="font-size:0.92rem; color:var(--ink-soft); line-height:1.55;">Select your location and preferred scooty or bike from our live inventory selector above.</p>
       </div>
       <div class="step" style="position:relative; padding-top:8px;">
-        <div class="idx mono" style="font-family:'JetBrains Mono', monospace; font-size:0.8rem; color:var(--teal-glow); background:var(--teal-deep); width:34px; height:34px; border-radius:50%; display:flex; align-items:center; justify-content:center; margin-bottom:18px;">2</div>
+        <div class="idx mono" style="font-family:'JetBrains Mono', monospace; font-size:0.8rem; background:var(--teal-deep); width:34px; height:34px; border-radius:50%; display:flex; align-items:center; justify-content:center; margin-bottom:18px;">2</div>
         <h3 style="font-size:1.1rem; margin-bottom:8px;">Confirm on WhatsApp</h3>
         <p style="font-size:0.92rem; color:var(--ink-soft); line-height:1.55;">Send the auto-filled WhatsApp message to lock in your ride and receive your flat rate quote.</p>
       </div>
       <div class="step" style="position:relative; padding-top:8px;">
-        <div class="idx mono" style="font-family:'JetBrains Mono', monospace; font-size:0.8rem; color:var(--teal-glow); background:var(--teal-deep); width:34px; height:34px; border-radius:50%; display:flex; align-items:center; justify-content:center; margin-bottom:18px;">3</div>
+        <div class="idx mono" style="font-family:'JetBrains Mono', monospace; font-size:0.8rem; background:var(--teal-deep); width:34px; height:34px; border-radius:50%; display:flex; align-items:center; justify-content:center; margin-bottom:18px;">3</div>
         <h3 style="font-size:1.1rem; margin-bottom:8px;">Collect & Ride</h3>
         <p style="font-size:0.92rem; color:var(--ink-soft); line-height:1.55;">Meet at your chosen hub, inspect your vehicle, pay via Cash/UPI, and enjoy your trip around Rishikesh.</p>
       </div>
@@ -903,7 +553,7 @@
       <h2>Planning to explore Rishikesh? Secure your bike now.</h2>
       <p>Run by locals. Honest prices. Verified vehicles across 6 locations in Rishikesh.</p>
       <a class="btn-primary" href="#" id="final-whatsapp">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M17.5 14.4c-.3-.1-1.6-.8-1.9-.9-.3-.1-.4-.1-.6.1-.2.3-.7.9-.8 1-.2.2-.3.2-.5.1-.3-.1-1.2-.4-2.3-1.4-.8-.7-1.4-1.7-1.6-1.9-.2-.3 0-.4.1-.6.1-.1.3-.3.4-.5.1-.1.2-.3.2-.4.1-.2 0-.3 0-.5-.1-.1-.6-1.4-.8-1.9-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.3.3-1 1-1 2.4s1 2.8 1.2 3c.1.2 2 3.1 4.9 4.3.7.3 1.2.5 1.6.6.7.2 1.3.2 1.8.1.5-.1 1.6-.7 1.9-1.3.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.5-.3z" fill="#241300"/><path d="M12 2C6.5 2 2 6.5 2 12c0 1.9.5 3.6 1.4 5.2L2 22l4.9-1.3c1.5.8 3.3 1.3 5.1 1.3 5.5 0 10-4.5 10-10S17.5 2 12 2zm0 18.2c-1.7 0-3.3-.5-4.7-1.3l-.3-.2-3 .8.8-2.9-.2-.3C3.7 15 3.2 13.5 3.2 12c0-4.8 3.9-8.7 8.7-8.7s8.7 3.9 8.7 8.7-3.8 8.9-8.6 8.9z" fill="#241300"/></svg>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M17.5 14.4c-.3-.1-1.6-.8-1.9-.9-.3-.1-.4-.1-.6.1-.2.3-.7.9-.8 1-.2.2-.3.2-.5.1-.3-.1-1.2-.4-2.3-1.4-.8-.7-1.4-1.7-1.6-1.9-.2-.3 0-.4.1-.6.1-.1.3-.3.4-.5.1-.1.2-.3.2-.4.1-.2 0-.3 0-.5-.1-.1-.6-1.4-.8-1.9-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.3.3-1 1-1 2.4s1 2.8 1.2 3c.1.2 2 3.1 4.9 4.3.7.3 1.2.5 1.6.6.7.2 1.3.2 1.8.1.5-.1 1.6-.7 1.9-1.3.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.5-.3z" fill="#fff"/><path d="M12 2C6.5 2 2 6.5 2 12c0 1.9.5 3.6 1.4 5.2L2 22l4.9-1.3c1.5.8 3.3 1.3 5.1 1.3 5.5 0 10-4.5 10-10S17.5 2 12 2zm0 18.2c-1.7 0-3.3-.5-4.7-1.3l-.3-.2-3 .8.8-2.9-.2-.3C3.7 15 3.2 13.5 3.2 12c0-4.8 3.9-8.7 8.7-8.7s8.7 3.9 8.7 8.7-3.8 8.9-8.6 8.9z" fill="#fff"/></svg>
         Message Ride Quick
       </a>
     </div>
@@ -915,6 +565,7 @@
   <p style="margin-top:6px;">Laxman Jhula · Ram Jhula · Tapovan · Bus Stand · Nepali Farm · Railway Station</p>
 </footer>
 
+<!-- ================= BOOKING MODAL ================= -->
 <div class="modal-overlay" id="booking-modal" aria-hidden="true">
   <div class="modal-panel" role="dialog" aria-modal="true" aria-label="Book a bike">
     <button type="button" class="modal-close" id="modal-close" aria-label="Close">✕</button>
@@ -923,7 +574,6 @@
       <div class="modal-step-label mono">STEP 1 OF 4</div>
       <h3>Just a few details</h3>
       <p class="modal-step-sub">Enter your details to get started. Riders must be at least 18 years old.</p>
-
       <div class="field">
         <label for="cust-name">Full name</label>
         <input type="text" id="cust-name" placeholder="As on your ID" autocomplete="name">
@@ -935,10 +585,7 @@
           <option value="under18">Under 18 years old</option>
         </select>
       </div>
-      <div class="id-warning" id="age-warning">
-        Sorry — riders must be at least 18 years old to rent a bike or scooty.
-      </div>
-
+      <div class="id-warning" id="age-warning">Sorry — riders must be at least 18 years old to rent a bike or scooty.</div>
       <div class="field">
         <label for="cust-id">ID proof you'll bring</label>
         <select id="cust-id">
@@ -950,10 +597,7 @@
           <option value="NONE">I don't have any of these</option>
         </select>
       </div>
-      <div class="id-warning" id="id-warning">
-        Sorry — we can't book a bike or scooty without a valid ID. Please bring your Driving License, Aadhar, Voter ID, or PAN card when you come to pick up.
-      </div>
-
+      <div class="id-warning" id="id-warning">Sorry — we can't book a bike or scooty without a valid ID. Please bring your Driving License, Aadhar, Voter ID, or PAN card when you come to pick up.</div>
       <button type="button" class="btn-primary modal-next is-disabled" id="modal-to-step2">Continue →</button>
     </div>
 
@@ -981,20 +625,17 @@
       <div class="modal-step-label mono">STEP 4 OF 4</div>
       <h3>Rental Duration</h3>
       <p class="modal-step-sub">Select how many days you need the ride.</p>
-
       <div class="field">
         <label for="rental-days">Number of days</label>
         <input type="number" id="rental-days" min="1" step="1" value="1">
         <div class="field-hint">8-hour minimum per day — same as pickup counters here.</div>
       </div>
-
       <div class="price-box">
         <div class="price-row"><span id="rate-label">Rate</span><span id="rate-value">—</span></div>
         <div class="price-row"><span>Days</span><span id="days-value">1</span></div>
         <div class="price-row total"><span>Estimated total</span><span id="total-value">—</span></div>
         <div class="price-note">Demo pricing — update rates before going live.</div>
       </div>
-
       <div class="modal-step-actions">
         <button type="button" class="btn-secondary" id="modal-back-3">← Back</button>
         <a class="btn-primary" href="#" id="modal-book" target="_blank" rel="noopener">Book on WhatsApp</a>
@@ -1081,11 +722,8 @@
   function selectLocationInModal(locName){
     const chips = document.querySelectorAll('#modal-pickup-grid .loc-chip');
     chips.forEach(chip => {
-      if(chip.dataset.loc === locName){
-        chip.classList.add('selected');
-      } else {
-        chip.classList.remove('selected');
-      }
+      if(chip.dataset.loc === locName){ chip.classList.add('selected'); }
+      else { chip.classList.remove('selected'); }
     });
     document.getElementById('modal-to-step3').classList.remove('is-disabled');
   }
@@ -1192,7 +830,7 @@
     stepDatetime.hidden = step !== 4;
   }
 
-  ["open-booking-hero","open-booking-banner","nav-whatsapp"].forEach(id=>{
+  ["open-booking-hero","open-booking-hero-2","open-booking-banner","nav-whatsapp"].forEach(id=>{
     const el = document.getElementById(id);
     if(el) el.addEventListener('click', e => { e.preventDefault(); goToStep(1); openModal(); });
   });
@@ -1211,18 +849,11 @@
     const nameVal = custNameEl.value.trim();
     const ageVal = custAgeEl.value;
     const idVal = custIdEl.value;
-
     const isUnderage = ageVal === 'under18';
     const isNoId = idVal === 'NONE';
-
     ageWarningEl.classList.toggle('is-visible', isUnderage);
     idWarningEl.classList.toggle('is-visible', isNoId);
-
-    const isValidName = nameVal.length > 0;
-    const isValidAge = ageVal && !isUnderage;
-    const isValidId = idVal && !isNoId;
-
-    const ok = isValidName && isValidAge && isValidId;
+    const ok = nameVal.length > 0 && ageVal && !isUnderage && idVal && !isNoId;
     toStep2Btn.classList.toggle('is-disabled', !ok);
   }
 
@@ -1261,27 +892,20 @@
     const rate = getRateFor(routeState.vehicle);
     document.getElementById('rate-label').textContent = `${routeState.vehicle || 'Vehicle'} — per day`;
     document.getElementById('rate-value').textContent = `₹${rate}`;
-
     const parsed = parseInt(daysEl.value, 10);
     const days = (!isNaN(parsed) && parsed > 0) ? parsed : 1;
-
     const total = rate * days;
     document.getElementById('days-value').textContent = days;
     document.getElementById('total-value').textContent = `₹${total}`;
-
     routeState.days = days;
     routeState.total = total;
-
     modalBookBtn.href = "https://wa.me/" + WHATSAPP_NUMBER + "?text=" + encodeURIComponent(buildWhatsAppMessage());
   }
 
   daysEl.addEventListener('input', updatePriceAndButton);
   daysEl.addEventListener('change', () => {
     const parsed = parseInt(daysEl.value, 10);
-    if (isNaN(parsed) || parsed < 1) {
-      daysEl.value = 1;
-      updatePriceAndButton();
-    }
+    if (isNaN(parsed) || parsed < 1) { daysEl.value = 1; updatePriceAndButton(); }
   });
 
   document.getElementById('modal-back-3').addEventListener('click', () => goToStep(3));
@@ -1297,7 +921,6 @@
   function renderSwipeDeck(){
     const deck = document.getElementById('swipe-deck');
     if(!deck || !FLEET.length) return;
-
     let order = FLEET.map((_, i) => i);
 
     function draw(){
@@ -1320,7 +943,6 @@
             <button type="button" class="swipe-book" ${v.available <= 0 ? 'disabled style="opacity:.5;cursor:not-allowed;"' : ''}>Book this →</button>
           </div>
         `;
-
         if(stackPos === 0){
           wireDrag(card, fleetIdx);
           card.querySelector('.swipe-book').addEventListener('click', e => {
@@ -1335,14 +957,10 @@
       });
     }
 
-    function cycleToBack(){
-      order.push(order.shift());
-      draw();
-    }
+    function cycleToBack(){ order.push(order.shift()); draw(); }
 
     function wireDrag(card, fleetIdx){
       let startX = 0, currentX = 0, dragging = false;
-
       function onDown(e){
         dragging = true;
         card.classList.add('dragging');
@@ -1371,15 +989,11 @@
         window.removeEventListener('mousemove', onMove);
         window.removeEventListener('mouseup', onUp);
       }
-
       card.addEventListener('mousedown', onDown);
-      window.addEventListener('mousemove', onMove);
-      window.addEventListener('mouseup', onUp);
       card.addEventListener('touchstart', onDown, {passive:true});
       card.addEventListener('touchmove', onMove, {passive:true});
       card.addEventListener('touchend', onUp);
     }
-
     draw();
   }
 
@@ -1389,26 +1003,14 @@
     if(!mapEl || typeof L === 'undefined') return;
 
     const RISHIKESH = [30.0869, 78.2676];
-    const map = L.map(mapEl, {
-      zoomControl: true,
-      scrollWheelZoom: false,
-      attributionControl: true
-    }).setView(RISHIKESH, 14);
-
+    const map = L.map(mapEl, { zoomControl: true, scrollWheelZoom: false, attributionControl: true }).setView(RISHIKESH, 14);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      maxZoom: 19,
-      attribution: '&copy; OpenStreetMap contributors'
+      maxZoom: 19, attribution: '&copy; OpenStreetMap contributors'
     }).addTo(map);
 
     function scatterDecorativeRides(center){
-      const rideDivIcon = L.divIcon({
-        className: '',
-        html: `<div class="ride-pin-icon">${bikeIcon}</div>`,
-        iconSize: [30, 30],
-        iconAnchor: [15, 15]
-      });
-      const count = 6;
-      for(let i = 0; i < count; i++){
+      const rideDivIcon = L.divIcon({ className: '', html: `<div class="ride-pin-icon">${bikeIcon}</div>`, iconSize: [30, 30], iconAnchor: [15, 15] });
+      for(let i = 0; i < 6; i++){
         const angle = Math.random() * Math.PI * 2;
         const dist = 0.003 + Math.random() * 0.01;
         const lat = center[0] + Math.cos(angle) * dist;
@@ -1416,14 +1018,8 @@
         L.marker([lat, lng], { icon: rideDivIcon, interactive: false, keyboard: false }).addTo(map);
       }
     }
-
     function placeUserPin(coords){
-      const userDivIcon = L.divIcon({
-        className: '',
-        html: `<div class="user-pin-icon"><div class="dot"></div></div>`,
-        iconSize: [18, 18],
-        iconAnchor: [9, 9]
-      });
+      const userDivIcon = L.divIcon({ className: '', html: `<div class="user-pin-icon"><div class="dot"></div></div>`, iconSize: [18, 18], iconAnchor: [9, 9] });
       L.marker(coords, { icon: userDivIcon, interactive: false, keyboard: false }).addTo(map);
     }
 
@@ -1432,7 +1028,6 @@
       scatterDecorativeRides(RISHIKESH);
       return;
     }
-
     navigator.geolocation.getCurrentPosition(
       pos => {
         const coords = [pos.coords.latitude, pos.coords.longitude];
@@ -1450,37 +1045,98 @@
     );
   }
 
-  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const heroPhoto = document.getElementById('hero-photo');
-  const hero = document.querySelector('.hero');
+  // route-rail rider (the hero parallax code is gone — the frame scrub in the second script replaces it)
   const rider = document.getElementById('rider-marker');
   const track = document.querySelector('.route-rail .track');
-
   function onScroll(){
-    const scrollY = window.scrollY;
-    const heroHeight = hero.offsetHeight;
-
-    if(!reduceMotion && heroPhoto){
-      const offset = Math.min(scrollY, heroHeight) * 0.35;
-      heroPhoto.style.transform = `translateY(${offset}px) scale(1.08)`;
-    }
-
-    if(track && rider){
-      const trackRect = track.getBoundingClientRect();
-      const trackHeight = trackRect.height;
-      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-      const progress = Math.min(Math.max(scrollY / docHeight, 0), 1);
-      const pos = trackHeight * progress;
-      rider.style.top = (12 * window.innerHeight/100 + pos) + 'px';
-    }
+    if(!track || !rider) return;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const progress = Math.min(Math.max(window.scrollY / docHeight, 0), 1);
+    rider.style.top = (12 * window.innerHeight/100 + track.getBoundingClientRect().height * progress) + 'px';
   }
-
   window.addEventListener('scroll', onScroll, {passive:true});
   window.addEventListener('resize', onScroll);
   onScroll();
-
-  console.log('✅ Ride Quick Enhanced loaded with glassmorphism & shimmer effects!');
 </script>
 
+<script>
+/* Ride Quick — scroll-driven frame background + hero choreography */
+(() => {
+  const N = 30, HOLD = 0.8;                       // frames finish at 80% of the hero runway, last 20% is a hold
+  const cv = document.getElementById('bg-canvas'), ctx = cv.getContext('2d');
+  const hero = document.getElementById('hero');
+  const title = document.getElementById('hero-title'), h1 = title.querySelector('h1');
+  const intro = document.getElementById('hero-intro');
+  const cue = document.querySelector('.scroll-cue');
+  const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
+  const ease = t => t * t * (3 - 2 * t);
+
+  const imgs = [];
+  const ready = i => imgs[i] && imgs[i].complete && imgs[i].naturalWidth > 0;
+  const load = i => { const im = new Image(); im.decoding = 'async'; im.onload = schedule;
+    im.src = `frame_${String(i + 1).padStart(3, '0')}.webp`; imgs[i] = im; };
+  [0, N - 1, ...Array.from({ length: N - 2 }, (_, k) => k + 1)].forEach(load);
+
+  function nearest(i) { for (let d = 0; d < N; d++) { if (i - d >= 0 && ready(i - d)) return imgs[i - d]; if (i + d < N && ready(i + d)) return imgs[i + d]; } return null; }
+
+  let W, H, dpr;
+  function resize() {
+    dpr = Math.min(window.devicePixelRatio || 1, 2);
+    W = innerWidth; H = innerHeight;
+    cv.width = W * dpr; cv.height = H * dpr;
+    cv.style.width = W + 'px'; cv.style.height = H + 'px';
+    schedule();
+  }
+
+  // cover-fit; on portrait screens pan from the bike (left) to centre as the frames advance
+  function drawCover(img, alpha, pf) {
+    if (!img) return;
+    const s = Math.max(W / img.naturalWidth, H / img.naturalHeight);
+    const dw = img.naturalWidth * s, dh = img.naturalHeight * s;
+    const focus = W < H ? 0.22 + 0.28 * pf : 0.5;
+    const x = -(dw - W) * focus, y = -(dh - H) / 2;
+    ctx.globalAlpha = alpha;
+    ctx.drawImage(img, x * dpr, y * dpr, dw * dpr, dh * dpr);
+  }
+
+  function progress() {
+    const run = hero.offsetHeight - innerHeight;
+    return clamp(scrollY / run);
+  }
+
+  function render() {
+    raf = 0;
+    const p = progress(), pf = clamp(p / HOLD);
+    const f = pf * (N - 1), i = Math.floor(f), frac = f - i;
+    ctx.clearRect(0, 0, cv.width, cv.height);
+    drawCover(nearest(i), 1, pf);
+    if (frac > 0.001 && i + 1 < N) drawCover(nearest(i + 1), frac, pf);   // crossfade between frames = smoother scrub
+    ctx.globalAlpha = 1;
+
+    // headline evaporates while the bike slides away
+    const t = ease(clamp(p / 0.36));
+    title.style.opacity = 1 - t;
+    title.style.filter = `blur(${t * 16}px)`;
+    title.style.transform = `translate3d(0,${-t * 56}px,0) scale(${1 + t * 0.05})`;
+    h1.style.letterSpacing = `${(t * 0.09) - 0.01}em`;
+    title.style.pointerEvents = t > 0.08 ? 'none' : 'auto';
+    title.style.visibility = t >= 1 ? 'hidden' : 'visible';
+    if (cue) cue.style.opacity = 1 - clamp(p / 0.08);
+
+    // old hero content re-appears as a glass card over the new background
+    const u = ease(clamp((p - 0.58) / 0.22));
+    intro.style.opacity = u;
+    intro.style.transform = `translate3d(0,${(1 - u) * 44}px,0) scale(${0.97 + u * 0.03})`;
+    intro.style.pointerEvents = u > 0.6 ? 'auto' : 'none';
+  }
+
+  let raf = 0;
+  function schedule() { if (!raf) raf = requestAnimationFrame(render); }
+  addEventListener('scroll', schedule, { passive: true });
+  addEventListener('resize', resize);
+  resize();
+})();
+
+</script>
 </body>
 </html>
