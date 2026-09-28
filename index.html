@@ -1,5 +1,4 @@
-
-   <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -239,8 +238,8 @@ body{background:#f4f5f7;}
 /* ---------- hero: pinned scroll runway ---------- */
 .hero{display:block;height:420vh;min-height:0;overflow:visible;background:none;padding:0;color:var(--ink);}
 .hero-stage{position:sticky;top:0;height:100vh;overflow:hidden;}
-.hero-title-layer{position:absolute;right:6vw;top:50%;margin-top:-140px;width:min(46vw,580px);will-change:opacity,filter,transform;}
-.hero h1{color:var(--ink);font-size:clamp(2.1rem,5.2vw,4.4rem);letter-spacing:-.01em;}
+.hero-title-layer{position:absolute;left:6vw;top:50%;margin-top:-130px;width:min(33vw,540px);will-change:opacity,filter,transform;}
+.hero h1{color:var(--ink);font-size:clamp(2rem,3.4vw,3.4rem);letter-spacing:-.01em;}
 .hero-title-layer .btn-primary{margin-top:30px;}
 .hero-intro{position:absolute;left:0;right:0;bottom:11vh;margin:0 auto;width:min(92vw,760px);padding:34px 36px;
   border-radius:30px;opacity:0;pointer-events:none;will-change:opacity,transform;}
@@ -320,6 +319,20 @@ footer p{color:var(--ink-soft);} footer .fname{color:var(--ink);}
   .hero-intro{padding:26px 22px;bottom:8vh;}
   #how .steps{grid-template-columns:1fr!important;}
 }
+
+/* ---------- gallery: full glass cards (photo inset, text on glass) ---------- */
+.gallery-card{
+  height:auto; padding:12px 12px 8px; display:flex; flex-direction:column;
+  background:radial-gradient(120% 90% at 8% 0%,rgba(255,255,255,.75),transparent 55%),linear-gradient(145deg,rgba(255,255,255,.56),rgba(255,255,255,.22));
+  -webkit-backdrop-filter:blur(22px) saturate(170%); backdrop-filter:blur(22px) saturate(170%);
+  border:1px solid rgba(255,255,255,.8);
+  box-shadow:0 18px 50px rgba(40,46,54,.14),inset 0 1.5px 0 rgba(255,255,255,.95),inset 0 -1px 0 rgba(255,255,255,.4),inset 0 0 26px rgba(255,255,255,.22);
+}
+.gallery-card:hover{transform:translateY(-8px);box-shadow:0 24px 60px rgba(40,46,54,.2),inset 0 1.5px 0 #fff;}
+.gallery-card::after{display:none;}
+.gallery-card-img-wrap{position:relative;inset:auto;height:240px;border-radius:18px;box-shadow:0 6px 18px rgba(40,46,54,.15);}
+.gallery-cap,.gallery-card:hover .gallery-cap{position:static;background:none;-webkit-backdrop-filter:none;backdrop-filter:none;border:0;box-shadow:none;border-radius:0;padding:18px 10px 14px;}
+.gallery-cap h3{color:var(--ink);} .gallery-cap p{color:var(--ink-soft);}
 </style>
 </head>
 <body>
@@ -1062,7 +1075,7 @@ footer p{color:var(--ink-soft);} footer .fname{color:var(--ink);}
 <script>
 /* Ride Quick — scroll-driven frame background + hero choreography */
 (() => {
-  const N = 30, HOLD = 0.8;                       // frames finish at 80% of the hero runway, last 20% is a hold
+  const N = 88, HOLD = 0.8;                       // frames finish at 80% of the hero runway, last 20% is a hold
   const cv = document.getElementById('bg-canvas'), ctx = cv.getContext('2d');
   const hero = document.getElementById('hero');
   const title = document.getElementById('hero-title'), h1 = title.querySelector('h1');
@@ -1094,9 +1107,12 @@ footer p{color:var(--ink-soft);} footer .fname{color:var(--ink);}
     const s = Math.max(W / img.naturalWidth, H / img.naturalHeight);
     const dw = img.naturalWidth * s, dh = img.naturalHeight * s;
     const focus = W < H ? 0.22 + 0.28 * pf : 0.5;
-    const x = -(dw - W) * focus, y = -(dh - H) / 2;
+    // landscape: start with the bike pushed right (clear space for the headline on the left), settle to 0 by mid-sequence
+    const shift = W >= H ? W * 0.17 * (1 - ease(clamp(pf / 0.5))) : 0;
+    const x = -(dw - W) * focus + shift, y = -(dh - H) / 2;
     ctx.globalAlpha = alpha;
     ctx.drawImage(img, x * dpr, y * dpr, dw * dpr, dh * dpr);
+    if (x > 0.5) ctx.drawImage(img, 0, 0, 1, img.naturalHeight, 0, y * dpr, x * dpr + 1, dh * dpr); // extend the plain left edge
   }
 
   function progress() {
