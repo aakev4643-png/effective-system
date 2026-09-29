@@ -431,6 +431,22 @@ nav{background:rgba(255,255,255,.012);-webkit-backdrop-filter:blur(20px) saturat
   .hero-intro .swipe-deck{height:300px;}
 }
 @media(max-height:700px){.hero-intro .swipe-deck{height:280px;}}
+
+/* ---------- v3: big panels stay clear; small elements on top get a frosted fill ---------- */
+.swipe-card{background:rgba(255,255,255,.74);-webkit-backdrop-filter:blur(18px) saturate(160%);backdrop-filter:blur(18px) saturate(160%);
+  border:1px solid rgba(255,255,255,.85);box-shadow:0 16px 36px rgba(20,24,30,.18),inset 0 1.5px 0 #fff;}
+.swipe-deck .swipe-card:not(:first-child) .swipe-img{opacity:0;}          /* cards behind = plain frosted edges, no ghost bikes */
+.loc-pill,.loc-chip,.fleet-card,.price-box,.eyebrow,.offer-badge,.map-status,.modal-close{background:rgba(255,255,255,.5);}
+.booking-action-bar{background:rgba(255,255,255,.4);}
+.loc-pill:hover{background:rgba(255,255,255,.72);}
+.loc-chip.selected,.fleet-card.selected{background:rgba(255,255,255,.8);}
+.trust-card .icon-wrap,.booking-action-info .icon-badge,.loc-chip .pin,.fleet-card .fleet-icon,.step .idx,.ride-pin-icon{
+  background:radial-gradient(circle at 30% 18%,rgba(255,255,255,.85),rgba(255,255,255,.3) 65%)!important;}
+.trust-card:hover .icon-wrap,.loc-chip.selected .pin,.fleet-card.selected .fleet-icon{background:radial-gradient(circle at 30% 18%,#fff,rgba(255,255,255,.55) 65%)!important;}
+/* pickup pills were wrapping onto two lines */
+.location-pills-grid{grid-template-columns:repeat(3,1fr);}
+.loc-pill span{white-space:nowrap;}
+@media(max-width:820px){.location-pills-grid{grid-template-columns:repeat(2,1fr);}}
 </style>
 </head>
 <body>
