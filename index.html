@@ -67,12 +67,12 @@
   /* ---------- HERO / PARALLAX ---------- */
   .hero{
     position:relative;
-    min-height:100vh;
-    display:flex; align-items:center;
+    min-height:95vh;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
     overflow:hidden;
     background:#082C2D;
     color:var(--sand);
-    padding-top:80px;
+    padding:100px 24px 60px;
   }
   .hero-photo{
     position:absolute; inset:0; width:100%; height:120%; top:-10%;
@@ -89,12 +89,13 @@
 
   .hero-content{
     position:relative; z-index:5;
-    max-width:1080px; margin:0 auto; padding:0 24px;
+    max-width:900px; margin:0 auto;
     width:100%;
+    display:flex; flex-direction:column; align-items:center; text-align:center;
   }
   .hero-badges{
     display:flex; align-items:center; gap:12px; flex-wrap:wrap;
-    margin-bottom:22px;
+    margin-bottom:16px; justify-content:center;
   }
   .eyebrow{
     display:inline-flex; align-items:center; gap:8px;
@@ -116,40 +117,140 @@
     50%{transform:scale(1.05); box-shadow:0 0 0 8px rgba(232,135,30,0);}
   }
   .hero h1{
-    font-size:clamp(2.4rem, 6vw, 4.4rem);
-    line-height:1.02;
-    max-width:780px;
+    font-size:clamp(2.2rem, 6.5vw, 4rem);
+    line-height:1.1;
+    max-width:700px;
     color:var(--sand);
+    margin:0 0 16px 0;
   }
   .hero p.lede{
-    margin-top:22px; max-width:540px;
-    font-size:1.08rem; line-height:1.55;
-    color:rgba(246,239,227,0.85);
+    display:none;
   }
   .hero-actions{
-    margin-top:34px; display:flex; gap:14px; flex-wrap:wrap; align-items:center;
+    margin-top:20px; 
+    display:flex; gap:14px; flex-wrap:wrap; align-items:center; justify-content:center;
   }
   .btn-primary{
     background:var(--saffron); color:#241300;
-    padding:16px 28px; border-radius:100px;
-    font-weight:700; font-size:1rem;
+    padding:16px 32px; border-radius:100px;
+    font-weight:700; font-size:0.95rem;
     display:inline-flex; align-items:center; gap:10px;
-    transition:transform .2s ease, box-shadow .2s ease, background .2s ease;
-    box-shadow:0 10px 30px rgba(232,135,30,0.25);
+    transition:all .3s ease;
+    box-shadow:0 12px 32px rgba(232,135,30,0.28);
     border:none; cursor:pointer;
   }
-  .btn-primary:hover{transform:translateY(-2px); box-shadow:0 14px 34px rgba(232,135,30,0.35); background:#fca136;}
+  .btn-primary:hover{
+    transform:translateY(-3px); 
+    box-shadow:0 16px 40px rgba(232,135,30,0.4); 
+    background:#fca136;
+  }
+  .btn-primary:active{transform:translateY(-1px);}
   .btn-secondary{
     color:var(--sand); font-weight:600; font-size:0.95rem;
     border-bottom:1px solid rgba(246,239,227,0.4);
     padding-bottom:2px;
   }
   .trust-chips{
-    margin-top:44px; display:flex; gap:28px; flex-wrap:wrap;
+    margin-top:22px; display:flex; gap:28px; flex-wrap:wrap;
     font-size:0.82rem; color:rgba(246,239,227,0.85);
   }
   .trust-chips span{display:flex; align-items:center; gap:8px;}
   .trust-chips .chip-dot{width:6px; height:6px; border-radius:50%; background:var(--teal-glow);}
+
+  /* ---------- SWIPE DECK (hero) ---------- */
+  .swipe-container{
+    position:relative; z-index:5;
+    margin-top:40px;
+    width:100%;
+  }
+  
+  .swipe-deck-wrap{
+    position:relative;
+    display:flex; flex-direction:column; align-items:center; gap:16px;
+  }
+  
+  .swipe-deck{
+    position:relative; width:min(90vw, 320px); height:380px;
+    touch-action:pan-y;
+    filter:drop-shadow(0 25px 50px rgba(0,0,0,0.4));
+  }
+  .swipe-card{
+    position:absolute; inset:0;
+    background:var(--sand); border-radius:24px; overflow:hidden;
+    display:flex; flex-direction:column;
+    cursor:grab; user-select:none;
+    transition:transform .4s cubic-bezier(.16,.84,.35,1), opacity .4s ease;
+    will-change:transform;
+    border:1px solid rgba(246,239,227,0.3);
+  }
+  .swipe-card:active{cursor:grabbing;}
+  .swipe-card.dragging{transition:none;}
+  .swipe-card .swipe-img{
+    flex:1; width:100%; object-fit:cover; background:var(--sand-dim);
+    pointer-events:none;
+  }
+  .swipe-card .swipe-info{
+    padding:18px 18px 16px; background:var(--sand);
+  }
+  
+  .swipe-card .swipe-name{
+    font-family:'Fraunces', serif; font-weight:600; font-size:1.12rem; 
+    color:var(--ink); letter-spacing:-0.01em;
+  }
+  
+  .swipe-card .swipe-meta{
+    display:flex; justify-content:space-between; align-items:center;
+    margin-top:8px; font-size:0.8rem; color:var(--ink-soft);
+  }
+  .swipe-card .swipe-avail{color:var(--teal-mid); font-weight:600;}
+  .swipe-card .swipe-avail.sold{color:#B33;}
+  .swipe-card .swipe-book{
+    margin-top:12px; width:100%; text-align:center;
+    background:var(--saffron); color:#241300; font-weight:700; font-size:0.9rem;
+    padding:11px; border-radius:100px; border:none; cursor:pointer;
+    transition:all .2s ease;
+  }
+  .swipe-card .swipe-book:hover:not(:disabled){
+    background:#fca136;
+    transform:scale(1.02);
+  }
+
+  .deck-controls{
+    display:flex; align-items:center; gap:12px;
+  }
+  
+  .deck-arrow{
+    flex-shrink:0; width:48px; height:48px; border-radius:50%;
+    background:rgba(62,156,143,0.15); border:1.5px solid rgba(62,156,143,0.4);
+    color:var(--teal-glow); display:flex; align-items:center; justify-content:center;
+    cursor:pointer; transition:all .2s ease;
+  }
+  .deck-arrow:hover{
+    background:var(--teal-glow); 
+    color:var(--sand); 
+    border-color:var(--teal-glow);
+    transform:scale(1.08);
+    box-shadow:0 8px 20px rgba(62,156,143,0.2);
+  }
+  .deck-arrow svg{width:22px; height:22px; stroke:currentColor; stroke-width:2; fill:none;}
+  
+  .swipe-indicator{
+    font-size:0.85rem; font-weight:600; color:rgba(246,239,227,0.8);
+    min-width:50px; text-align:center;
+  }
+  .swipe-hint{
+    display:flex; align-items:center; gap:8px;
+    font-size:0.85rem; font-weight:600; color:var(--sand);
+    background:rgba(232,135,30,0.14); border:1px solid rgba(232,135,30,0.4);
+    padding:8px 16px; border-radius:100px;
+  }
+  @keyframes hint-nudge{
+    0%,100%{transform:translateX(0);}
+    50%{transform:translateX(3px);}
+  }
+  @media (prefers-reduced-motion: reduce){
+    .swipe-card{transition:none;}
+  }
 
   .scroll-cue{
     position:absolute; bottom:28px; left:50%; transform:translateX(-50%);
@@ -286,6 +387,38 @@
   }
   .ride-pin-icon svg{width:17px; height:17px;}
   .leaflet-control-zoom{border:none !important; box-shadow:0 6px 16px rgba(0,0,0,0.15) !important;}
+
+  /* ---------- BEST PICKS ---------- */
+  #best-picks{background:var(--sand);}
+  .mood-row{display:flex; gap:10px; flex-wrap:wrap; margin-bottom:28px;}
+  .mood-chip{
+    background:var(--sand-dim); color:var(--ink); border:1.5px solid var(--line);
+    padding:11px 18px; border-radius:100px; font-weight:600; font-size:0.92rem;
+    cursor:pointer; transition:all .2s ease; font-family:'Work Sans', sans-serif;
+  }
+  .mood-chip:hover{border-color:var(--teal-glow); transform:translateY(-1px);}
+  .mood-chip.active{background:var(--teal-deep); color:var(--sand); border-color:var(--teal-deep);}
+  .pick-grid{display:grid; grid-template-columns:repeat(auto-fit, minmax(260px, 1fr)); gap:18px;}
+  .pick-card{
+    background:#fff; border:1px solid var(--line); border-radius:20px; padding:24px;
+    display:flex; flex-direction:column; gap:10px;
+    box-shadow:0 10px 30px rgba(11,61,62,0.06); transition:transform .2s ease, box-shadow .2s ease;
+    animation:fade-in .5s ease-out;
+  }
+  .pick-card:hover{transform:translateY(-3px); box-shadow:0 16px 40px rgba(11,61,62,0.12);}
+  .pick-tag{
+    font-family:'JetBrains Mono', monospace; font-size:0.68rem; letter-spacing:0.12em;
+    text-transform:uppercase; color:var(--teal-mid);
+  }
+  .pick-img{width:100%; height:180px; object-fit:cover; border-radius:14px; background:var(--sand-dim); margin-bottom:4px;}
+  .pick-card h3{font-size:1.2rem; color:var(--ink);}
+  .pick-card p{font-size:0.92rem; color:var(--ink-soft); line-height:1.55; flex:1;}
+  .pick-enquire{
+    margin-top:6px; align-self:flex-start; background:var(--saffron); color:#241300;
+    font-weight:700; font-size:0.88rem; padding:11px 20px; border-radius:100px;
+    display:inline-flex; align-items:center; gap:8px; transition:background .2s ease;
+  }
+  .pick-enquire:hover{background:#fca136;}
 
   /* ---------- MODAL ---------- */
   .modal-overlay{
@@ -516,39 +649,65 @@
       <span class="offer-badge">✦ First ride: 20% off</span>
     </div>
     <h1>Want to book<br>a bike or scooty</h1>
-    <p class="lede">Select your pickup spot, choose your ride — Activa, Bullet 350, or Harley-Davidson — and lock it in instantly on WhatsApp. Transparent rates, zero hidden fees.</p>
+    <p class="lede">Pick a ride, lock it in on WhatsApp — transparent rates, zero hidden fees.</p>
+    
     <div class="hero-actions">
       <button type="button" class="btn-primary" id="open-booking-hero">
         Start booking →
       </button>
-      <a class="btn-secondary" href="#fleet">Check availability ↓</a>
     </div>
+  </div>
+
+  <div class="swipe-container">
+    <div class="swipe-deck-wrap">
+      <div class="swipe-deck" id="swipe-deck"></div>
+      
+      <div class="deck-controls">
+        <button type="button" class="deck-arrow" id="deck-prev" aria-label="Previous vehicle">
+          <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"></polyline></svg>
+        </button>
+        <div class="swipe-indicator">
+          <span id="card-current">1</span> / <span id="card-total">3</span>
+        </div>
+        <button type="button" class="deck-arrow" id="deck-next" aria-label="Next vehicle">
+          <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"></polyline></svg>
+        </button>
+      </div>
+      
+      <div class="swipe-hint">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" style="animation:hint-nudge 1.6s ease-in-out infinite;"><path d="M8 8l-4 4 4 4M16 8l4 4-4 4" stroke="var(--saffron)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span>Tap the arrows, or drag a card</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-content">
     <div class="trust-chips">
       <span><span class="chip-dot"></span>Run by locals to ensure legit prices</span>
       <span><span class="chip-dot"></span>Pay only after you arrive</span>
       <span><span class="chip-dot"></span>24/7 WhatsApp updates</span>
     </div>
+    <a class="btn-secondary" href="#fleet" style="margin-top:16px;">Check availability ↓</a>
   </div>
 
   <div class="scroll-cue"><span>Scroll</span><span class="line"></span></div>
 </header>
 
-<!-- ================= NEARBY MAP ================= -->
-<section id="nearby-map">
+<!-- ================= BEST PICKS ================= -->
+<section id="best-picks">
   <div class="wrap">
     <div class="section-head">
-      <span class="eyebrow-dark">Right now, near you</span>
-      <h2>Rides around your spot.</h2>
-      <p>Turn on location and see roughly where available rides are around you. This is a quick visual, not a live shop directory.</p>
+      <span class="eyebrow-dark">Local picks</span>
+      <h2 id="picks-tagline">Our best picks for you this evening.</h2>
+      <p id="picks-season">Tell us what you're in the mood for, and we'll send your enquiry straight to WhatsApp.</p>
     </div>
-    <div class="map-card">
-      <div class="map-status" id="map-status"><span class="pulse-dot"></span><span id="map-status-text">Locating you…</span></div>
-      <div id="live-map"></div>
+    <div class="mood-row" id="mood-row">
+      <button type="button" class="mood-chip active" data-mood="sight">🌅 Sightseeing</button>
+      <button type="button" class="mood-chip" data-mood="peace">🧘 Peace</button>
+      <button type="button" class="mood-chip" data-mood="food">🍛 Food</button>
+      <button type="button" class="mood-chip" data-mood="thrill">🪂 Thrills</button>
     </div>
-    <div class="map-legend">
-      <span><span class="dot-you"></span>You, right now</span>
-      <span><span class="dot-ride"></span>Rides in the area</span>
-    </div>
+    <div class="pick-grid" id="pick-grid"></div>
   </div>
 </section>
 
@@ -768,21 +927,15 @@
       <p>Real experiences from visitors exploring Rishikesh on our bikes.</p>
     </div>
 
+    <p style="margin-top:-4px; margin-bottom:20px; color:var(--ink-soft); font-size:0.95rem;">Real riders, added by hand as they come in — newest first.</p>
+
+    <!-- To add a new review: copy this block and paste it FIRST so newest shows on top. -->
     <div class="reviews-grid">
+      <!-- EXAMPLE — replace with your first real review, keep this format -->
       <div class="review-card">
         <div class="review-stars">★★★★★</div>
-        <p class="review-text">"Super simple booking over WhatsApp. Scooter was in great condition and pickup near Laxman Jhula was smooth. Highly recommend!"</p>
-        <div class="review-who">— Rahul M., Delhi</div>
-      </div>
-      <div class="review-card">
-        <div class="review-stars">★★★★★</div>
-        <p class="review-text">"Got a Bullet 350 for Neelkanth temple ride. Genuine rates without the usual hassle or overcharging. Will definitely use again."</p>
-        <div class="review-who">— Sarah & Mark, UK</div>
-      </div>
-      <div class="review-card">
-        <div class="review-stars">★★★★★</div>
-        <p class="review-text">"Picked up Activa right at the bus stand. Clean process, transparent pricing, and instant response."</p>
-        <div class="review-who">— Priya K., Bangalore</div>
+        <p class="review-text">"Add your first real customer quote here once you've got one — don't launch with a fake review, an empty section is more trustworthy than a made-up one."</p>
+        <div class="review-who">— placeholder, remove before launch</div>
       </div>
     </div>
   </div>
@@ -846,92 +999,25 @@
   const bikeIcon = `<svg viewBox="0 0 24 24" fill="none"><circle cx="5.5" cy="17.5" r="3.2" stroke="#F6EFE3" stroke-width="1.6"/><circle cx="18.5" cy="17.5" r="3.2" stroke="#F6EFE3" stroke-width="1.6"/><path d="M5.5 17.5 9 10h5l4.5 7.5M9 10 7.5 6h-2M9 10l3 4h4" stroke="#F6EFE3" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
   const scooterIcon = `<svg viewBox="0 0 24 24" fill="none"><circle cx="5.5" cy="17.5" r="2.8" stroke="#F6EFE3" stroke-width="1.6"/><circle cx="18" cy="17.5" r="2.8" stroke="#F6EFE3" stroke-width="1.6"/><path d="M5.5 17.5h4l1-6h4.5c1.4 0 2.5 1.1 2.5 2.5v3.5M10.5 11.5h-3M15 8.5h3" stroke="#F6EFE3" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
 
-  let LOCATION_DATA = {
-    "Laxman Jhula": [
-      { name: "Royal Enfield Bullet 350", available: true, type: "bike" },
-      { name: "Royal Enfield Bullet 350", available: true, type: "bike" },
-      { name: "Royal Enfield Bullet 350", available: false, type: "bike" },
-      { name: "Royal Enfield Bullet 350", available: false, type: "bike" },
-      { name: "Honda Activa 5G", available: false, type: "scooter" },
-      { name: "Honda Activa 5G", available: true, type: "scooter" },
-      { name: "Honda Activa 5G", available: true, type: "scooter" },
-      { name: "Harley-Davidson", available: true, type: "bike" }
-    ],
-    "Ram Jhula": [
-      { name: "Royal Enfield Bullet 350", available: true, type: "bike" },
-      { name: "Royal Enfield Bullet 350", available: false, type: "bike" },
-      { name: "Royal Enfield Bullet 350", available: true, type: "bike" },
-      { name: "Honda Activa 5G", available: false, type: "scooter" },
-      { name: "Honda Activa 5G", available: true, type: "scooter" },
-      { name: "Honda Activa 5G", available: true, type: "scooter" },
-      { name: "Harley-Davidson", available: false, type: "bike" },
-      { name: "Harley-Davidson", available: true, type: "bike" }
-    ],
-    "Tapovan": [
-      { name: "Royal Enfield Bullet 350", available: true, type: "bike" },
-      { name: "Royal Enfield Bullet 350", available: true, type: "bike" },
-      { name: "Royal Enfield Bullet 350", available: false, type: "bike" },
-      { name: "Honda Activa 5G", available: true, type: "scooter" },
-      { name: "Honda Activa 5G", available: false, type: "scooter" },
-      { name: "Harley-Davidson", available: false, type: "bike" },
-      { name: "Harley-Davidson", available: true, type: "bike" },
-      { name: "Harley-Davidson", available: true, type: "bike" }
-    ],
-    "Bus Stand": [
-      { name: "Royal Enfield Bullet 350", available: false, type: "bike" },
-      { name: "Royal Enfield Bullet 350", available: false, type: "bike" },
-      { name: "Honda Activa 5G", available: false, type: "scooter" },
-      { name: "Honda Activa 5G", available: true, type: "scooter" },
-      { name: "Honda Activa 5G", available: true, type: "scooter" },
-      { name: "Harley-Davidson", available: false, type: "bike" },
-      { name: "Harley-Davidson", available: true, type: "bike" },
-      { name: "Harley-Davidson", available: true, type: "bike" }
-    ],
-    "Nepali Farm": [
-      { name: "Royal Enfield Bullet 350", available: true, type: "bike" },
-      { name: "Royal Enfield Bullet 350", available: false, type: "bike" },
-      { name: "Royal Enfield Bullet 350", available: true, type: "bike" },
-      { name: "Royal Enfield Bullet 350", available: true, type: "bike" },
-      { name: "Honda Activa 5G", available: false, type: "scooter" },
-      { name: "Honda Activa 5G", available: true, type: "scooter" },
-      { name: "Harley-Davidson", available: false, type: "bike" },
-      { name: "Harley-Davidson", available: false, type: "bike" }
-    ],
-    "Railway Station": [
-      { name: "Royal Enfield Bullet 350", available: true, type: "bike" },
-      { name: "Royal Enfield Bullet 350", available: true, type: "bike" },
-      { name: "Honda Activa 5G", available: false, type: "scooter" },
-      { name: "Honda Activa 5G", available: true, type: "scooter" },
-      { name: "Honda Activa 5G", available: false, type: "scooter" },
-      { name: "Harley-Davidson", available: true, type: "bike" },
-      { name: "Harley-Davidson", available: true, type: "bike" },
-      { name: "Harley-Davidson", available: false, type: "bike" }
-    ]
-  };
+  const LOCATIONS = ["Laxman Jhula", "Ram Jhula", "Tapovan", "Nepali Farm", "Bus Stand", "Railway Station"];
 
-  function parseLocationCSV(text) {
-    const lines = text.trim().split("\n").map(l => l.split(","));
-    if (lines.length < 2) return null;
-    
-    const headers = lines[0];
-    const parsedData = {};
+  // EDIT THIS to update what's available — hand-updated demo data, used
+  // whenever SHEET_CSV_URL is empty or the fetch fails. These are your real
+  // total numbers (not per-location — there's no real per-location split
+  // yet, so this stays one honest total instead of an invented breakdown).
+  // "rate" is ₹/day — PLACEHOLDER numbers, swap for your real rates.
+  // "image" points at the vehicle photos you added to the repo root.
+  let FLEET = [
+    { name: "Royal Enfield Bullet 350", available: 5, type: "bike", rate: 900, image: "royalenfield-bullet.png" },
+    { name: "Honda Activa 5G", available: 5, type: "scooter", rate: 450, image: "honda-activa-5g.png" },
+    { name: "Harley-Davidson", available: 2, type: "bike", rate: 3500, image: "harleydavidson.png" },
+  ];
 
-    for (let col = 0; col < headers.length; col += 2) {
-      const locName = headers[col]?.trim();
-      if (!locName) continue;
-      parsedData[locName] = [];
-
-      for (let row = 1; row < lines.length; row++) {
-        const vehicleName = lines[row][col]?.trim();
-        const availRaw = lines[row][col + 1]?.trim().toUpperCase();
-        if (vehicleName) {
-          const isAvail = availRaw === "TRUE" || availRaw === "1" || availRaw === "YES";
-          const type = vehicleName.toLowerCase().includes("activa") ? "scooter" : "bike";
-          parsedData[locName].push({ name: vehicleName, available: isAvail, type: type });
-        }
-      }
-    }
-    return Object.keys(parsedData).length > 0 ? parsedData : null;
+  function parseFleetCSV(text){
+    return text.trim().split("\n").map(line => {
+      const [name, available, type, rate, image] = line.split(",").map(s => s && s.trim());
+      return { name, available: Number(available) || 0, type: (type || "bike").toLowerCase(), rate: Number(rate) || 0, image: image || "" };
+    }).filter(v => v.name);
   }
 
   async function loadFleetFromSheet(){
@@ -939,14 +1025,15 @@
     try{
       const res = await fetch(SHEET_CSV_URL);
       const text = await res.text();
-      const parsed = parseLocationCSV(text);
-      if(parsed) { 
-        LOCATION_DATA = parsed; 
+      const parsed = parseFleetCSV(text);
+      if(parsed.length){
+        FLEET = parsed;
         renderFeaturePills();
-        renderLocGrid('modal-pickup-grid');
+        renderFleetGrid('modal-fleet-grid');
+        renderSwipeDeck();
       }
     } catch(err){
-      console.warn("Could not load live sheet data, using fallback data.", err);
+      console.warn("Ride Quick: couldn't load live fleet data, using the fallback list.", err);
     }
   }
 
@@ -964,22 +1051,19 @@
     }
   }
 
-  // Render Feature Location Pills on Main Page
+  // Render Feature Location Pills on Main Page — pickup hubs only, no
+  // fabricated per-location counts since there's no real breakdown yet.
   function renderFeaturePills(){
     const el = document.getElementById('feature-location-pills');
     if(!el) return;
-    const locs = Object.keys(LOCATION_DATA);
-    el.innerHTML = locs.map(loc => {
-      const availableCount = LOCATION_DATA[loc].filter(v => v.available).length;
-      return `
-        <button type="button" class="loc-pill" data-loc="${loc}">
-          <span>${loc}</span>
-          <span style="display:flex; align-items:center; gap:6px; font-size:0.75rem; color:var(--teal-glow);">
-            <span class="status-dot"></span>${availableCount} available
-          </span>
-        </button>
-      `;
-    }).join('');
+    el.innerHTML = LOCATIONS.map(loc => `
+      <button type="button" class="loc-pill" data-loc="${loc}">
+        <span>${loc}</span>
+        <span style="display:flex; align-items:center; gap:6px; font-size:0.75rem; color:var(--teal-glow);">
+          <span class="status-dot"></span>Pickup hub
+        </span>
+      </button>
+    `).join('');
 
     el.querySelectorAll('.loc-pill').forEach(pill => {
       pill.addEventListener('click', () => {
@@ -1005,14 +1089,13 @@
   function renderLocGrid(containerId){
     const el = document.getElementById(containerId);
     if(!el) return;
-    const locs = Object.keys(LOCATION_DATA);
-    el.innerHTML = locs.map(loc => `
+    el.innerHTML = LOCATIONS.map(loc => `
       <button type="button" class="loc-chip ${routeState.location === loc ? 'selected' : ''}" data-loc="${loc}">
         <span class="pin">${pinIcon}</span>
         <span class="name">${loc}</span>
       </button>
     `).join('');
-    
+
     el.querySelectorAll('.loc-chip').forEach(chip => {
       chip.addEventListener('click', () => {
         routeState.location = chip.dataset.loc;
@@ -1023,34 +1106,22 @@
     });
   }
 
-  function renderFleetGrid(containerId, locationName){
+  function renderFleetGrid(containerId){
     const el = document.getElementById(containerId);
     if(!el) return;
 
-    const vehicles = LOCATION_DATA[locationName] || [];
-
-    const aggregated = {};
-    vehicles.forEach(v => {
-      if(!aggregated[v.name]) {
-        aggregated[v.name] = { name: v.name, type: v.type, availableCount: 0 };
-      }
-      if(v.available) aggregated[v.name].availableCount += 1;
-    });
-
-    const fleetList = Object.values(aggregated);
-
-    if(fleetList.length === 0) {
-      el.innerHTML = `<p style="font-size:0.9rem; color:var(--ink-soft);">No vehicles listed for this location.</p>`;
+    if(FLEET.length === 0) {
+      el.innerHTML = `<p style="font-size:0.9rem; color:var(--ink-soft);">No vehicles listed right now.</p>`;
       return;
     }
 
-    el.innerHTML = fleetList.map(v => `
-      <button type="button" class="fleet-card ${v.availableCount <= 0 ? 'sold-out' : ''} ${routeState.vehicle === v.name ? 'selected' : ''}" data-vehicle="${v.name}">
+    el.innerHTML = FLEET.map(v => `
+      <button type="button" class="fleet-card ${v.available <= 0 ? 'sold-out' : ''} ${routeState.vehicle === v.name ? 'selected' : ''}" data-vehicle="${v.name}">
         <span class="fleet-left">
           <span class="fleet-icon">${v.type === 'scooter' ? scooterIcon : bikeIcon}</span>
           <span class="fleet-name">${v.name}</span>
         </span>
-        <span class="fleet-avail">${v.availableCount > 0 ? v.availableCount + ' available' : 'Sold out'}</span>
+        <span class="fleet-avail">${v.available > 0 ? v.available + ' available' : 'Sold out'}</span>
       </button>
     `).join('');
 
@@ -1065,15 +1136,12 @@
     });
   }
 
-  const DEMO_RATES = [
-    { match: /bullet|enfield/i, rate: 800 },
-    { match: /activa/i, rate: 400 },
-    { match: /harley/i, rate: 2500 }
-  ];
+  // Rate lookup now reads straight from FLEET (see the array near the top of
+  // this script) — one place to edit, and it's the same data the Sheet feeds.
   const DEFAULT_RATE = 500;
   function getRateFor(vehicleName){
-    const found = DEMO_RATES.find(r => r.match.test(vehicleName || ''));
-    return found ? found.rate : DEFAULT_RATE;
+    const v = FLEET.find(f => f.name === vehicleName);
+    return (v && v.rate) ? v.rate : DEFAULT_RATE;
   }
   const ID_LABELS = { DL: 'Driving License', AADHAR: 'Aadhar Card', VOTER: 'Voter ID', PAN: 'PAN Card' };
 
@@ -1227,75 +1295,179 @@
   renderLocGrid('modal-pickup-grid');
   loadFleetFromSheet();
   refreshWhatsAppLinks();
-  initNearbyMap();
-
-  // ---- Nearby Map ----
-  function initNearbyMap(){
-    const mapEl = document.getElementById('live-map');
-    const statusText = document.getElementById('map-status-text');
-    if(!mapEl || typeof L === 'undefined') return;
-
-    const RISHIKESH = [30.0869, 78.2676];
-    const map = L.map(mapEl, {
-      zoomControl: true,
-      scrollWheelZoom: false,
-      attributionControl: true
-    }).setView(RISHIKESH, 14);
-
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-      maxZoom: 19,
-      attribution: '&copy; OpenStreetMap contributors'
-    }).addTo(map);
-
-    function scatterDecorativeRides(center){
-      const rideDivIcon = L.divIcon({
-        className: '',
-        html: `<div class="ride-pin-icon">${bikeIcon}</div>`,
-        iconSize: [30, 30],
-        iconAnchor: [15, 15]
-      });
-      const count = 6;
-      for(let i = 0; i < count; i++){
-        const angle = Math.random() * Math.PI * 2;
-        const dist = 0.003 + Math.random() * 0.01;
-        const lat = center[0] + Math.cos(angle) * dist;
-        const lng = center[1] + Math.sin(angle) * dist * 1.2;
-        L.marker([lat, lng], { icon: rideDivIcon, interactive: false, keyboard: false }).addTo(map);
-      }
-    }
-
-    function placeUserPin(coords){
-      const userDivIcon = L.divIcon({
-        className: '',
-        html: `<div class="user-pin-icon"><div class="dot"></div></div>`,
-        iconSize: [18, 18],
-        iconAnchor: [9, 9]
-      });
-      L.marker(coords, { icon: userDivIcon, interactive: false, keyboard: false }).addTo(map);
-    }
-
-    if(!('geolocation' in navigator)){
-      statusText.textContent = 'Showing Rishikesh — location not available on this device';
-      scatterDecorativeRides(RISHIKESH);
-      return;
-    }
-
-    navigator.geolocation.getCurrentPosition(
-      pos => {
-        const coords = [pos.coords.latitude, pos.coords.longitude];
-        map.setView(coords, 16);
-        placeUserPin(coords);
-        scatterDecorativeRides(coords);
-        statusText.textContent = 'Showing your live location';
-      },
-      err => {
-        console.warn("Geolocation blocked or unavailable:", err.message);
-        statusText.textContent = 'Location blocked or denied — showing Rishikesh map';
-        scatterDecorativeRides(RISHIKESH);
-      },
-      { enableHighAccuracy: true, timeout: 8000 }
-    );
+  renderSwipeDeck();
+  
+  // Setup deck navigation
+  let deckOrder = FLEET.length ? FLEET.map((_, i) => i) : [];
+  function updateDeckCounter() {
+    const current = document.getElementById('card-current');
+    const total = document.getElementById('card-total');
+    if (current) current.textContent = deckOrder[0] !== undefined ? deckOrder[0] + 1 : 1;
+    if (total) total.textContent = Math.min(FLEET.length, 3);
   }
+  
+  document.getElementById('deck-prev')?.addEventListener('click', () => {
+    deckOrder.unshift(deckOrder.pop());
+    updateDeckCounter();
+  });
+  
+  document.getElementById('deck-next')?.addEventListener('click', () => {
+    deckOrder.push(deckOrder.shift());
+    updateDeckCounter();
+  });
+  
+  updateDeckCounter();
+
+  // ---- Swipe deck: draggable vehicle cards in the hero, cycles continuously ----
+  function renderSwipeDeck(){
+    const deck = document.getElementById('swipe-deck');
+    if(!deck || !FLEET.length) return;
+
+    let order = FLEET.map((_, i) => i); // indexes into FLEET, front card = order[0]
+
+    function draw(){
+      deck.innerHTML = '';
+      order.slice(0, 3).forEach((fleetIdx, stackPos) => {
+        const v = FLEET[fleetIdx];
+        const card = document.createElement('div');
+        card.className = 'swipe-card';
+        card.style.zIndex = 10 - stackPos;
+        card.style.transform = `translateY(${stackPos * 10}px) scale(${1 - stackPos * 0.05})`;
+        card.style.opacity = stackPos === 2 ? '0.6' : '1';
+        card.innerHTML = `
+          <img class="swipe-img" src="${v.image}" alt="${v.name}" draggable="false">
+          <div class="swipe-info">
+            <div class="swipe-name">${v.name}</div>
+            <div class="swipe-meta">
+              <span class="swipe-avail ${v.available <= 0 ? 'sold' : ''}">${v.available > 0 ? v.available + ' available' : 'Sold out'}</span>
+              ${v.rate ? `<span>₹${v.rate}/day</span>` : ''}
+            </div>
+            <button type="button" class="swipe-book" ${v.available <= 0 ? 'disabled style="opacity:.5;cursor:not-allowed;"' : ''}>Book this →</button>
+          </div>
+        `;
+
+        if(stackPos === 0){
+          wireDrag(card, fleetIdx);
+          card.querySelector('.swipe-book').addEventListener('click', e => {
+            e.stopPropagation();
+            if(v.available <= 0) return;
+            routeState.vehicle = v.name;
+            goToStep(1);
+            openModal();
+          });
+        }
+        deck.appendChild(card);
+      });
+    }
+
+    function cycleToBack(){
+      order.push(order.shift());
+      draw();
+    }
+
+    function wireDrag(card, fleetIdx){
+      let startX = 0, currentX = 0, dragging = false;
+
+      function onDown(e){
+        dragging = true;
+        card.classList.add('dragging');
+        startX = (e.touches ? e.touches[0].clientX : e.clientX);
+        window.addEventListener('mousemove', onMove);
+        window.addEventListener('mouseup', onUp);
+      }
+      function onMove(e){
+        if(!dragging) return;
+        currentX = (e.touches ? e.touches[0].clientX : e.clientX) - startX;
+        card.style.transform = `translateX(${currentX}px) rotate(${currentX / 18}deg)`;
+      }
+      function onUp(){
+        if(!dragging) return;
+        dragging = false;
+        card.classList.remove('dragging');
+        if(Math.abs(currentX) > 80){
+          const dir = currentX > 0 ? 1 : -1;
+          card.style.transform = `translateX(${dir * 500}px) rotate(${dir * 30}deg)`;
+          card.style.opacity = '0';
+          setTimeout(cycleToBack, 220);
+        } else {
+          card.style.transform = 'translateX(0) rotate(0)';
+        }
+        currentX = 0;
+        window.removeEventListener('mousemove', onMove);
+        window.removeEventListener('mouseup', onUp);
+      }
+
+      card.addEventListener('mousedown', onDown);
+      window.addEventListener('mousemove', onMove);
+      window.addEventListener('mouseup', onUp);
+      card.addEventListener('touchstart', onDown, {passive:true});
+      card.addEventListener('touchmove', onMove, {passive:true});
+      card.addEventListener('touchend', onUp);
+    }
+
+    draw();
+  }
+
+  // ---- Best Picks (rotating tagline + mood → sub-options → WhatsApp enquiry) ----
+  // Images live in an "images" folder next to index.html on GitHub Pages.
+  // Change this if you put them somewhere else (e.g. "assets/" or a full URL).
+  const PICK_IMG_BASE = 'images/';
+  const PICKS = {
+    sight: [
+      { tag: 'Cafe · River view', name: 'Riverside cafe with a great view', desc: 'Sit by the Ganga with a cup of chai and the best view in town.', img: 'cafe.jpg' }
+    ],
+    peace: [
+      { tag: 'Wellness', name: 'Sunrise yoga session', desc: 'Early morning yoga by the river with a local instructor.', img: 'yoga.jpg' },
+      { tag: 'Trek', name: 'Guided trekking', desc: 'Easy to moderate trails through the hills with a local guide.', img: 'trekking.jpg' }
+    ],
+    food: [
+      { tag: 'Restaurant', name: 'Famous restaurant booking', desc: 'We book your table at a top-rated restaurant for you.', img: 'resturant.jpg' }
+    ],
+    thrill: [
+      { tag: 'Adventure', name: 'Bungee jump', desc: 'Rishikesh’s classic bungee jump, with safety gear and a guide.', img: 'bungee%20jump.jpg' },
+      { tag: 'Adventure', name: 'River rafting', desc: 'Guided rafting on the Ganga with safety gear and an experienced crew.', img: 'rafting.jpg' }
+    ]
+  };
+
+  function pickTimeLabel(){
+    const h = new Date().getHours();
+    if(h < 12) return 'this morning';
+    if(h < 17) return 'this afternoon';
+    return 'this evening';
+  }
+  function pickSeasonNote(){
+    const m = new Date().getMonth() + 1;
+    if(m >= 3 && m <= 5) return 'Summer picks: cooler spots by the river and early-morning treks.';
+    if(m >= 6 && m <= 9) return 'Monsoon picks: cosy indoor cafes and warm restaurant meals.';
+    if(m >= 10 && m <= 11) return 'Autumn picks: clear skies, perfect for trekking and riverside views.';
+    return 'Winter picks: warm cafes, hot food and sunny afternoon spots.';
+  }
+  function pickEnquireLink(optionName){
+    const msg = `Hi Ride Quick! I'd like to enquire about: ${optionName}.`;
+    return 'https://wa.me/' + WHATSAPP_NUMBER + '?text=' + encodeURIComponent(msg);
+  }
+  function renderPicks(mood){
+    const grid = document.getElementById('pick-grid');
+    if(!grid) return;
+    grid.innerHTML = (PICKS[mood] || []).map(p => `
+      <div class="pick-card">
+        <img class="pick-img" src="${PICK_IMG_BASE}${p.img}" alt="${p.name}" loading="lazy" onerror="this.style.display='none'">
+        <span class="pick-tag">${p.tag}</span>
+        <h3>${p.name}</h3>
+        <p>${p.desc}</p>
+        <a class="pick-enquire" href="${pickEnquireLink(p.name)}" target="_blank" rel="noopener">Enquire on WhatsApp →</a>
+      </div>`).join('');
+  }
+  document.getElementById('picks-tagline').textContent = `Our best picks for you ${pickTimeLabel()}.`;
+  document.getElementById('picks-season').textContent = pickSeasonNote();
+  document.querySelectorAll('.mood-chip').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.mood-chip').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      renderPicks(btn.dataset.mood);
+    });
+  });
+  renderPicks('sight');
 
   // ---- Parallax Hero Photo & Route Rail ----
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
