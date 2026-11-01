@@ -421,17 +421,32 @@
   }
   .pick-enquire:hover{background:#fca136;}
 
-  /* ---------- TOP PICKS POPUP ---------- */
-  .tp-popup{position:fixed; inset:0; z-index:200; background:rgba(0,0,0,0.45); display:none; align-items:flex-start; justify-content:center; padding:88px 16px 16px;}
-  .tp-popup.open{display:flex;}
-  .tp-panel{background:var(--sand); border-radius:20px; max-width:460px; width:100%; padding:24px; box-shadow:0 24px 60px rgba(0,0,0,0.3); position:relative; animation:fade-in .3s ease-out;}
-  .tp-close{position:absolute; top:12px; right:14px; background:none; border:none; font-size:1.2rem; cursor:pointer; color:var(--ink-soft);}
-  .tp-panel h3{font-size:1.4rem; color:var(--ink); margin-bottom:4px; padding-right:24px;}
-  .tp-sub{font-size:0.9rem; color:var(--ink-soft); margin-bottom:16px;}
-  .tp-row{display:flex; justify-content:space-between; align-items:center; gap:12px; padding:14px 0; border-top:1px solid var(--line);}
-  .tp-tag{font-family:'JetBrains Mono', monospace; font-size:0.66rem; letter-spacing:0.12em; text-transform:uppercase; color:var(--teal-mid);}
-  .tp-name{font-weight:600; color:var(--ink); font-size:0.98rem;}
-  .tp-row .pick-enquire{margin-top:0; white-space:nowrap;}
+  /* ---------- FLOATING PICKS BUTTON ---------- */
+  .picks-fab{position:fixed; left:18px; bottom:18px; z-index:90; display:flex; align-items:center; gap:8px;
+    background:var(--teal-deep); color:var(--sand); padding:10px 16px 10px 10px; border-radius:100px;
+    box-shadow:0 10px 30px rgba(11,61,62,0.35); font-weight:600; font-size:0.88rem; transition:transform .2s ease, background .2s ease;}
+  .picks-fab:hover{transform:translateY(-2px); background:var(--saffron); color:#241300;}
+  .picks-fab-icon{width:30px; height:30px; border-radius:50%; background:var(--saffron); color:#241300;
+    display:flex; align-items:center; justify-content:center; font-size:0.9rem;}
+  .picks-fab:hover .picks-fab-icon{background:#241300; color:var(--saffron);}
+
+  /* ---------- BOOKING: PICKUP / DROP-OFF ---------- */
+  .loc-type-toggle{display:flex; gap:8px; margin-bottom:16px; background:var(--sand-dim); padding:4px; border-radius:100px;}
+  .loc-type{flex:1; border:none; background:transparent; padding:10px; border-radius:100px; font-weight:600; cursor:pointer; color:var(--ink-soft); font-family:'Work Sans', sans-serif;}
+  .loc-type.active{background:var(--teal-deep); color:var(--sand);}
+  .loc-panel-label{font-size:0.92rem; color:var(--ink-soft); margin-bottom:12px;}
+  .loc-options{display:grid; grid-template-columns:1fr 1fr; gap:10px;}
+  .loc-option{border:1.5px solid var(--line); background:#fff; border-radius:14px; padding:14px 10px; font-weight:600; font-size:0.9rem; cursor:pointer; color:var(--ink); transition:all .2s ease; font-family:'Work Sans', sans-serif;}
+  .loc-option:hover{border-color:var(--teal-glow);}
+  .loc-option.active{border-color:var(--saffron); background:rgba(232,135,30,0.08);}
+  .loc-input{width:100%; margin-top:12px; padding:13px 14px; border:1.5px solid var(--line); border-radius:12px; font-size:0.95rem; font-family:'Work Sans', sans-serif;}
+  .loc-input:focus{outline:none; border-color:var(--teal-glow);}
+  .loc-status{font-size:0.85rem; color:var(--ink-soft); margin-top:10px; min-height:1.2em;}
+  .loc-status.ok{color:var(--teal-mid); font-weight:600;}
+  .loc-status.err{color:#B33;}
+  .loc-status a{color:var(--teal-mid); text-decoration:underline;}
+  .loc-summary{margin:18px 0 0; padding:14px; background:var(--sand-dim); border-radius:14px; font-size:0.88rem; color:var(--ink-soft); display:grid; gap:6px;}
+  .loc-summary b{color:var(--ink);}
 
   /* ---------- MODAL ---------- */
   .modal-overlay{
@@ -723,15 +738,10 @@
   </div>
 </section>
 
-<!-- ================= TOP PICKS POPUP ================= -->
-<div class="tp-popup" id="top-picks-popup" aria-hidden="true">
-  <div class="tp-panel" role="dialog" aria-label="Our top picks for you">
-    <button type="button" class="tp-close" id="tp-close" aria-label="Close">✕</button>
-    <h3 id="tp-title">Our top picks for you</h3>
-    <p class="tp-sub">Tap enquire and we'll reply on WhatsApp.</p>
-    <div id="tp-list"></div>
-  </div>
-</div>
+<!-- Floating picks button: scrolls to the picks section -->
+<a href="#best-picks" class="picks-fab" aria-label="Go to our top picks">
+  <span class="picks-fab-icon">★</span><span class="picks-fab-text">Top picks</span>
+</a>
 
 <!-- ================= BOOKING MODAL ================= -->
 <div class="modal-overlay" id="booking-modal" aria-hidden="true">
@@ -778,11 +788,25 @@
       <button type="button" class="btn-primary modal-next is-disabled" id="modal-to-step2">Continue →</button>
     </div>
 
-    <!-- STEP 2: LOCATION -->
+    <!-- STEP 2: PICKUP / DROP-OFF -->
     <div class="modal-step" id="step-location" hidden>
       <div class="modal-step-label mono">STEP 2 OF 4</div>
-      <h3>Where are you picking up?</h3>
-      <div class="loc-grid" id="modal-pickup-grid"></div>
+      <h3>Pickup &amp; drop-off</h3>
+      <div class="loc-type-toggle">
+        <button type="button" class="loc-type active" data-type="pickup">Pickup</button>
+        <button type="button" class="loc-type" data-type="dropoff">Drop-off</button>
+      </div>
+      <p class="loc-panel-label" id="loc-panel-label">Where should we pick up your vehicle?</p>
+      <div class="loc-options">
+        <button type="button" class="loc-option" id="loc-manual-btn">✍️ Enter location manually</button>
+        <button type="button" class="loc-option" id="loc-gps-btn">📍 Get my location</button>
+      </div>
+      <input type="text" id="loc-manual-input" class="loc-input" placeholder="Type your address or landmark" hidden>
+      <div class="loc-status" id="loc-status" aria-live="polite"></div>
+      <div class="loc-summary">
+        <div><b>Pickup:</b> <span id="sum-pickup">Not set</span></div>
+        <div><b>Drop-off:</b> <span id="sum-dropoff">Not set (optional)</span></div>
+      </div>
       <div class="modal-step-actions">
         <button type="button" class="btn-secondary" id="modal-back-1">← Back</button>
         <button type="button" class="btn-primary is-disabled" id="modal-to-step3">Continue →</button>
@@ -1015,7 +1039,6 @@
       const parsed = parseFleetCSV(text);
       if(parsed.length){
         FLEET = parsed;
-        renderFeaturePills();
         renderFleetGrid('modal-fleet-grid');
         renderSwipeDeck();
       }
@@ -1038,59 +1061,109 @@
     }
   }
 
-  // Render Feature Location Pills on Main Page — pickup hubs only, no
-  // fabricated per-location counts since there's no real breakdown yet.
-  function renderFeaturePills(){
-    const el = document.getElementById('feature-location-pills');
-    if(!el) return;
-    el.innerHTML = LOCATIONS.map(loc => `
-      <button type="button" class="loc-pill" data-loc="${loc}">
-        <span>${loc}</span>
-        <span style="display:flex; align-items:center; gap:6px; font-size:0.75rem; color:var(--teal-glow);">
-          <span class="status-dot"></span>Pickup hub
-        </span>
-      </button>
-    `).join('');
+  // ---- Step 2: Pickup / Drop-off ----
+  const locState = { type: 'pickup', pickup: null, dropoff: null };
+  const LOC_PANEL_TEXT = {
+    pickup: 'Where should we pick up your vehicle?',
+    dropoff: 'Where should we drop off your vehicle?'
+  };
 
-    el.querySelectorAll('.loc-pill').forEach(pill => {
-      pill.addEventListener('click', () => {
-        routeState.location = pill.dataset.loc;
-        openModal();
-        goToStep(1);
-      });
-    });
+  function renderLocSummary(){
+    document.getElementById('sum-pickup').textContent = locState.pickup ? locState.pickup.text : 'Not set';
+    document.getElementById('sum-dropoff').textContent = locState.dropoff ? locState.dropoff.text : 'Not set (optional)';
+    document.getElementById('modal-to-step3').classList.toggle('is-disabled', !locState.pickup);
+    routeState.location = locState.pickup ? locState.pickup.text : null;
+    routeState.dropoff = locState.dropoff ? locState.dropoff.text : null;
   }
 
-  function selectLocationInModal(locName){
-    const chips = document.querySelectorAll('#modal-pickup-grid .loc-chip');
-    chips.forEach(chip => {
-      if(chip.dataset.loc === locName){
-        chip.classList.add('selected');
-      } else {
-        chip.classList.remove('selected');
-      }
-    });
-    document.getElementById('modal-to-step3').classList.remove('is-disabled');
+  function setLocStatus(msg, cls){
+    const el = document.getElementById('loc-status');
+    el.className = 'loc-status' + (cls ? ' ' + cls : '');
+    el.innerHTML = msg;
   }
 
-  function renderLocGrid(containerId){
-    const el = document.getElementById(containerId);
-    if(!el) return;
-    el.innerHTML = LOCATIONS.map(loc => `
-      <button type="button" class="loc-chip ${routeState.location === loc ? 'selected' : ''}" data-loc="${loc}">
-        <span class="pin">${pinIcon}</span>
-        <span class="name">${loc}</span>
-      </button>
-    `).join('');
+  function setLocOptionActive(which){
+    document.getElementById('loc-manual-btn').classList.toggle('active', which === 'manual');
+    document.getElementById('loc-gps-btn').classList.toggle('active', which === 'gps');
+  }
 
-    el.querySelectorAll('.loc-chip').forEach(chip => {
-      chip.addEventListener('click', () => {
-        routeState.location = chip.dataset.loc;
-        el.querySelectorAll('.loc-chip').forEach(c => c.classList.remove('selected'));
-        chip.classList.add('selected');
-        document.getElementById('modal-to-step3').classList.remove('is-disabled');
-      });
+  function refreshLocPanel(){
+    const t = locState.type;
+    const saved = locState[t];
+    document.getElementById('loc-panel-label').textContent = LOC_PANEL_TEXT[t];
+    document.querySelectorAll('.loc-type').forEach(b => b.classList.toggle('active', b.dataset.type === t));
+    const input = document.getElementById('loc-manual-input');
+    if(saved && saved.source === 'manual'){
+      setLocOptionActive('manual');
+      input.hidden = false;
+      input.value = saved.text;
+      setLocStatus('Saved ✓', 'ok');
+    } else if(saved && saved.source === 'gps'){
+      setLocOptionActive('gps');
+      input.hidden = true;
+      setLocStatus(`Location captured ✓ <a href="https://maps.google.com/?q=${saved.lat},${saved.lng}" target="_blank" rel="noopener">View on map</a>`, 'ok');
+    } else {
+      setLocOptionActive(null);
+      input.hidden = true;
+      input.value = '';
+      setLocStatus('');
+    }
+    renderLocSummary();
+  }
+
+  function saveLocation(value){
+    locState[locState.type] = value;
+    renderLocSummary();
+  }
+
+  document.querySelectorAll('.loc-type').forEach(btn => {
+    btn.addEventListener('click', () => {
+      locState.type = btn.dataset.type;
+      refreshLocPanel();
     });
+  });
+
+  document.getElementById('loc-manual-btn').addEventListener('click', () => {
+    setLocOptionActive('manual');
+    const input = document.getElementById('loc-manual-input');
+    input.hidden = false;
+    input.focus();
+    setLocStatus('Type your address or a nearby landmark.');
+  });
+
+  document.getElementById('loc-manual-input').addEventListener('input', e => {
+    const text = e.target.value.trim();
+    saveLocation(text ? { source: 'manual', text } : null);
+    setLocStatus(text ? 'Saved ✓' : 'Type your address or a nearby landmark.', text ? 'ok' : '');
+  });
+
+  document.getElementById('loc-gps-btn').addEventListener('click', () => {
+    setLocOptionActive('gps');
+    document.getElementById('loc-manual-input').hidden = true;
+    if(!navigator.geolocation){
+      setLocStatus('Your browser can’t share location. Please enter it manually.', 'err');
+      return;
+    }
+    setLocStatus('Waiting for your permission…');
+    navigator.geolocation.getCurrentPosition(
+      pos => {
+        const lat = pos.coords.latitude, lng = pos.coords.longitude;
+        saveLocation({ source: 'gps', text: `My location (${lat.toFixed(5)}, ${lng.toFixed(5)})`, lat, lng });
+        refreshLocPanel();
+      },
+      err => {
+        const msg = err && err.code === 1
+          ? 'Permission denied. Please enter your location manually.'
+          : 'Couldn’t get your location. Try again or enter it manually.';
+        setLocStatus(msg, 'err');
+      },
+      { enableHighAccuracy: true, timeout: 10000, maximumAge: 60000 }
+    );
+  });
+
+  function initLocStep(){
+    locState.type = 'pickup';
+    refreshLocPanel();
   }
 
   function renderFleetGrid(containerId){
@@ -1133,14 +1206,15 @@
   const ID_LABELS = { DL: 'Driving License', AADHAR: 'Aadhar Card', VOTER: 'Voter ID', PAN: 'PAN Card' };
 
   function buildWhatsAppMessage(){
-    const { location, vehicle, name, age, idType, days, total } = routeState;
+    const { location, dropoff, vehicle, name, age, idType, days, total } = routeState;
     if(location && vehicle && name){
-      return `Hi Ride Quick! I'd like to book a ${vehicle} at ${location}.\n` +
+      return `Hi Ride Quick! I'd like to book a ${vehicle}.\nPickup: ${location}\n` +
+        (dropoff ? `Drop-off: ${dropoff}\n` : '') +
         `Name: ${name}\nAge: ${age}\nID proof: ${ID_LABELS[idType] || idType}\n` +
         `Duration: ${days} day(s)\n` +
         `Estimated total: ₹${total} (demo pricing)`;
     }
-    if(location && vehicle) return `Hi Ride Quick! I'd like to book a ${vehicle} at ${location}.`;
+    if(location && vehicle) return `Hi Ride Quick! I'd like to book a ${vehicle}. Pickup: ${location}${dropoff ? `, drop-off: ${dropoff}` : ''}.`;
     return "Hi Ride Quick! I'd like to book a ride.";
   }
   function buildWhatsAppLink(){
@@ -1222,15 +1296,14 @@
     routeState.name = custNameEl.value.trim();
     routeState.age = custAgeEl.value;
     routeState.idType = custIdEl.value;
-    renderLocGrid('modal-pickup-grid');
-    if(routeState.location) selectLocationInModal(routeState.location);
+    initLocStep();
     goToStep(2);
   });
 
   // ---- Step 2: Location ----
   document.getElementById('modal-back-1').addEventListener('click', () => goToStep(1));
   document.getElementById('modal-to-step3').addEventListener('click', () => {
-    if(!routeState.location) return;
+    if(!locState.pickup) return;
     renderFleetGrid('modal-fleet-grid', routeState.location);
     goToStep(3);
   });
@@ -1278,8 +1351,6 @@
 
   // Initialize
   setupAgeDropdown();
-  renderFeaturePills();
-  renderLocGrid('modal-pickup-grid');
   loadFleetFromSheet();
   refreshWhatsAppLinks();
   renderSwipeDeck();
@@ -1452,28 +1523,6 @@
   });
   renderPicks('peace');
 
-  // ---- Top picks popup (shows once a few seconds after load) ----
-  const tpPopup = document.getElementById('top-picks-popup');
-  function openTopPicks(){
-    if(!tpPopup) return;
-    document.getElementById('tp-title').textContent = `Our top picks for you ${pickTimeLabel()}`;
-    const items = Object.keys(PICKS).flatMap(k => PICKS[k]);
-    document.getElementById('tp-list').innerHTML = items.map(p => `
-      <div class="tp-row">
-        <div><span class="tp-tag">${p.tag}</span><div class="tp-name">${p.name}</div></div>
-        <a class="pick-enquire" href="${pickEnquireLink(p.name)}" target="_blank" rel="noopener">Enquire →</a>
-      </div>`).join('');
-    tpPopup.classList.add('open');
-    tpPopup.setAttribute('aria-hidden','false');
-  }
-  function closeTopPicks(){
-    tpPopup.classList.remove('open');
-    tpPopup.setAttribute('aria-hidden','true');
-  }
-  document.getElementById('tp-close').addEventListener('click', closeTopPicks);
-  tpPopup.addEventListener('click', e => { if(e.target === tpPopup) closeTopPicks(); });
-  document.addEventListener('keydown', e => { if(e.key === 'Escape') closeTopPicks(); });
-  setTimeout(openTopPicks, 2000);
 
   // ---- Parallax Hero Photo & Route Rail ----
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
