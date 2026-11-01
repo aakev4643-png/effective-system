@@ -411,6 +411,7 @@
     text-transform:uppercase; color:var(--teal-mid);
   }
   .pick-img{width:100%; height:180px; object-fit:cover; border-radius:14px; background:var(--sand-dim); margin-bottom:4px;}
+  .pick-img-missing{height:60px; object-fit:contain; border:1px dashed var(--ink-soft); color:var(--ink-soft); font-size:0.8rem;}
   .pick-card h3{font-size:1.2rem; color:var(--ink);}
   .pick-card p{font-size:0.92rem; color:var(--ink-soft); line-height:1.55; flex:1;}
   .pick-enquire{
@@ -419,6 +420,18 @@
     display:inline-flex; align-items:center; gap:8px; transition:background .2s ease;
   }
   .pick-enquire:hover{background:#fca136;}
+
+  /* ---------- TOP PICKS POPUP ---------- */
+  .tp-popup{position:fixed; inset:0; z-index:200; background:rgba(0,0,0,0.45); display:none; align-items:flex-start; justify-content:center; padding:88px 16px 16px;}
+  .tp-popup.open{display:flex;}
+  .tp-panel{background:var(--sand); border-radius:20px; max-width:460px; width:100%; padding:24px; box-shadow:0 24px 60px rgba(0,0,0,0.3); position:relative; animation:fade-in .3s ease-out;}
+  .tp-close{position:absolute; top:12px; right:14px; background:none; border:none; font-size:1.2rem; cursor:pointer; color:var(--ink-soft);}
+  .tp-panel h3{font-size:1.4rem; color:var(--ink); margin-bottom:4px; padding-right:24px;}
+  .tp-sub{font-size:0.9rem; color:var(--ink-soft); margin-bottom:16px;}
+  .tp-row{display:flex; justify-content:space-between; align-items:center; gap:12px; padding:14px 0; border-top:1px solid var(--line);}
+  .tp-tag{font-family:'JetBrains Mono', monospace; font-size:0.66rem; letter-spacing:0.12em; text-transform:uppercase; color:var(--teal-mid);}
+  .tp-name{font-weight:600; color:var(--ink); font-size:0.98rem;}
+  .tp-row .pick-enquire{margin-top:0; white-space:nowrap;}
 
   /* ---------- MODAL ---------- */
   .modal-overlay{
@@ -687,7 +700,7 @@
       <span><span class="chip-dot"></span>Pay only after you arrive</span>
       <span><span class="chip-dot"></span>24/7 WhatsApp updates</span>
     </div>
-    <a class="btn-secondary" href="#fleet" style="margin-top:16px;">Check availability ↓</a>
+    <a class="btn-secondary" href="#best-picks" style="margin-top:16px;">See our top picks ↓</a>
   </div>
 
   <div class="scroll-cue"><span>Scroll</span><span class="line"></span></div>
@@ -702,49 +715,23 @@
       <p id="picks-season">Tell us what you're in the mood for, and we'll send your enquiry straight to WhatsApp.</p>
     </div>
     <div class="mood-row" id="mood-row">
-      <button type="button" class="mood-chip active" data-mood="sight">🌅 Sightseeing</button>
-      <button type="button" class="mood-chip" data-mood="peace">🧘 Peace</button>
-      <button type="button" class="mood-chip" data-mood="food">🍛 Food</button>
+      <button type="button" class="mood-chip active" data-mood="peace">🧘 Peace</button>
       <button type="button" class="mood-chip" data-mood="thrill">🪂 Thrills</button>
+      <button type="button" class="mood-chip" data-mood="hotel">🏨 Hotels</button>
     </div>
     <div class="pick-grid" id="pick-grid"></div>
   </div>
 </section>
 
-<!-- ================= PROMINENT FLEET BOOKING FEATURE ================= -->
-<section id="fleet">
-  <div class="wrap">
-    <div class="booking-feature-card">
-      <div class="booking-feature-header">
-        <div>
-          <span class="eyebrow-dark" style="color:var(--teal-glow);">Live Pickup Locations</span>
-          <h2>Ready when you are.</h2>
-          <p>Real-time vehicle status across major spots in Rishikesh.</p>
-        </div>
-        <button type="button" class="btn-primary" id="open-booking-banner">
-          Start booking →
-        </button>
-      </div>
-
-      <span class="location-pills-label">Available Pickup Hubs:</span>
-      <div class="location-pills-grid" id="feature-location-pills">
-        <!-- Rendered dynamically -->
-      </div>
-
-      <div class="booking-action-bar">
-        <div class="booking-action-info">
-          <div class="icon-badge">
-            <svg viewBox="0 0 24 24" fill="none"><path d="M12 22s7-7.4 7-13a7 7 0 1 0-14 0c0 5.6 7 13 7 13z" stroke-width="2"/><circle cx="12" cy="9" r="2.5" fill="none" stroke-width="2"/></svg>
-          </div>
-          <div>
-            <div style="font-weight: 600; font-size: 0.95rem;">Pick up wherever you land</div>
-            <div style="font-size: 0.82rem; color: rgba(246,239,227,0.7);">Laxman Jhula, Ram Jhula, Tapovan, Bus Stand, Nepali Farm & Railway Station</div>
-          </div>
-        </div>
-      </div>
-    </div>
+<!-- ================= TOP PICKS POPUP ================= -->
+<div class="tp-popup" id="top-picks-popup" aria-hidden="true">
+  <div class="tp-panel" role="dialog" aria-label="Our top picks for you">
+    <button type="button" class="tp-close" id="tp-close" aria-label="Close">✕</button>
+    <h3 id="tp-title">Our top picks for you</h3>
+    <p class="tp-sub">Tap enquire and we'll reply on WhatsApp.</p>
+    <div id="tp-list"></div>
   </div>
-</section>
+</div>
 
 <!-- ================= BOOKING MODAL ================= -->
 <div class="modal-overlay" id="booking-modal" aria-hidden="true">
@@ -1413,19 +1400,15 @@
   // Change this if you put them somewhere else (e.g. "assets/" or a full URL).
   const PICK_IMG_BASE = '';
   const PICKS = {
-    sight: [
-      { tag: 'Cafe · River view', name: 'Riverside cafe with a great view', desc: 'Sit by the Ganga with a cup of chai and the best view in town.', img: 'cafe.jpg' }
-    ],
     peace: [
-      { tag: 'Wellness', name: 'Sunrise yoga session', desc: 'Early morning yoga by the river with a local instructor.', img: 'yoga.jpg' },
-      { tag: 'Trek', name: 'Guided trekking', desc: 'Easy to moderate trails through the hills with a local guide.', img: 'trekking.jpg' }
-    ],
-    food: [
-      { tag: 'Restaurant', name: 'Famous restaurant booking', desc: 'We book your table at a top-rated restaurant for you.', img: 'resturant.jpg' }
+      { tag: 'Wellness', name: 'Sunrise yoga session', desc: 'Early morning yoga by the river with a local instructor.', img: 'yoga.jpg' }
     ],
     thrill: [
       { tag: 'Adventure', name: 'Bungee jump', desc: 'Rishikesh’s classic bungee jump, with safety gear and a guide.', img: 'bungee%20jump.jpg' },
       { tag: 'Adventure', name: 'River rafting', desc: 'Guided rafting on the Ganga with safety gear and an experienced crew.', img: 'rafting.jpg' }
+    ],
+    hotel: [
+      { tag: 'Stay', name: 'Hotel booking', desc: 'Riverside and budget hotels, booked for you through WhatsApp.', img: null }
     ]
   };
 
@@ -1437,10 +1420,10 @@
   }
   function pickSeasonNote(){
     const m = new Date().getMonth() + 1;
-    if(m >= 3 && m <= 5) return 'Summer picks: cooler spots by the river and early-morning treks.';
-    if(m >= 6 && m <= 9) return 'Monsoon picks: cosy indoor cafes and warm restaurant meals.';
-    if(m >= 10 && m <= 11) return 'Autumn picks: clear skies, perfect for trekking and riverside views.';
-    return 'Winter picks: warm cafes, hot food and sunny afternoon spots.';
+    if(m >= 3 && m <= 5) return 'Summer picks: cooler stays by the river and early-morning yoga.';
+    if(m >= 6 && m <= 9) return 'Monsoon picks: cosy hotel stays and warm indoor evenings.';
+    if(m >= 10 && m <= 11) return 'Autumn picks: clear skies, perfect for riverside yoga and a bungee jump.';
+    return 'Winter picks: warm hotel stays and sunny afternoon yoga.';
   }
   function pickEnquireLink(optionName){
     const msg = `Hi Ride Quick! I'd like to enquire about: ${optionName}.`;
@@ -1451,7 +1434,7 @@
     if(!grid) return;
     grid.innerHTML = (PICKS[mood] || []).map(p => `
       <div class="pick-card">
-        <img class="pick-img" src="${PICK_IMG_BASE}${p.img}" alt="${p.name}" loading="lazy" onerror="this.style.display='none'">
+        ${p.img ? `<img class="pick-img" src="${PICK_IMG_BASE}${p.img}" alt="${p.name}" loading="lazy" onerror="console.warn('Picks image failed to load:', this.src); this.classList.add('pick-img-missing');">` : ''}
         <span class="pick-tag">${p.tag}</span>
         <h3>${p.name}</h3>
         <p>${p.desc}</p>
@@ -1467,7 +1450,30 @@
       renderPicks(btn.dataset.mood);
     });
   });
-  renderPicks('sight');
+  renderPicks('peace');
+
+  // ---- Top picks popup (shows once a few seconds after load) ----
+  const tpPopup = document.getElementById('top-picks-popup');
+  function openTopPicks(){
+    if(!tpPopup) return;
+    document.getElementById('tp-title').textContent = `Our top picks for you ${pickTimeLabel()}`;
+    const items = Object.keys(PICKS).flatMap(k => PICKS[k]);
+    document.getElementById('tp-list').innerHTML = items.map(p => `
+      <div class="tp-row">
+        <div><span class="tp-tag">${p.tag}</span><div class="tp-name">${p.name}</div></div>
+        <a class="pick-enquire" href="${pickEnquireLink(p.name)}" target="_blank" rel="noopener">Enquire →</a>
+      </div>`).join('');
+    tpPopup.classList.add('open');
+    tpPopup.setAttribute('aria-hidden','false');
+  }
+  function closeTopPicks(){
+    tpPopup.classList.remove('open');
+    tpPopup.setAttribute('aria-hidden','true');
+  }
+  document.getElementById('tp-close').addEventListener('click', closeTopPicks);
+  tpPopup.addEventListener('click', e => { if(e.target === tpPopup) closeTopPicks(); });
+  document.addEventListener('keydown', e => { if(e.key === 'Escape') closeTopPicks(); });
+  setTimeout(openTopPicks, 2000);
 
   // ---- Parallax Hero Photo & Route Rail ----
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
