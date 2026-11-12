@@ -703,6 +703,22 @@
   .deck-arrow{ background:rgba(6,26,26,0.45); border-color:rgba(246,239,227,0.5); color:var(--sand); backdrop-filter:blur(4px); }
   .swipe-hint{ background:rgba(6,26,26,0.45); border-color:rgba(246,239,227,0.35); backdrop-filter:blur(4px); }
   .scroll-cue{ color:rgba(246,239,227,0.85); }
+
+  /* ---------- HERO CHOICES + BOOKING DECK ---------- */
+  .hero-choices{display:flex; flex-wrap:wrap; gap:12px; justify-content:center; align-items:stretch; max-width:860px;}
+  .hero-choices .hero-pick{display:flex; flex-direction:column; align-items:center; justify-content:center; gap:6px; min-width:112px; padding:18px 20px; border-radius:22px; font-size:0.95rem;}
+  .hero-choices .hero-pick .em{font-size:1.6rem; line-height:1; display:flex;}
+  .hero-choices .hero-pick .em img{width:60px; height:60px; border-radius:50%; object-fit:cover; border:2px solid rgba(246,239,227,0.75); display:block;}
+  .hero-choices .hero-book{align-self:center; padding:22px 38px; font-size:1.1rem; justify-content:center;}
+  @media (max-width:700px){
+    .hero-choices{display:grid; grid-template-columns:1fr 1fr; width:100%; max-width:420px;}
+    .hero-choices .hero-book{grid-column:1 / -1; order:-1;}
+  }
+  .modal-panel .swipe-deck{height:350px;}
+  .modal-panel .swipe-indicator{color:var(--ink-soft); text-shadow:none;}
+  .modal-panel .swipe-hint{color:var(--ink); text-shadow:none; background:rgba(232,135,30,0.12); backdrop-filter:none;}
+  .modal-panel .deck-arrow{background:var(--sand-dim); border-color:var(--line); color:var(--teal-deep); backdrop-filter:none;}
+  .modal-panel .swipe-card{border-color:var(--line);}
 </style>
 </head>
 <body>
@@ -738,42 +754,14 @@
     <p class="lede">Pick a ride, lock it in on WhatsApp — transparent rates, zero hidden fees.</p>
     
     <div class="hero-picks">
-      <span class="hero-picks-label">Just landed? See what's on</span>
-      <div class="hero-picks-row">
-        <button type="button" class="hero-pick" data-mood="cafes">☕ Cafes</button>
-        <button type="button" class="hero-pick" data-mood="dailies">🪔 Aarti &amp; nights</button>
-        <button type="button" class="hero-pick" data-mood="peace">🧘 Peace</button>
-        <button type="button" class="hero-pick" data-mood="thrill">🪂 Thrills</button>
+      <span class="hero-picks-label">Just landed? Pick a mood, or start your booking</span>
+      <div class="hero-choices">
+        <button type="button" class="hero-pick" data-mood="cafes"><span class="em"><img src="hideout_cafe.png" alt="" onerror="this.parentNode.textContent='☕'"></span>Cafes</button>
+        <button type="button" class="hero-pick" data-mood="dailies"><span class="em"><img src="triveni_aarti.png" alt="" onerror="this.parentNode.textContent='🪔'"></span>Aarti &amp; nights</button>
+        <button type="button" class="btn-primary hero-book" id="open-booking-hero">Start booking →</button>
+        <button type="button" class="hero-pick" data-mood="peace"><span class="em"><img src="yoga.jpg" alt="" onerror="this.parentNode.textContent='🧘'"></span>Peace</button>
+        <button type="button" class="hero-pick" data-mood="thrill"><span class="em"><img src="rafting.jpg" alt="" onerror="this.parentNode.textContent='🪂'"></span>Thrills</button>
       </div>
-    </div>
-  </div>
-
-  <div class="swipe-container">
-    <div class="swipe-deck-wrap">
-      <div class="swipe-deck" id="swipe-deck"></div>
-      
-      <div class="deck-controls">
-        <button type="button" class="deck-arrow" id="deck-prev" aria-label="Previous vehicle">
-          <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"></polyline></svg>
-        </button>
-        <div class="swipe-indicator">
-          <span id="card-current">1</span> / <span id="card-total">3</span>
-        </div>
-        <button type="button" class="deck-arrow" id="deck-next" aria-label="Next vehicle">
-          <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"></polyline></svg>
-        </button>
-      </div>
-      
-      <div class="swipe-hint">
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" style="animation:hint-nudge 1.6s ease-in-out infinite;"><path d="M8 8l-4 4 4 4M16 8l4 4-4 4" stroke="var(--saffron)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        <span>Tap the arrows, or drag a card</span>
-      </div>
-
-    <div class="hero-actions">
-      <button type="button" class="btn-primary" id="open-booking-hero">
-        Start booking →
-      </button>
-    </div>
     </div>
   </div>
 
@@ -836,49 +824,50 @@
   <div class="modal-panel" role="dialog" aria-modal="true" aria-label="Book a bike">
     <button type="button" class="modal-close" id="modal-close" aria-label="Close">✕</button>
 
-    <!-- STEP 1: CUSTOMER DETAILS (FIRST STEP) -->
-    <div class="modal-step" id="step-customer">
+    <div class="modal-step" id="step-bike">
       <div class="modal-step-label mono">STEP 1 OF 4</div>
-      <h3>Just a few details</h3>
-      <p class="modal-step-sub">Enter your details to get started. Riders must be at least 18 years old.</p>
+      <h3>Pick your ride</h3>
+      <div class="swipe-container" style="margin-top:0">
+    <div class="swipe-deck-wrap">
+      <div class="swipe-deck" id="swipe-deck"></div>
+      
+      <div class="deck-controls">
+        <button type="button" class="deck-arrow" id="deck-prev" aria-label="Previous vehicle">
+          <svg viewBox="0 0 24 24"><polyline points="15 18 9 12 15 6"></polyline></svg>
+        </button>
+        <div class="swipe-indicator">
+          <span id="card-current">1</span> / <span id="card-total">3</span>
+        </div>
+        <button type="button" class="deck-arrow" id="deck-next" aria-label="Next vehicle">
+          <svg viewBox="0 0 24 24"><polyline points="9 18 15 12 9 6"></polyline></svg>
+        </button>
+      </div>
+      
+      <div class="swipe-hint">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" style="animation:hint-nudge 1.6s ease-in-out infinite;"><path d="M8 8l-4 4 4 4M16 8l4 4-4 4" stroke="var(--saffron)" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span>Tap the arrows, or drag a card</span>
+      </div>
+    </div>
+  </div>
 
-      <div class="field">
-        <label for="cust-name">Full name</label>
-        <input type="text" id="cust-name" placeholder="As on your ID" autocomplete="name">
-      </div>
-      <div class="field">
-        <label for="cust-age">Age</label>
-        <select id="cust-age">
-          <option value="" selected disabled>Select your age</option>
-          <option value="under18">Under 18 years old</option>
-          <!-- Age options 18-80 generated dynamically -->
-        </select>
-      </div>
-      <div class="id-warning" id="age-warning">
-        Sorry — riders must be at least 18 years old to rent a bike or scooty.
-      </div>
-
-      <div class="field">
-        <label for="cust-id">ID proof you'll bring</label>
-        <select id="cust-id">
-          <option value="" selected disabled>Select an ID type</option>
-          <option value="DL">Driving License</option>
-          <option value="AADHAR">Aadhar Card</option>
-          <option value="VOTER">Voter ID</option>
-          <option value="PAN">PAN Card</option>
-          <option value="NONE">I don't have any of these</option>
-        </select>
-      </div>
-      <div class="id-warning" id="id-warning">
-        Sorry — we can't book a bike or scooty without a valid ID. Please bring your Driving License, Aadhar, Voter ID, or PAN card when you come to pick up.
-      </div>
-
-      <button type="button" class="btn-primary modal-next is-disabled" id="modal-to-step2">Continue →</button>
+  
     </div>
 
-    <!-- STEP 2: PICKUP / DROP-OFF -->
-    <div class="modal-step" id="step-location" hidden>
+    <div class="modal-step" id="step-customer" hidden>
       <div class="modal-step-label mono">STEP 2 OF 4</div>
+      <h3>Just a few details</h3>
+      <p class="modal-step-sub">Your ride: <b id="sel-bike">—</b>. Riders must be at least 18 years old.</p>
+      <div class="field"><label for="cust-name">Full name</label><input type="text" id="cust-name" placeholder="As on your ID" autocomplete="name"></div>
+      <div class="field"><label for="cust-wa">WhatsApp number</label><input type="tel" id="cust-wa" placeholder="e.g. 98765 43210 or +44 7911 123456" autocomplete="tel"><div class="field-hint" id="wa-hint">We'll confirm your booking on this number. Add your country code if you're outside India.</div></div>
+      <div class="field"><label for="cust-age">Age</label><select id="cust-age"><option value="" selected disabled>Select your age</option><option value="under18">Under 18 years old</option></select></div>
+      <div class="id-warning" id="age-warning">Sorry, riders must be at least 18 years old to rent a bike or scooty.</div>
+      <div class="field"><label for="cust-id">ID proof you'll bring</label><select id="cust-id"><option value="" selected disabled>Select an ID type</option><option value="DL">Driving License</option><option value="AADHAR">Aadhar Card</option><option value="VOTER">Voter ID</option><option value="PAN">PAN Card</option><option value="NONE">I don't have any of these</option></select></div>
+      <div class="id-warning" id="id-warning">Sorry, we can't book without a valid ID. Please bring your Driving License, Aadhar, Voter ID, or PAN card.</div>
+      <div class="modal-step-actions"><button type="button" class="btn-secondary" id="modal-back-0">← Back</button><button type="button" class="btn-primary is-disabled" id="modal-to-step2">Continue →</button></div>
+    </div>
+
+    <div class="modal-step" id="step-location" hidden>
+      <div class="modal-step-label mono">STEP 3 OF 4</div>
       <h3>Pickup &amp; drop-off</h3>
       <div class="loc-type-toggle">
         <button type="button" class="loc-type active" data-type="pickup">Pickup</button>
@@ -901,40 +890,28 @@
       </div>
     </div>
 
-    <!-- STEP 3: VEHICLE -->
-    <div class="modal-step" id="step-vehicle" hidden>
-      <div class="modal-step-label mono">STEP 3 OF 4</div>
-      <h3>Choose your ride</h3>
-      <div class="fleet-grid" id="modal-fleet-grid"></div>
-      <div class="modal-step-actions">
-        <button type="button" class="btn-secondary" id="modal-back-2">← Back</button>
-        <button type="button" class="btn-primary is-disabled" id="modal-to-step4">Continue →</button>
-      </div>
-    </div>
-
-    <!-- STEP 4: DURATION & PRICE -->
     <div class="modal-step" id="step-datetime" hidden>
       <div class="modal-step-label mono">STEP 4 OF 4</div>
-      <h3>Rental Duration</h3>
-      <p class="modal-step-sub">Select how many days you need the ride.</p>
-
-      <div class="field">
-        <label for="rental-days">Number of days</label>
-        <input type="number" id="rental-days" min="1" step="1" value="1">
-        <div class="field-hint">8-hour minimum per day — same as pickup counters here.</div>
-      </div>
-
+      <h3>How many days?</h3>
+      <div class="field"><label for="rental-days">Number of days</label><input type="number" id="rental-days" min="1" step="1" value="1"><div class="field-hint">8-hour minimum per day, same as pickup counters here.</div></div>
       <div class="price-box">
         <div class="price-row"><span id="rate-label">Rate</span><span id="rate-value">—</span></div>
         <div class="price-row"><span>Days</span><span id="days-value">1</span></div>
         <div class="price-row total"><span>Estimated total</span><span id="total-value">—</span></div>
         <div class="price-note">Demo pricing — update rates before going live.</div>
       </div>
+      <div class="loc-status err" id="book-status" aria-live="polite"></div>
+      <div class="modal-step-actions"><button type="button" class="btn-secondary" id="modal-back-3">← Back</button><button type="button" class="btn-primary" id="modal-book">Send booking request</button></div>
+    </div>
 
-      <div class="modal-step-actions">
-        <button type="button" class="btn-secondary" id="modal-back-3">← Back</button>
-        <a class="btn-primary" href="#" id="modal-book" target="_blank" rel="noopener">Book on WhatsApp</a>
-      </div>
+    <div class="modal-step" id="step-done" hidden>
+      <div class="modal-step-label mono">REQUEST RECEIVED</div>
+      <h3>Thank you for booking, <span id="done-name"></span>!</h3>
+      <p class="modal-step-sub">Please give us at least 5 minutes while we check availability. We'll confirm on WhatsApp at <b id="done-number"></b>.</p>
+      <p class="modal-step-sub" id="done-note" hidden style="color:var(--saffron-dark); font-weight:600;">Last step: tap Send in the WhatsApp chat that just opened, so we receive your request.</p>
+      <div class="loc-summary" id="done-summary"></div>
+      <p class="modal-step-sub" style="margin:18px 0 12px;">Taking longer, or have other questions?</p>
+      <a class="btn-primary" id="done-wa" target="_blank" rel="noopener" style="width:100%;justify-content:center;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M17.5 14.4c-.3-.1-1.6-.8-1.9-.9-.3-.1-.4-.1-.6.1-.2.3-.7.9-.8 1-.2.2-.3.2-.5.1-.3-.1-1.2-.4-2.3-1.4-.8-.7-1.4-1.7-1.6-1.9-.2-.3 0-.4.1-.6.1-.1.3-.3.4-.5.1-.1.2-.3.2-.4.1-.2 0-.3 0-.5-.1-.1-.6-1.4-.8-1.9-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.3.3-1 1-1 2.4s1 2.8 1.2 3c.1.2 2 3.1 4.9 4.3.7.3 1.2.5 1.6.6.7.2 1.3.2 1.8.1.5-.1 1.6-.7 1.9-1.3.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.5-.3z" fill="#241300"/><path d="M12 2C6.5 2 2 6.5 2 12c0 1.9.5 3.6 1.4 5.2L2 22l4.9-1.3c1.5.8 3.3 1.3 5.1 1.3 5.5 0 10-4.5 10-10S17.5 2 12 2zm0 18.2c-1.7 0-3.3-.5-4.7-1.3l-.3-.2-3 .8.8-2.9-.2-.3C3.7 15 3.2 13.5 3.2 12c0-4.8 3.9-8.7 8.7-8.7s8.7 3.9 8.7 8.7-3.8 8.9-8.6 8.9z" fill="#241300"/></svg> <span id="done-wa-label">Contact us on WhatsApp</span></a>
     </div>
   </div>
 </div>
@@ -1045,18 +1022,18 @@
   <div class="wrap">
     <div class="section-head">
       <span class="eyebrow-dark">Simple Booking Process</span>
-      <h2>Three steps, all inside WhatsApp.</h2>
+      <h2>Three steps, and you’re riding.</h2>
     </div>
     <div class="steps">
       <div class="step">
         <div class="idx mono">1</div>
         <h3>Choose spot & ride</h3>
-        <p>Select your location and preferred scooty or bike from our live inventory selector above.</p>
+        <p>Pick your ride, pickup spot and dates in the booking form.</p>
       </div>
       <div class="step">
         <div class="idx mono">2</div>
         <h3>Confirm on WhatsApp</h3>
-        <p>Send the auto-filled WhatsApp message to lock in your ride and receive your flat rate quote.</p>
+        <p>Send the form and we’ll confirm on WhatsApp within a few minutes, with your flat-rate quote.</p>
       </div>
       <div class="step">
         <div class="idx mono">3</div>
@@ -1092,7 +1069,10 @@
   const WHATSAPP_NUMBER = "917417462887";
 
   // ---- CONFIG: Published Google Sheet CSV URL ----
-  const SHEET_CSV_URL = ""; 
+  const SHEET_CSV_URL = "";
+
+  // ---- CONFIG: where booking requests are sent (Apps Script web-app URL or n8n webhook) ----
+  const BOOKING_ENDPOINT = ""; 
 
   const pinIcon = `<svg viewBox="0 0 24 24" fill="none"><path d="M12 22s7-7.4 7-13a7 7 0 1 0-14 0c0 5.6 7 13 7 13z" stroke="#F6EFE3" stroke-width="1.8"/><circle cx="12" cy="9" r="2.4" fill="#F6EFE3"/></svg>`;
   const bikeIcon = `<svg viewBox="0 0 24 24" fill="none"><circle cx="5.5" cy="17.5" r="3.2" stroke="#F6EFE3" stroke-width="1.6"/><circle cx="18.5" cy="17.5" r="3.2" stroke="#F6EFE3" stroke-width="1.6"/><path d="M5.5 17.5 9 10h5l4.5 7.5M9 10 7.5 6h-2M9 10l3 4h4" stroke="#F6EFE3" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
@@ -1321,28 +1301,16 @@
 
   // ---- Modal Logic ----
   const modal = document.getElementById('booking-modal');
-  const stepCustomer = document.getElementById('step-customer');
-  const stepLocation = document.getElementById('step-location');
-  const stepVehicle = document.getElementById('step-vehicle');
-  const stepDatetime = document.getElementById('step-datetime');
-
-  function openModal(){
-    modal.classList.add('is-open');
-    modal.setAttribute('aria-hidden', 'false');
-    document.body.style.overflow = 'hidden';
+  const STEP_IDS = ['step-bike','step-customer','step-location','step-datetime','step-done'];
+  function openModal(){ modal.classList.add('is-open'); modal.setAttribute('aria-hidden','false'); document.body.style.overflow='hidden'; }
+  function closeModal(){ modal.classList.remove('is-open'); modal.setAttribute('aria-hidden','true'); document.body.style.overflow=''; }
+  function goToStep(n){
+    STEP_IDS.forEach((id,i)=>{ document.getElementById(id).hidden = (i+1)!==n; });
+    if(n===2) document.getElementById('sel-bike').textContent = routeState.vehicle || '—';
+    if(n===3) initLocStep();
+    if(n===4) updatePriceAndButton();
+    modal.querySelector('.modal-panel').scrollTop = 0;
   }
-  function closeModal(){
-    modal.classList.remove('is-open');
-    modal.setAttribute('aria-hidden', 'true');
-    document.body.style.overflow = '';
-  }
-  function goToStep(step){
-    stepCustomer.hidden = step !== 1;
-    stepLocation.hidden = step !== 2;
-    stepVehicle.hidden = step !== 3;
-    stepDatetime.hidden = step !== 4;
-  }
-
   ["open-booking-hero","open-booking-banner","nav-whatsapp"].forEach(id=>{
     const el = document.getElementById(id);
     if(el) el.addEventListener('click', e => { e.preventDefault(); goToStep(1); openModal(); });
@@ -1351,94 +1319,92 @@
   modal.addEventListener('click', e => { if(e.target === modal) closeModal(); });
   document.addEventListener('keydown', e => { if(e.key === 'Escape') closeModal(); });
 
-  // ---- Step 1: Customer details & Age validation ----
-  const custNameEl = document.getElementById('cust-name');
-  const custAgeEl = document.getElementById('cust-age');
-  const custIdEl = document.getElementById('cust-id');
-  const ageWarningEl = document.getElementById('age-warning');
-  const idWarningEl = document.getElementById('id-warning');
-  const toStep2Btn = document.getElementById('modal-to-step2');
-
-  function validateCustomerStep(){
-    const nameVal = custNameEl.value.trim();
-    const ageVal = custAgeEl.value;
-    const idVal = custIdEl.value;
-
-    const isUnderage = ageVal === 'under18';
-    const isNoId = idVal === 'NONE';
-
-    ageWarningEl.classList.toggle('is-visible', isUnderage);
-    idWarningEl.classList.toggle('is-visible', isNoId);
-
-    const isValidName = nameVal.length > 0;
-    const isValidAge = ageVal && !isUnderage;
-    const isValidId = idVal && !isNoId;
-
-    const ok = isValidName && isValidAge && isValidId;
-    toStep2Btn.classList.toggle('is-disabled', !ok);
+  // ---- Step 2: details + WhatsApp number ----
+  const custNameEl = document.getElementById('cust-name'), custAgeEl = document.getElementById('cust-age'),
+        custIdEl = document.getElementById('cust-id'), custWaEl = document.getElementById('cust-wa'),
+        waHintEl = document.getElementById('wa-hint');
+  const WA_HINT = waHintEl.textContent;
+  function normalizeWhatsApp(raw){
+    let d = String(raw).replace(/[^\d+]/g,'');
+    if(d.startsWith('+')) d = d.slice(1);
+    else if(/^0?[6-9]\d{9}$/.test(d)) d = '91' + d.slice(-10);
+    return /^\d{10,15}$/.test(d) ? d : null;
   }
-
-  custNameEl.addEventListener('input', validateCustomerStep);
-  custAgeEl.addEventListener('change', validateCustomerStep);
-  custIdEl.addEventListener('change', validateCustomerStep);
-
-  document.getElementById('modal-to-step2').addEventListener('click', () => {
-    if(toStep2Btn.classList.contains('is-disabled')) return;
-    routeState.name = custNameEl.value.trim();
-    routeState.age = custAgeEl.value;
-    routeState.idType = custIdEl.value;
-    initLocStep();
-    goToStep(2);
-  });
-
-  // ---- Step 2: Location ----
-  document.getElementById('modal-back-1').addEventListener('click', () => goToStep(1));
-  document.getElementById('modal-to-step3').addEventListener('click', () => {
-    if(!locState.pickup) return;
-    renderFleetGrid('modal-fleet-grid', routeState.location);
+  function validateCustomerStep(){
+    const age = custAgeEl.value, id = custIdEl.value, waRaw = custWaEl.value.trim(), waOk = !!normalizeWhatsApp(waRaw);
+    document.getElementById('age-warning').classList.toggle('is-visible', age === 'under18');
+    document.getElementById('id-warning').classList.toggle('is-visible', id === 'NONE');
+    waHintEl.textContent = (waRaw && !waOk) ? 'That number looks off. Use 10 digits, or add your country code.' : WA_HINT;
+    const ok = custNameEl.value.trim() && age && age !== 'under18' && id && id !== 'NONE' && waOk;
+    document.getElementById('modal-to-step2').classList.toggle('is-disabled', !ok);
+  }
+  [custNameEl, custWaEl].forEach(el => el.addEventListener('input', validateCustomerStep));
+  [custAgeEl, custIdEl].forEach(el => el.addEventListener('change', validateCustomerStep));
+  document.getElementById('modal-back-0').addEventListener('click', () => goToStep(1));
+  document.getElementById('modal-to-step2').addEventListener('click', e => {
+    if(e.currentTarget.classList.contains('is-disabled')) return;
+    routeState.name = custNameEl.value.trim(); routeState.age = custAgeEl.value;
+    routeState.idType = custIdEl.value; routeState.whatsapp = normalizeWhatsApp(custWaEl.value);
     goToStep(3);
   });
 
-  // ---- Step 3: Vehicle ----
-  document.getElementById('modal-back-2').addEventListener('click', () => goToStep(2));
-  document.getElementById('modal-to-step4').addEventListener('click', () => {
-    if(!routeState.vehicle) return;
-    goToStep(4);
-    updatePriceAndButton();
-  });
+  // ---- Step 3: location ----
+  document.getElementById('modal-back-1').addEventListener('click', () => goToStep(2));
+  document.getElementById('modal-to-step3').addEventListener('click', () => { if(locState.pickup) goToStep(4); });
 
-  // ---- Step 4: Duration & Price (FIXED: Allow typing & deleting without overriding value) ----
-  const daysEl = document.getElementById('rental-days');
-  const modalBookBtn = document.getElementById('modal-book');
-
+  // ---- Step 4: when, how long, send ----
+  const daysEl = document.getElementById('rental-days'),
+        modalBookBtn = document.getElementById('modal-book'), bookStatusEl = document.getElementById('book-status');
   function updatePriceAndButton(){
     const rate = getRateFor(routeState.vehicle);
     document.getElementById('rate-label').textContent = `${routeState.vehicle || 'Vehicle'} — per day`;
     document.getElementById('rate-value').textContent = `₹${rate}`;
-
-    const parsed = parseInt(daysEl.value, 10);
-    const days = (!isNaN(parsed) && parsed > 0) ? parsed : 1;
-
-    const total = rate * days;
+    const parsed = parseInt(daysEl.value, 10), days = (!isNaN(parsed) && parsed > 0) ? parsed : 1;
+    routeState.days = days; routeState.total = rate * days;
     document.getElementById('days-value').textContent = days;
-    document.getElementById('total-value').textContent = `₹${total}`;
-
-    routeState.days = days;
-    routeState.total = total;
-
-    modalBookBtn.href = "https://wa.me/" + WHATSAPP_NUMBER + "?text=" + encodeURIComponent(buildWhatsAppMessage());
+    document.getElementById('total-value').textContent = `₹${routeState.total}`;
   }
-
   daysEl.addEventListener('input', updatePriceAndButton);
-  daysEl.addEventListener('change', () => {
-    const parsed = parseInt(daysEl.value, 10);
-    if (isNaN(parsed) || parsed < 1) {
-      daysEl.value = 1;
-      updatePriceAndButton();
+  daysEl.addEventListener('change', () => { const v = parseInt(daysEl.value,10); if(isNaN(v) || v < 1){ daysEl.value = 1; updatePriceAndButton(); } });
+  document.getElementById('modal-back-3').addEventListener('click', () => goToStep(3));
+
+  function showDone(viaWhatsApp){
+    const r = routeState;
+    document.getElementById('done-name').textContent = r.name;
+    document.getElementById('done-number').textContent = '+' + r.whatsapp;
+    document.getElementById('done-summary').innerHTML =
+      `<div><b>Ride:</b> ${pickEsc(r.vehicle)}</div><div><b>Pickup:</b> ${pickEsc(r.location)}</div><div><b>Duration:</b> ${r.days} day(s)</div><div><b>Estimated total:</b> ₹${r.total}</div>`;
+    document.getElementById('done-wa').href = 'https://wa.me/' + WHATSAPP_NUMBER + '?text=' +
+      encodeURIComponent(`Hi Ride Quick! I requested a ${r.vehicle} (name: ${r.name}, number: +${r.whatsapp}). I haven't heard back yet / I have a question.`);
+    document.getElementById('done-note').hidden = !viaWhatsApp;
+    document.getElementById('done-wa-label').textContent = viaWhatsApp ? 'Open WhatsApp to send your request' : 'Contact us on WhatsApp';
+    if(viaWhatsApp) document.getElementById('done-wa').href = buildWhatsAppLink();
+    modalBookBtn.classList.remove('is-disabled'); modalBookBtn.textContent = 'Send booking request';
+    trackEvent('booking_submit', {bike: r.vehicle, via: viaWhatsApp ? 'whatsapp' : 'sheet'});
+    goToStep(5);
+  }
+  modalBookBtn.addEventListener('click', async () => {
+    if(modalBookBtn.classList.contains('is-disabled')) return;
+    updatePriceAndButton();
+    const r = routeState;
+    const payload = { name: r.name, age: r.age, bike: r.vehicle, time: r.days + ' day(s)', location: r.location, contact: r.whatsapp,
+      days: r.days, dropoff: r.dropoff || '', idType: ID_LABELS[r.idType] || r.idType, total: r.total };
+    bookStatusEl.textContent = ''; modalBookBtn.classList.add('is-disabled'); modalBookBtn.textContent = 'Sending…';
+    if(!BOOKING_ENDPOINT){
+      window.open(buildWhatsAppLink(), '_blank', 'noopener');
+      showDone(true);
+      return;
+    }
+    bookStatusEl.className = 'loc-status err';
+    try{
+      await fetch(BOOKING_ENDPOINT, { method:'POST', mode:'no-cors', body:new URLSearchParams(payload) });
+      showDone();
+    } catch(err){
+      console.warn('Ride Quick: booking not sent', err);
+      bookStatusEl.innerHTML = `Couldn’t send your request. <a href="${buildWhatsAppLink()}" target="_blank" rel="noopener" style="text-decoration:underline">Send it on WhatsApp instead →</a>`;
+      modalBookBtn.classList.remove('is-disabled'); modalBookBtn.textContent = 'Try again';
     }
   });
-
-  document.getElementById('modal-back-3').addEventListener('click', () => goToStep(3));
 
   // Initialize
   setupAgeDropdown();
@@ -1492,7 +1458,7 @@
               <span class="swipe-avail ${v.available <= 0 ? 'sold' : ''}">${v.available > 0 ? v.available + ' available' : 'Sold out'}</span>
               ${v.rate ? `<span>₹${v.rate}/day</span>` : ''}
             </div>
-            <button type="button" class="swipe-book" ${v.available <= 0 ? 'disabled style="opacity:.5;cursor:not-allowed;"' : ''}>Book this →</button>
+            <button type="button" class="swipe-book" ${v.available <= 0 ? 'disabled style="opacity:.5;cursor:not-allowed;"' : ''}>Choose this →</button>
           </div>
         `;
 
@@ -1502,8 +1468,7 @@
             e.stopPropagation();
             if(v.available <= 0) return;
             routeState.vehicle = v.name;
-            goToStep(1);
-            openModal();
+            goToStep(2);
           });
         }
         deck.appendChild(card);
