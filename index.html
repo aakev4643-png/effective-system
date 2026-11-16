@@ -719,6 +719,13 @@
   .modal-panel .swipe-hint{color:var(--ink); text-shadow:none; background:rgba(232,135,30,0.12); backdrop-filter:none;}
   .modal-panel .deck-arrow{background:var(--sand-dim); border-color:var(--line); color:var(--teal-deep); backdrop-filter:none;}
   .modal-panel .swipe-card{border-color:var(--line);}
+  .spinner{display:inline-block; width:14px; height:14px; border:2px solid var(--line); border-top-color:var(--saffron); border-radius:50%; animation:spin .8s linear infinite; vertical-align:-2px; margin-right:8px;}
+  @keyframes spin{to{transform:rotate(360deg);}}
+  .loc-option:disabled{opacity:.6; cursor:wait;}
+  .loc-help{margin-top:12px; padding:14px 16px; background:var(--sand-dim); border:1px solid var(--line); border-radius:14px; font-size:0.85rem; color:var(--ink); line-height:1.5;}
+  .loc-help ol{margin:8px 0 8px 18px;}
+  .loc-help li{margin-bottom:6px;}
+  .loc-help a{color:var(--teal-mid); text-decoration:underline; font-weight:600;}
 </style>
 </head>
 <body>
@@ -880,6 +887,7 @@
       </div>
       <input type="text" id="loc-manual-input" class="loc-input" placeholder="Type your address or landmark" hidden>
       <div class="loc-status" id="loc-status" aria-live="polite"></div>
+      <div class="loc-help" id="loc-help" hidden></div>
       <div class="loc-summary">
         <div><b>Pickup:</b> <span id="sum-pickup">Not set</span></div>
         <div><b>Drop-off:</b> <span id="sum-dropoff">Not set (optional)</span></div>
@@ -908,9 +916,8 @@
       <div class="modal-step-label mono">REQUEST RECEIVED</div>
       <h3>Thank you for booking, <span id="done-name"></span>!</h3>
       <p class="modal-step-sub">Please give us at least 5 minutes while we check availability. We'll confirm on WhatsApp at <b id="done-number"></b>.</p>
-      <p class="modal-step-sub" id="done-note" hidden style="color:var(--saffron-dark); font-weight:600;">Last step: tap Send in the WhatsApp chat that just opened, so we receive your request.</p>
       <div class="loc-summary" id="done-summary"></div>
-      <p class="modal-step-sub" style="margin:18px 0 12px;">Taking longer, or have other questions?</p>
+      <p class="modal-step-sub" style="margin:18px 0 12px;">Haven’t heard back after 5 minutes, or have a question? Message us on WhatsApp.</p>
       <a class="btn-primary" id="done-wa" target="_blank" rel="noopener" style="width:100%;justify-content:center;"><svg width="20" height="20" viewBox="0 0 24 24" fill="none"><path d="M17.5 14.4c-.3-.1-1.6-.8-1.9-.9-.3-.1-.4-.1-.6.1-.2.3-.7.9-.8 1-.2.2-.3.2-.5.1-.3-.1-1.2-.4-2.3-1.4-.8-.7-1.4-1.7-1.6-1.9-.2-.3 0-.4.1-.6.1-.1.3-.3.4-.5.1-.1.2-.3.2-.4.1-.2 0-.3 0-.5-.1-.1-.6-1.4-.8-1.9-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.3.3-1 1-1 2.4s1 2.8 1.2 3c.1.2 2 3.1 4.9 4.3.7.3 1.2.5 1.6.6.7.2 1.3.2 1.8.1.5-.1 1.6-.7 1.9-1.3.2-.6.2-1.1.2-1.2-.1-.1-.3-.2-.5-.3z" fill="#241300"/><path d="M12 2C6.5 2 2 6.5 2 12c0 1.9.5 3.6 1.4 5.2L2 22l4.9-1.3c1.5.8 3.3 1.3 5.1 1.3 5.5 0 10-4.5 10-10S17.5 2 12 2zm0 18.2c-1.7 0-3.3-.5-4.7-1.3l-.3-.2-3 .8.8-2.9-.2-.3C3.7 15 3.2 13.5 3.2 12c0-4.8 3.9-8.7 8.7-8.7s8.7 3.9 8.7 8.7-3.8 8.9-8.6 8.9z" fill="#241300"/></svg> <span id="done-wa-label">Contact us on WhatsApp</span></a>
     </div>
   </div>
@@ -1208,27 +1215,62 @@
     setLocStatus(text ? 'Saved ✓' : 'Type your address or a nearby landmark.', text ? 'ok' : '');
   });
 
+  // ---- "Get my location" with help when the phone doesn't show a prompt ----
+  const IS_IOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+  const IN_APP = /FBAN|FBAV|Instagram|Line\/|MicroMessenger|WhatsApp|Snapchat|; wv\)/i.test(navigator.userAgent);
+  function locHelpHTML(reason){
+    const intro = {
+      denied: 'Location is blocked for this site. Here’s how to turn it on:',
+      slow: 'Don’t see a permission pop-up? Your phone may be blocking location. Here’s how to fix it:',
+      unavailable: 'Your phone couldn’t find your location. Check that Location Services is on:',
+      timeout: 'Finding your location is taking too long. Check these, then try again:'
+    }[reason];
+    const inapp = IN_APP ? '<p><b>You’re in an in-app browser</b> (Instagram, Facebook, etc.), which often blocks location. Tap the ⋯ or share icon and choose <b>Open in Safari</b> or <b>Open in browser</b>.</p>' : '';
+    const steps = IS_IOS
+      ? '<ol><li>Open <b>Settings → Privacy &amp; Security → Location Services</b> and make sure it’s <b>On</b>.</li>' +
+        '<li>In Location Services, tap <b>Safari Websites</b> (or <b>Chrome</b>) and choose <b>While Using the App</b>.</li>' +
+        '<li>Back in Safari, tap <b>aA</b> in the address bar → <b>Website Settings → Location → Allow</b>.</li>' +
+        '<li>Reload this page and tap <b>Get my location</b> again.</li></ol>'
+      : '<ol><li>Turn on <b>Location</b> in your phone’s quick settings.</li>' +
+        '<li>Tap the <b>lock or ⓘ icon</b> next to the address bar → <b>Permissions → Location → Allow</b>.</li>' +
+        '<li>Reload this page and tap <b>Get my location</b> again.</li></ol>';
+    return `<p><b>${intro}</b></p>${inapp}${steps}<p>Or <a href="#" id="loc-help-manual">type your location instead</a>.</p>`;
+  }
+  function showLocHelp(reason){
+    const el = document.getElementById('loc-help');
+    el.innerHTML = locHelpHTML(reason);
+    el.hidden = false;
+    document.getElementById('loc-help-manual').addEventListener('click', e => { e.preventDefault(); document.getElementById('loc-manual-btn').click(); });
+  }
+  let locSlowTimer = null;
   document.getElementById('loc-gps-btn').addEventListener('click', () => {
+    const btn = document.getElementById('loc-gps-btn'), help = document.getElementById('loc-help');
+    clearTimeout(locSlowTimer); help.hidden = true;
     setLocOptionActive('gps');
     document.getElementById('loc-manual-input').hidden = true;
     if(!navigator.geolocation){
-      setLocStatus('Your browser can’t share location. Please enter it manually.', 'err');
+      setLocStatus('Your browser can’t share location.', 'err');
+      showLocHelp('unavailable');
       return;
     }
-    setLocStatus('Waiting for your permission…');
+    btn.disabled = true;
+    setLocStatus('<span class="spinner"></span>Your phone may ask to share your location. Tap <b>Allow</b>, then please wait a minute while we find you…', 'ok');
+    locSlowTimer = setTimeout(() => showLocHelp('slow'), 8000);
     navigator.geolocation.getCurrentPosition(
       pos => {
+        clearTimeout(locSlowTimer); btn.disabled = false; help.hidden = true;
         const lat = pos.coords.latitude, lng = pos.coords.longitude;
         saveLocation({ source: 'gps', text: `My location (${lat.toFixed(5)}, ${lng.toFixed(5)})`, lat, lng });
         refreshLocPanel();
       },
       err => {
-        const msg = err && err.code === 1
-          ? 'Permission denied. Please enter your location manually.'
-          : 'Couldn’t get your location. Try again or enter it manually.';
-        setLocStatus(msg, 'err');
+        clearTimeout(locSlowTimer); btn.disabled = false;
+        const code = err && err.code;
+        setLocOptionActive(null);
+        setLocStatus(code === 1 ? 'Location access was blocked.' : code === 3 ? 'Finding your location took too long.' : 'Couldn’t get your location.', 'err');
+        showLocHelp(code === 1 ? 'denied' : code === 3 ? 'timeout' : 'unavailable');
       },
-      { enableHighAccuracy: true, timeout: 10000, maximumAge: 60000 }
+      { enableHighAccuracy: true, timeout: 30000, maximumAge: 60000 }
     );
   });
 
@@ -1368,19 +1410,17 @@
   daysEl.addEventListener('change', () => { const v = parseInt(daysEl.value,10); if(isNaN(v) || v < 1){ daysEl.value = 1; updatePriceAndButton(); } });
   document.getElementById('modal-back-3').addEventListener('click', () => goToStep(3));
 
-  function showDone(viaWhatsApp){
+  const DEMO = new URLSearchParams(location.search).has('demo');
+  function helpLink(text){ return 'https://wa.me/' + WHATSAPP_NUMBER + '?text=' + encodeURIComponent(text); }
+  function showDone(){
     const r = routeState;
     document.getElementById('done-name').textContent = r.name;
     document.getElementById('done-number').textContent = '+' + r.whatsapp;
     document.getElementById('done-summary').innerHTML =
       `<div><b>Ride:</b> ${pickEsc(r.vehicle)}</div><div><b>Pickup:</b> ${pickEsc(r.location)}</div><div><b>Duration:</b> ${r.days} day(s)</div><div><b>Estimated total:</b> ₹${r.total}</div>`;
-    document.getElementById('done-wa').href = 'https://wa.me/' + WHATSAPP_NUMBER + '?text=' +
-      encodeURIComponent(`Hi Ride Quick! I requested a ${r.vehicle} (name: ${r.name}, number: +${r.whatsapp}). I haven't heard back yet / I have a question.`);
-    document.getElementById('done-note').hidden = !viaWhatsApp;
-    document.getElementById('done-wa-label').textContent = viaWhatsApp ? 'Open WhatsApp to send your request' : 'Contact us on WhatsApp';
-    if(viaWhatsApp) document.getElementById('done-wa').href = buildWhatsAppLink();
+    document.getElementById('done-wa').href = helpLink(`Hi Ride Quick! I requested a ${r.vehicle} (name: ${r.name}, number: +${r.whatsapp}) more than 5 minutes ago and haven't received a confirmation yet.`);
     modalBookBtn.classList.remove('is-disabled'); modalBookBtn.textContent = 'Send booking request';
-    trackEvent('booking_submit', {bike: r.vehicle, via: viaWhatsApp ? 'whatsapp' : 'sheet'});
+    trackEvent('booking_submit', {bike: r.vehicle});
     goToStep(5);
   }
   modalBookBtn.addEventListener('click', async () => {
@@ -1389,19 +1429,15 @@
     const r = routeState;
     const payload = { name: r.name, age: r.age, bike: r.vehicle, time: r.days + ' day(s)', location: r.location, contact: r.whatsapp,
       days: r.days, dropoff: r.dropoff || '', idType: ID_LABELS[r.idType] || r.idType, total: r.total };
-    bookStatusEl.textContent = ''; modalBookBtn.classList.add('is-disabled'); modalBookBtn.textContent = 'Sending…';
-    if(!BOOKING_ENDPOINT){
-      window.open(buildWhatsAppLink(), '_blank', 'noopener');
-      showDone(true);
-      return;
-    }
-    bookStatusEl.className = 'loc-status err';
+    bookStatusEl.className = 'loc-status err'; bookStatusEl.textContent = '';
+    modalBookBtn.classList.add('is-disabled'); modalBookBtn.textContent = 'Sending…';
     try{
+      if(!BOOKING_ENDPOINT){ if(DEMO){ showDone(); return; } throw new Error('BOOKING_ENDPOINT is empty'); }
       await fetch(BOOKING_ENDPOINT, { method:'POST', mode:'no-cors', body:new URLSearchParams(payload) });
       showDone();
     } catch(err){
       console.warn('Ride Quick: booking not sent', err);
-      bookStatusEl.innerHTML = `Couldn’t send your request. <a href="${buildWhatsAppLink()}" target="_blank" rel="noopener" style="text-decoration:underline">Send it on WhatsApp instead →</a>`;
+      bookStatusEl.innerHTML = `Couldn’t send your request. Please try again, or <a href="${helpLink('Hi Ride Quick! The booking form is not working for me.')}" target="_blank" rel="noopener" style="text-decoration:underline">message us on WhatsApp</a>.`;
       modalBookBtn.classList.remove('is-disabled'); modalBookBtn.textContent = 'Try again';
     }
   });
